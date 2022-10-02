@@ -1,2 +1,2 @@
 # react_chat
-SPEEDRUN REACT CHAT + SignalR
+REACT CHAT + SignalR + RabbitMQ
