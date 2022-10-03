@@ -48,10 +48,11 @@ hr.line {
 
 .message-container {
 	height: 400px;
-	background-color: #9da2d5;
+	background-color: rgba(105, 213, 197, 0.38);
 	overflow: auto;
 	border-radius: 5px;
-	margin-bottom: 2px;
+	margin-bottom: 20px;
+	box-shadow: 5px 1px 5px 1px gray;
 }
 
 .user-message {
@@ -66,7 +67,7 @@ hr.line {
 	font-size: 18px;
 	color: #020202;
 	border-radius: 20px;
-	margin: 3px auto 0px;
+	margin: 3px auto 0;
 }
 
 .from-user {

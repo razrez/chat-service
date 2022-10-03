@@ -1,4 +1,5 @@
 using Chat.Service.Hubs;
+using Chat.Service.Hubs.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
@@ -12,6 +13,10 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
+
+//ConnectionId - the key
+builder.Services.AddSingleton<IDictionary<string, UserConnection>>(opts => 
+    new Dictionary<string, UserConnection>());
 
 var app = builder.Build();
 

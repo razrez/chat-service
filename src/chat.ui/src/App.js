@@ -20,13 +20,10 @@ const App = () => {
                 setMessages(messages => [...messages, {user, message}]); //для отображения сообщений
             })
 
-            //создаем подключение
             await connection.start();
 
-            //добавляем юзера в комнату
             await connection.invoke('JoinRoom', {user, room});
 
-            //изменяем состояние соединения
             setConnection(connection);
         }
 
@@ -35,18 +32,21 @@ const App = () => {
         }
     }
 
-    /*const sendMessage = async (message) => {
+
+    const sendMessage = async (message) => {
         try {
-            await connection.invoke("SendMessage", message);
+            await connection.invoke('SendMessage', message);
         } catch (e) {
             console.log(e);
         }
-    }*/
+    }
 
     return <div className="app">
         <h2>Chat</h2>
         <hr className="line"></hr>
-        {!connection ? <Lobby joinRoom={joinRoom} /> : <Chat messages={messages} />}
+        {!connection
+            ? <Lobby joinRoom={joinRoom} />
+            : <Chat messages={messages} sendMessage={sendMessage}/>}
     </div>
 
 
