@@ -32,10 +32,12 @@ const App = () => {
         }
     }
 
-
     const sendMessage = async (message) => {
         try {
-            await connection.invoke('SendMessage', message);
+            if (message.trim() !== ''){
+                await connection.invoke('SendMessage', message);
+            }
+            else console.log("attempt to send an empty string")
         } catch (e) {
             console.log(e);
         }
