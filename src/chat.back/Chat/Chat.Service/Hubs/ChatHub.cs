@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Chat.Service.Hubs.Models;
+using Microsoft.AspNetCore.SignalR;
 
-namespace ChatService.Hubs;
+namespace Chat.Service.Hubs;
 
 public class ChatHub : Hub
 {

@@ -8,7 +8,7 @@ const App = () => {
     const [users, setUsers] = useState([]);*/
     const joinRoom = (user, room) => {
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:7229/chat")
+            .withUrl("https://localhost:7015/chat")
             .build();
 
         connection.on("ReceiveMessage", (message) =>
@@ -31,8 +31,6 @@ const App = () => {
     }*/
 
     return <div className='app'>
-        <h2>MyChat</h2>
-        <hr className='line' />
         <Lobby joinRoom={joinRoom}></Lobby>
     </div>
 }

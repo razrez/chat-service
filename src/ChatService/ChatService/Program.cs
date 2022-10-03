@@ -2,7 +2,6 @@ using ChatService;
 using ChatService.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
