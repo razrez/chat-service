@@ -18,6 +18,11 @@ const App = () => {
 
             connection.on("ReceiveMessage", (user, message) => {
                 setMessages(messages => [...messages, {user, message}]); //для отображения сообщений
+            });
+
+            connection.onclose(e => {
+                setConnection();
+                setMessages([]);
             })
 
             await connection.start();
@@ -43,12 +48,21 @@ const App = () => {
         }
     }
 
+    const closeConnection = async () => {
+        try {
+            await connection.stop();
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
     return <div className="app">
         <h2>Chat</h2>
         <hr className="line"></hr>
         {!connection
             ? <Lobby joinRoom={joinRoom} />
-            : <Chat messages={messages} sendMessage={sendMessage}/>}
+            : <Chat messages={messages} sendMessage={sendMessage} closeConnection={closeConnection}/>}
     </div>
 
 
