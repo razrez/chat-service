@@ -12,6 +12,7 @@ h6 {
 
 hr.line {
 	border: 1px solid #313131;
+	margin: auto auto 20px;
 	width: 175px;
 }
 
@@ -47,7 +48,7 @@ hr.line {
 
 .message-container {
 	height: 400px;
-	background-color: white;
+	background-color: #9da2d5;
 	overflow: auto;
 	border-radius: 5px;
 	margin-bottom: 2px;
@@ -63,7 +64,7 @@ hr.line {
 	display: inline-flex;
 	padding: 5px;
 	font-size: 18px;
-	color:white;
+	color: #020202;
 	border-radius: 20px;
 	margin: 3px auto 0px;
 }

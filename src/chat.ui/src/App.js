@@ -1,25 +1,38 @@
 import Lobby from './components/Lobby';
 import './App.css';
 import * as signalR from "@microsoft/signalr";
-
+import Chat from "./components/Chat";
+import {useState} from "react";
+import 'bootstrap/dist/css/bootstrap.min.css'
 const App = () => {
-    /*onst [connection, setConnection] = useState();
+    const [connection, setConnection] = useState();
     const [messages, setMessages] = useState([]);
-    const [users, setUsers] = useState([]);*/
-    const joinRoom = (user, room) => {
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:7015/chat")
-            .build();
+    //const [users, setUsers] = useState([]);
 
-        connection.on("ReceiveMessage", (message) =>
+    const joinRoom = async (user, room) => {
+        try
         {
-            console.log(message)
-        });
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("https://localhost:7015/chat")
+                .build();
 
-        connection.start()
-            .then( () => {
-                connection.invoke('JoinRoom', {user, room})
+            connection.on("ReceiveMessage", (user, message) => {
+                setMessages(messages => [...messages, {user, message}]); //для отображения сообщений
             })
+
+            //создаем подключение
+            await connection.start();
+
+            //добавляем юзера в комнату
+            await connection.invoke('JoinRoom', {user, room});
+
+            //изменяем состояние соединения
+            setConnection(connection);
+        }
+
+        catch (e) {
+            console.log(e);
+        }
     }
 
     /*const sendMessage = async (message) => {
@@ -30,9 +43,13 @@ const App = () => {
         }
     }*/
 
-    return <div className='app'>
-        <Lobby joinRoom={joinRoom}></Lobby>
+    return <div className="app">
+        <h2>Chat</h2>
+        <hr className="line"></hr>
+        {!connection ? <Lobby joinRoom={joinRoom} /> : <Chat messages={messages} />}
     </div>
+
+
 }
 
 export default App;
