@@ -1,7 +1,10 @@
+using Chat.DB.Data;
 using Chat.Service.Hubs;
 using Chat.Service.Hubs.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
