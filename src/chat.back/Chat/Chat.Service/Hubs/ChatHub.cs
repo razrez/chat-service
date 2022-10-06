@@ -16,7 +16,13 @@ public class ChatHub : Hub
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.Room);
         _connections[Context.ConnectionId] = userConnection;
-        await Clients.Group(userConnection.Room).SendAsync("ReceiveMessage","ChatBot", $"{userConnection.User} has joined {userConnection.Room}");
+        
+        //real-time уведомление от Бота
+        await Clients.Group(userConnection.Room)
+            .SendAsync(
+                "ReceiveMessage","ChatBot",
+                $"{userConnection.User} has joined {userConnection.Room}"
+                );
         
         await SendConnectedUsers(userConnection.Room);
     }
@@ -27,6 +33,8 @@ public class ChatHub : Hub
         {
             await Clients.Group(userConnection.Room)
                 .SendAsync("ReceiveMessage", userConnection.User, message);
+            
+            //тут должна быть логика для передачи сообщения в MassTransit, который потом добавляет сообщение в бд
         }
     }
 

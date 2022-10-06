@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Chat.DB.Data.Repository;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.DB.Controllers;
 
@@ -7,15 +8,26 @@ namespace Chat.DB.Controllers;
 [Produces("application/json")]
 public class MessageController : ControllerBase
 {
+    private readonly IChatRepository _chatRepository;
+
+    public MessageController(IChatRepository chatRepository)
+    {
+        _chatRepository = chatRepository;
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetChatHistory(string room)
     {
-        return Ok();
+        var chatHistory = await _chatRepository.GetChatMessages(room);
+        return Ok(
+            chatHistory.Where(r => r.Room == room)
+            .Select(s => new {s.User, s.Message}));
     }
     
     [HttpPost]
-    public async Task<IActionResult> SaveMessage(string message)
+    public async Task<IActionResult> SaveMessage(string room, string user, string message)
     {
-        return Ok();
+        var res =  await _chatRepository.SaveMessage(room, user, message);
+        return res ? Ok() : BadRequest();
     }
 }

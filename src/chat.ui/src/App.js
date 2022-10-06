@@ -4,6 +4,7 @@ import * as signalR from "@microsoft/signalr";
 import Chat from "./components/Chat";
 import {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
+
 const App = () => {
     const [connection, setConnection] = useState();
     const [messages, setMessages] = useState([]);
@@ -17,10 +18,10 @@ const App = () => {
                 .build();
 
             connection.on("ReceiveMessage", (user, message) => {
-                setMessages(messages => [...messages, {user, message}]); //для отображения сообщений
+                setMessages(messages => [...messages, {user, message}]); //для отображения рилтайм сообщений
             });
 
-            // стейт сбрасывается и перекидывает в лобби
+            // стейт сбрасывается и перекидывает в лобби компонент
             connection.onclose(() => {
                 setConnection();
                 setMessages([]);
@@ -33,6 +34,17 @@ const App = () => {
             });
 
             await connection.start();
+
+            //загрузка истории
+            let url = "https://localhost:7041/api/chat?room=";
+            const history = await fetch(`${url}${room}`, {method: 'GET'})
+                .then(response => response.json())
+                .then(res => console.log(res))
+                .catch(console.log);
+
+            //setMessages(history);
+
+
 
             await connection.invoke('JoinRoom', {user, room});
 

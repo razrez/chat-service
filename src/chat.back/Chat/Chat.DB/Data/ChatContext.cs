@@ -31,7 +31,5 @@ public sealed class ChatContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.Entity<ChatMessage>()
-            .HasKey(k => new { k.Room, k.User });
     }
 }
