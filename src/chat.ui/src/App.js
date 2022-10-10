@@ -1,15 +1,16 @@
-import Lobby from './components/Lobby';
+import Lobby from './pages/Lobby';
 import './App.css';
 import * as signalR from "@microsoft/signalr";
-import Chat from "./components/Chat";
+import Chat from "./pages/Chat";
 import {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
+import axios from "axios";
 
 const App = () => {
     const [connection, setConnection] = useState();
     const [messages, setMessages] = useState([]);
     const [users, setUsers] = useState([]);
-
+    const [history, setHistory] = useState([]);
     const joinRoom = async (user, room) => {
         try
         {
@@ -37,17 +38,12 @@ const App = () => {
 
             //загрузка истории
             let url = "https://localhost:7041/api/chat?room=";
-            const history = await fetch(`${url}${room}`, {method: 'GET'})
-                .then(response => response.json())
-                .then(res => console.log(res))
-                .catch(console.log);
-
-            //setMessages(history);
-
-
+            const loadedHistory = await axios.get(`${url}${room}`)
+                .then(response => response.data);
 
             await connection.invoke('JoinRoom', {user, room});
 
+            setHistory(loadedHistory);
             setConnection(connection);
         }
 
@@ -81,7 +77,7 @@ const App = () => {
         <hr className="line"></hr>
         {!connection
             ? <Lobby joinRoom={joinRoom} />
-            : <Chat messages={messages} sendMessage={sendMessage} closeConnection={closeConnection} users={users}/>}
+            : <Chat messages={messages} sendMessage={sendMessage} closeConnection={closeConnection} users={users} history={history}/>}
     </div>
 
 

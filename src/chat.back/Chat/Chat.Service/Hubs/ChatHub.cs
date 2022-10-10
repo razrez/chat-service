@@ -1,4 +1,6 @@
-﻿using Chat.Service.Hubs.Models;
+﻿using Chat.DB.Data;
+using Chat.DB.Data.Repository;
+using Chat.Service.Hubs.Models;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Chat.Service.Hubs;
@@ -6,10 +8,12 @@ namespace Chat.Service.Hubs;
 public class ChatHub : Hub
 {
     private readonly IDictionary<string, UserConnection> _connections;
+    private readonly IChatRepository _repository;
 
-    public ChatHub(IDictionary<string, UserConnection> connections)
+    public ChatHub(IDictionary<string, UserConnection> connections, IChatRepository repository)
     {
         _connections = connections;
+        _repository = repository;
     }
 
     public async Task JoinRoom(UserConnection userConnection)
