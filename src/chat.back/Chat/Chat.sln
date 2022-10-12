@@ -4,6 +4,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Service", "Chat.Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.DB", "Chat.DB\Chat.DB.csproj", "{FE5D0564-070F-4820-9746-2D1DCEC6E8DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Infrastructure", "Chat.Infrastructure\Chat.Infrastructure.csproj", "{2D5FF24D-FAE2-4FE2-B81E-0F68ED80C291}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.AppCore", "Chat.AppCore\Chat.AppCore.csproj", "{B5CAD66E-D304-485D-AEE1-9307BA51E2C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Domain", "Chat.Domain\Chat.Domain.csproj", "{2852692B-1CF0-433A-B80C-493AB428F28C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{FE5D0564-070F-4820-9746-2D1DCEC6E8DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE5D0564-070F-4820-9746-2D1DCEC6E8DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE5D0564-070F-4820-9746-2D1DCEC6E8DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D5FF24D-FAE2-4FE2-B81E-0F68ED80C291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D5FF24D-FAE2-4FE2-B81E-0F68ED80C291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D5FF24D-FAE2-4FE2-B81E-0F68ED80C291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D5FF24D-FAE2-4FE2-B81E-0F68ED80C291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5CAD66E-D304-485D-AEE1-9307BA51E2C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5CAD66E-D304-485D-AEE1-9307BA51E2C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5CAD66E-D304-485D-AEE1-9307BA51E2C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5CAD66E-D304-485D-AEE1-9307BA51E2C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2852692B-1CF0-433A-B80C-493AB428F28C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2852692B-1CF0-433A-B80C-493AB428F28C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2852692B-1CF0-433A-B80C-493AB428F28C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2852692B-1CF0-433A-B80C-493AB428F28C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
