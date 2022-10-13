@@ -1,6 +1,7 @@
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
 using Chat.Infrastructure;
+using Chat.Infrastructure.Persistence.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,14 +12,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policyBuilder =>
+    options.AddDefaultPolicy(corsPolicyBuilder =>
     {
-        policyBuilder
-            .AllowAnyMethod()
+        corsPolicyBuilder.WithOrigins("http://localhost:3000")
             .AllowAnyHeader()
+            .AllowAnyMethod()
             .AllowCredentials();
     });
 });
@@ -40,7 +42,7 @@ app.UseRouting();
 
 app.UseCors();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 //app.UseAuthorization();
 

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Chat.API.Controllers;
 
 [ApiController]
-[Route("api/messages")]
+[Route("api/chat")]
 [Produces("application/json")]
 public class MessageController : ControllerBase
 {

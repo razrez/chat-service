@@ -12,12 +12,6 @@ public class ChatRepository : IChatRepository
         _chatContext = chatContext;
     }
     
-    //list of connected users to the room
-    public async Task<List<ChatConnection>> GetChatConnections(string room)
-    {
-        return await _chatContext.ChatConnections.ToListAsync();
-    }
-    
     //current room's chat history
     public async Task<List<ChatMessage>> GetChatMessages(string room)
     {
@@ -45,24 +39,5 @@ public class ChatRepository : IChatRepository
         }
     }
 
-    public async Task<bool> SaveConnection(string connectionId, string room, string user)
-    {
-        try
-        {
-            await _chatContext.ChatConnections
-                .AddAsync(new ChatConnection()
-                {
-                    ConnectionId = connectionId,
-                    Room = room, 
-                    User = user
-                });
-            
-            var saveRes = await _chatContext.SaveChangesAsync();
-            return saveRes > 0; // > 0 => saved
-        }
-        catch (Exception)
-        {
-            return false;
-        }
-    }
+    
 }

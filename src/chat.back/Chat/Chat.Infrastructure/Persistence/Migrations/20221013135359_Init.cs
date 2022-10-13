@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Chat.DB.Migrations
+namespace Chat.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -11,38 +12,24 @@ namespace Chat.DB.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ChatConnections",
-                columns: table => new
-                {
-                    ConnectionId = table.Column<string>(type: "text", nullable: false),
-                    User = table.Column<string>(type: "text", nullable: false),
-                    Room = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChatConnections", x => x.ConnectionId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ChatMessages",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Room = table.Column<string>(type: "text", nullable: false),
                     User = table.Column<string>(type: "text", nullable: false),
                     Message = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChatMessages", x => new { x.Room, x.User });
+                    table.PrimaryKey("PK_ChatMessages", x => x.Id);
                 });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ChatConnections");
-
             migrationBuilder.DropTable(
                 name: "ChatMessages");
         }
