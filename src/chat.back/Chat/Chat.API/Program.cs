@@ -1,5 +1,6 @@
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
+using Chat.API.Publisher;
 using Chat.Infrastructure;
 using Chat.Infrastructure.Persistence.Repository;
 
@@ -14,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddSignalR();
+builder.Services.AddScoped<IMessagePublisher, MessagePublisher>();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>

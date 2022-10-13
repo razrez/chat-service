@@ -7,5 +7,5 @@ public interface IChatRepository
     Task<List<ChatMessage>> GetChatMessages(string room);
     
     Task<bool> SaveMessage(string room, string user, string message);
-    
+
 }

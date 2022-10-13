@@ -1,4 +1,6 @@
 ﻿using Chat.API.Hubs.Models;
+using Chat.API.Publisher;
+using Chat.AppCore.Common.DTO;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Chat.API.Hubs;
@@ -6,10 +8,12 @@ namespace Chat.API.Hubs;
 public class ChatHub : Hub
 {
     private readonly IDictionary<string, UserConnection> _connections;
+    private readonly IMessagePublisher _publisher;
 
-    public ChatHub(IDictionary<string, UserConnection> connections)
+    public ChatHub(IDictionary<string, UserConnection> connections, IMessagePublisher publisher)
     {
         _connections = connections;
+        _publisher = publisher;
     }
 
     public async Task JoinRoom(UserConnection userConnection)
@@ -35,6 +39,10 @@ public class ChatHub : Hub
                 .SendAsync("ReceiveMessage", userConnection.User, message);
             
             //тут должна быть логика для передачи сообщения в MassTransit, который потом добавляет сообщение в бд
+            _publisher.SaveMessage(new SaveMessageDto(
+                User: userConnection.User, 
+                Room: userConnection.Room, 
+                Message: message));
         }
     }
 
