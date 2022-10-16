@@ -1,4 +1,4 @@
-import { Form, Button, FormControl, InputGroup } from 'react-bootstrap';
+import {Form, Button, FormControl, InputGroup} from 'react-bootstrap';
 import { useState } from 'react';
 
 const SendMessageForm = ({ sendMessage }) => {
@@ -12,10 +12,11 @@ const SendMessageForm = ({ sendMessage }) => {
         }}>
         <InputGroup>
             <FormControl type="user" placeholder="message..."
-                onChange={e => setMessage(e.target.value)} value={message} />
-            <InputGroup.Append>
-                <Button variant="primary" type="submit" disabled={!message}>Send</Button>
-            </InputGroup.Append>
+                onChange={e => setMessage(e.target.value)} value={message}/>
+            <InputGroup>
+                <Button variant="primary" type="submit"
+                        disabled={!message}>Send</Button>
+            </InputGroup>
         </InputGroup>
     </Form>
 }

@@ -12,6 +12,7 @@ h6 {
 
 hr.line {
 	border: 1px solid #313131;
+	margin: auto auto 20px;
 	width: 175px;
 }
 
@@ -47,10 +48,11 @@ hr.line {
 
 .message-container {
 	height: 400px;
-	background-color: white;
+	background-color: rgba(35, 189, 208, 0.61);
 	overflow: auto;
 	border-radius: 5px;
-	margin-bottom: 2px;
+	margin-bottom: 20px;
+	box-shadow: 5px 1px 5px 1px gray;
 }
 
 .user-message {
@@ -61,11 +63,11 @@ hr.line {
 
 .message {
 	display: inline-flex;
-	padding: 5px;
-	font-size: 18px;
-	color:white;
+	padding: 5px 10px;
+	font-size: 20px;
+	color: #020202;
 	border-radius: 20px;
-	margin: 3px auto 0px;
+	margin: 3px auto 0;
 }
 
 .from-user {

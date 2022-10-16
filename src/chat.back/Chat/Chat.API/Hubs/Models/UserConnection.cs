@@ -1,4 +1,4 @@
-﻿namespace Chat.Service.Hubs.Models;
+﻿namespace Chat.API.Hubs.Models;
 
 public class UserConnection
 {
