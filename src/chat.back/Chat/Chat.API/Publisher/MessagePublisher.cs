@@ -8,7 +8,6 @@ public class MessagePublisher : IMessagePublisher
 {
     public void SaveMessage<T>(T message)
     {
-        // REFACTOR: apply external config
         var factory = new ConnectionFactory
         {
             HostName = "rabbitmq",
