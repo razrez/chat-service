@@ -1,11 +1,13 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Chat.API/Chat.API.csproj", "Chat.API/"]
+COPY ["Chat.Infrastructure/Chat.Infrastructure.csproj", "Chat.Infrastructure/"]
+COPY ["Chat.AppCore/Chat.AppCore.csproj", "Chat.AppCore/"]
+COPY ["Chat.Domain/Chat.Domain.csproj", "Chat.Domain/"]
 RUN dotnet restore "Chat.API/Chat.API.csproj"
 COPY . .
 WORKDIR "/src/Chat.API"

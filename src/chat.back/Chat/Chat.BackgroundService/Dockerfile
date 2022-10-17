@@ -1,9 +1,12 @@
 ﻿FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
 WORKDIR /app
-
+COPY ["Chat.BackgroundService/appsettings.json", "Chat.BackgroundService/"]
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Chat.BackgroundService/Chat.BackgroundService.csproj", "Chat.BackgroundService/"]
+COPY ["Chat.Infrastructure/Chat.Infrastructure.csproj", "Chat.Infrastructure/"]
+COPY ["Chat.AppCore/Chat.AppCore.csproj", "Chat.AppCore/"]
+COPY ["Chat.Domain/Chat.Domain.csproj", "Chat.Domain/"]
 RUN dotnet restore "Chat.BackgroundService/Chat.BackgroundService.csproj"
 COPY . .
 WORKDIR "/src/Chat.BackgroundService"
