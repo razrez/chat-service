@@ -3,6 +3,7 @@ using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
 using Chat.Infrastructure;
 using Chat.Infrastructure.Persistence.Repository;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,5 +53,7 @@ app.UseCors();
 app.MapControllers();
 
 app.MapHub<ChatHub>("/chat");
+
+app.Map("/test", () => "test");
 
 app.Run();
