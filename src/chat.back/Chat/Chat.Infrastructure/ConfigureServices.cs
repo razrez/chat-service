@@ -13,9 +13,16 @@ public static class ConfigureServices
     {
         services.AddDbContext<ApplicationDbContext>(opt =>
             opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), 
-                builder => builder.MigrationsAssembly("Chat.Infrastructure")));
+                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IApplicationDbContext>(provider =>
+        {
+            var context = provider.GetRequiredService<ApplicationDbContext>();
+            if (context.Database.EnsureCreated()) context.Database.MigrateAsync();
+
+            return provider.GetRequiredService<ApplicationDbContext>();
+        });
+        
         services.AddScoped<IChatRepository, ChatRepository>();
         
         return services;

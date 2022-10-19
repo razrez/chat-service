@@ -2,8 +2,8 @@ using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
 using Chat.Infrastructure;
-using Chat.Infrastructure.Persistence.Repository;
-using Microsoft.AspNetCore.Mvc;
+using Chat.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddScoped<IChatRepository, ChatRepository>();
+
 builder.Services.AddSignalR();
 builder.Services.AddScoped<IMessagePublisher, MessagePublisher>();
 
@@ -34,6 +34,12 @@ builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ =>
     new Dictionary<string, UserConnection>());
 
 var app = builder.Build();
+
+/*using (var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope())
+{
+    var context = serviceScope?.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context?.Database.Migrate();
+}*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

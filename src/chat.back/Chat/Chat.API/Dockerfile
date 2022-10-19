@@ -13,8 +13,8 @@ COPY ["Chat.Domain/Chat.Domain.csproj", "Chat.Domain/"]
 RUN dotnet restore "Chat.API/Chat.API.csproj"
 COPY . .
 WORKDIR "/src/Chat.API"
+#CMD ["dotnet", "ef", "database", "update"]
 RUN dotnet build "Chat.API.csproj" -c Release -o /app/build
-
 FROM build AS publish
 RUN dotnet publish "Chat.API.csproj" -c Release -o /app/publish
 

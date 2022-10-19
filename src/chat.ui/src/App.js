@@ -15,7 +15,7 @@ const App = () => {
         try
         {
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("http://localhost:8000/chat")
+                .withUrl("http://localhost:5038/chat")
                 .build();
 
             connection.on("ReceiveMessage", (user, message) => {
@@ -37,7 +37,7 @@ const App = () => {
             await connection.start();
 
             //загрузка истории
-            let url = "http://localhost:8000/api/chat?room=";
+            let url = "http://localhost:5038/api/chat?room=";
             const loadedHistory = await axios.get(`${url}${room}`)
                 .then(response => response.data);
 
