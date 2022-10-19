@@ -1,4 +1,4 @@
-﻿version: '3.4'
+﻿version: '3.8'
 
 #networks:
 #  dockerapi-dev:
@@ -7,17 +7,12 @@
 services:
   chat-api:
     build:
-      context: chat.back/Chat/Chat.API
-      dockerfile: Dockerfile
+      context: chat.back/Chat
+      dockerfile: Chat.API/Dockerfile
     ports:
       - "5038:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
-      - rabbitmq
       - db
-#    networks:
-#      - dockerapi-dev
       
   chat-client:
     build:
@@ -26,17 +21,17 @@ services:
     ports:
       - "3000:3000"
       
-  chat-saver:
-    build:
-      context: ./chat.back/Chat/Chat.BackgroundService
-      dockerfile: Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "8001:80"
-    depends_on:
-      - rabbitmq
-      - db
+#  chat-saver:
+#    build:
+#      context: ./chat.back/Chat/Chat.BackgroundService
+#      dockerfile: Dockerfile
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=Development
+#    ports:
+#      - "8001:80"
+#    depends_on:
+#      - rabbitmq
+#      - db
         
   db:
     image: postgres:latest
@@ -47,11 +42,11 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "3369"
-      POSTGRES_DB: "reactChat"
+      POSTGRES_DB: "postgres"
       
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+#  rabbitmq:
+#    image: rabbitmq:3-management-alpine
+#    container_name: 'rabbitmq'
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"

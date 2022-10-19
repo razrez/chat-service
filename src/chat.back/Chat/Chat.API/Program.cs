@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>
     {
-        corsPolicyBuilder.WithOrigins("http://localhost:3000")
+        corsPolicyBuilder.WithOrigins("http://localhost:3000", "http://192.168.1.3:3000")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
@@ -34,12 +34,6 @@ builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ =>
     new Dictionary<string, UserConnection>());
 
 var app = builder.Build();
-
-/*using (var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope())
-{
-    var context = serviceScope?.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context?.Database.Migrate();
-}*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
