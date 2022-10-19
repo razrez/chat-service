@@ -5,6 +5,7 @@ import Chat from "./pages/Chat";
 import {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from "axios";
+import {HttpTransportType} from "@microsoft/signalr";
 
 const App = () => {
     const [connection, setConnection] = useState();
@@ -15,7 +16,12 @@ const App = () => {
         try
         {
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("http://localhost:5038/chat")
+                .withUrl("http://localhost:5038/chat", {
+                    withCredentials: false,
+                    skipNegotiation: true,
+                    transport: HttpTransportType.WebSockets
+                })
+                .withAutomaticReconnect()
                 .build();
 
             connection.on("ReceiveMessage", (user, message) => {

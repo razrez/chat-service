@@ -1,10 +1,25 @@
 ﻿version: '3.8'
-
-#networks:
-#  dockerapi-dev:
-#    driver: bridge
     
 services:
+  db:
+    image: postgres:latest
+    container_name: 'db'
+    ports:
+      - "7000:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "3369"
+      POSTGRES_DB: "postgres"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+        
+        
   chat-client:
     build:
       context: chat.ui
@@ -34,21 +49,3 @@ services:
     depends_on:
       - db
       - rabbitmq
-        
-  db:
-    image: postgres:latest
-    container_name: 'db'
-    ports:
-      - "7000:5432"
-    restart: always
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "3369"
-      POSTGRES_DB: "postgres"
-      
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
-    ports:
-      - "5672:5672"
-      - "15672:15672"

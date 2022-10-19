@@ -2,8 +2,7 @@ using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
 using Chat.Infrastructure;
-using Chat.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +19,15 @@ builder.Services.AddScoped<IMessagePublisher, MessagePublisher>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(corsPolicyBuilder =>
-    {
-        corsPolicyBuilder.WithOrigins("http://localhost:3000", "http://192.168.1.3:3000")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
+    options.AddPolicy(name: "access",
+        corsPolicyBuilder =>
+        {
+            corsPolicyBuilder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .SetIsOriginAllowed(_ => true);
+        });
 });
 
 //ConnectionId - the key
@@ -44,16 +45,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-app.UseCors();
-
-//app.UseHttpsRedirection();
-
-//app.UseAuthorization();
+app.UseCors("access");
 
 app.MapControllers();
 
 app.MapHub<ChatHub>("/chat");
-
-app.Map("/test", () => "test");
 
 app.Run();
