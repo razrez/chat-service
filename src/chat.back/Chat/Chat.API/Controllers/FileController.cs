@@ -17,7 +17,16 @@ public class FileController : Controller
         _s3Client = s3Client;
     }
     
-    [HttpPost]
+    [HttpPost("create-bucket")]
+    public async Task<IActionResult> CreateBucketAsync(string bucketName)
+    {
+        var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
+        if (bucketExists) return BadRequest($"Bucket {bucketName} already exists.");
+        await _s3Client.PutBucketAsync(bucketName);
+        return Ok($"Bucket {bucketName} created.");
+    }
+    
+    [HttpPost("upload")]
     public async Task<IActionResult> UploadFile(IFormFile file, string bucketName, string? prefix)
     {
         var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
