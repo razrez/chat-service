@@ -19,7 +19,7 @@ builder.Services.AddScoped<IMessagePublisher, MessagePublisher>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: "access",
+    options.AddPolicy(name: "anybody",
         corsPolicyBuilder =>
         {
             corsPolicyBuilder
@@ -45,7 +45,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-app.UseCors("access");
+app.UseCors("anybody");
 
 app.MapControllers();
 

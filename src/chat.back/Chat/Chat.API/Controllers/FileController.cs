@@ -1,0 +1,62 @@
+﻿using Amazon;
+using Microsoft.AspNetCore.Mvc;
+using Amazon.S3;
+using GetObjectRequest = Amazon.S3.GetObjectRequest;
+using PutObjectRequest = Amazon.S3.Model.PutObjectRequest;
+
+namespace Chat.API.Controllers;
+
+[Route("api/files")]
+[ApiController]
+public class FileController : Controller
+{
+    //private readonly S3Client _s3Client;
+    private readonly IAmazonS3 _s3Client;
+    public FileController(IAmazonS3 s3Client)
+    {
+        _s3Client = s3Client;
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> DownloadFile(string fileId)
+    {
+        var request = new GetObjectRequest("db", "mybucket", fileId);
+        // var s3Object = await _s3Client.GetObjectAsync(request, CancellationToken.None);
+        // var result = await s3Object.ReadAsByteArrayAsync();
+        return Ok();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UploadFile(IFormFile file, string bucketName, string? prefix)
+    {
+        var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
+        if (!bucketExists) return NotFound($"Bucket {bucketName} does not exist.");
+        var request = new PutObjectRequest
+        {
+            BucketName = bucketName,
+            Key = string.IsNullOrEmpty(prefix) ? file.FileName : $"{prefix?.TrimEnd('/')}/{file.FileName}",
+            InputStream = file.OpenReadStream()
+        };
+        request.Metadata.Add("Content-Type", file.ContentType);
+        await _s3Client.PutObjectAsync(request);
+        return Ok($"File {prefix}/{file.FileName} uploaded to S3 successfully!");
+    }
+    
+    [HttpGet("get-by-key")]
+    public async Task<IActionResult> GetFileByKeyAsync(string bucketName, string key)
+    {
+        var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
+        if (!bucketExists) return NotFound($"Bucket {bucketName} does not exist.");
+        var s3Object = await _s3Client.GetObjectAsync(bucketName, key);
+        return File(s3Object.ResponseStream, s3Object.Headers.ContentType);
+    }
+    
+    [HttpDelete("delete")]
+    public async Task<IActionResult> DeleteFileAsync(string bucketName, string key)
+    {
+        var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
+        if (!bucketExists) return NotFound($"Bucket {bucketName} does not exist");
+        await _s3Client.DeleteObjectAsync(bucketName, key);
+        return NoContent();
+    }
+}
