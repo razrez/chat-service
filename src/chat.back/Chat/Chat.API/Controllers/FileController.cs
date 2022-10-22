@@ -26,6 +26,13 @@ public class FileController : Controller
         return Ok($"Bucket {bucketName} created.");
     }
     
+    [HttpDelete("delete-bucket")]
+    public async Task<IActionResult> DeleteBucketAsync(string bucketName)
+    {
+        await _s3Client.DeleteBucketAsync(bucketName);
+        return NoContent();
+    }
+    
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFile(IFormFile file, string bucketName, string? prefix)
     {
