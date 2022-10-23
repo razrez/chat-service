@@ -2,6 +2,7 @@ import SendMessageForm from '../components/SendMessageForm';
 import MessageContainer from '../components/MessageContainer';
 import ConnectedUsers from "../components/ConnectedUsers";
 import {Button} from "react-bootstrap";
+import {FileUploader} from "../components/FileUploader";
 
 const Chat = ({messages, sendMessage, closeConnection, users, history}) => <div>
     <div className='leave-room'>
@@ -12,6 +13,7 @@ const Chat = ({messages, sendMessage, closeConnection, users, history}) => <div>
         <MessageContainer messages={messages} history={history}/>
         <SendMessageForm sendMessage={sendMessage} />
     </div>
-</div>
+    <FileUploader></FileUploader>
+   </div>
 
 export default Chat;
