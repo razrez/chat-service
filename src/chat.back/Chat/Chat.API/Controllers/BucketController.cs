@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.API.Controllers;
 
-[Route("api/files")]
+[Route("api/bucket")]
 [ApiController]
 public class BucketController : ControllerBase
 {

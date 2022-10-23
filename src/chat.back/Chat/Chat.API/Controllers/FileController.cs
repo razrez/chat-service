@@ -30,6 +30,8 @@ public class FileController : ControllerBase
         };
         
         request.Metadata.Add("Content-Type", file.ContentType);
+        request.Metadata.Add("File-Name", file.Name);
+        
         await _s3Client.PutObjectAsync(request);
         return Ok($"File {prefix}/{file.FileName} uploaded to S3 successfully!");
     }
@@ -40,6 +42,10 @@ public class FileController : ControllerBase
         var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
         if (!bucketExists) return NotFound($"Bucket {bucketName} does not exist.");
         var s3Object = await _s3Client.GetObjectAsync(bucketName, key);
+        
+        //try get metadata
+        var meta = s3Object.Metadata;
+        
         return File(s3Object.ResponseStream, s3Object.Headers.ContentType);
     }
     
