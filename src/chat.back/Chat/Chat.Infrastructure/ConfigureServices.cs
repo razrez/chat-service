@@ -21,13 +21,6 @@ public static class ConfigureServices
         services.AddScoped<IApplicationDbContext>(provider =>  provider.GetRequiredService<ApplicationDbContext>());
         
         services.AddScoped<IChatRepository, ChatRepository>();
-
-        var config = configuration.GetSection("MetadataDB");
-        var cst = config.GetSection("ConnectionString");
-        var dbMame = config.GetSection("DatabaseName");
-        var collectionName = config.GetSection("BooksCollectionName");
-        
-        services.AddSingleton<MetadataService>();
         return services;
     }
 }

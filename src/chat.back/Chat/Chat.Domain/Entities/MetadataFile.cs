@@ -7,6 +7,9 @@ public class MetadataFile
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
+    public string? Id { get; set; }
+    
+    [BsonElement("Name")]
     public string FileName { get; set; } = null!;
 
     [BsonElement("Content-Type")]

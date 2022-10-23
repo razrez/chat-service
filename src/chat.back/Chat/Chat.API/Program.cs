@@ -2,7 +2,9 @@ using Amazon.S3;
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
+using Chat.AppCore.Common.Models;
 using Chat.Infrastructure;
+using Chat.Infrastructure.Persistence.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
-//test AWS Services
 builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 builder.Services.AddAWSService<IAmazonS3>();
 
@@ -37,6 +38,10 @@ builder.Services.AddCors(options =>
 //ConnectionId - the key
 builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ => 
     new Dictionary<string, UserConnection>());
+
+//MongoDB Metadata Service
+builder.Services.Configure<MetadataDbSettings>(builder.Configuration.GetSection("MongoDB"));
+builder.Services.AddSingleton<MetadataService>();
 
 var app = builder.Build();
 

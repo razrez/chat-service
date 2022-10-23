@@ -16,6 +16,7 @@ public class FileController : ControllerBase
         _s3Client = s3Client;
     }
     
+    //нужно, чтобы при удачной загрузке
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFile(IFormFile file, string bucketName, string? prefix)
     {
