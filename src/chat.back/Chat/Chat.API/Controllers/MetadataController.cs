@@ -6,13 +6,13 @@ namespace Chat.API.Controllers;
 
 [ApiController]
 [Route("api/file-metadata")]
-public class MetadaController : ControllerBase
+public class MetadataController : ControllerBase
 {
     //тут метаданные будут доставаться из монго
 
     private readonly MetadataService _metadata;
 
-    public MetadaController(MetadataService metadata) =>
+    public MetadataController(MetadataService metadata) =>
         _metadata = metadata;
 
     [HttpGet]
