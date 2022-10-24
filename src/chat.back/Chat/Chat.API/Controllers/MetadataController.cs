@@ -15,15 +15,7 @@ public class MetadataController : ControllerBase
     public MetadataController(MetadataService metadata) =>
         _metadata = metadata;
 
-    [HttpGet]
-    public async Task<List<MetadataFile>> Get() =>
-        await _metadata.GetAsync();
-
-    [HttpGet]
-    public async Task<IActionResult> Get(string id)
-    {
-        var metaFile = await _metadata.GetAsync(id);
-        
-        return metaFile is null ? NotFound() : Ok(metaFile);
-    }
+    [HttpGet("get-all")]
+    public async Task<List<MetadataFile>> GetRoom(string room) =>
+        await _metadata.GetAsyncByRoom(room);
 }

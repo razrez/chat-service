@@ -11,7 +11,13 @@ public class MetadataFile
     
     [BsonElement("Name")]
     public string FileName { get; set; } = null!;
-
+    
     [BsonElement("Content-Type")]
     public string? ContentType { get; set; }
+    
+    [BsonElement("Room")]
+    public string RoomName { get; set; } = null!;
+    
+    [BsonElement("User")]
+    public string User { get; set; } = null!;
 }

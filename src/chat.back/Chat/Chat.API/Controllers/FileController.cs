@@ -20,8 +20,10 @@ public class FileController : ControllerBase
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFile(IFormFile file, string bucketName, string? prefix)
     {
+        //bucketName - название комнаты; prefix - имя юзера
         var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
         if (!bucketExists) return NotFound($"Bucket {bucketName} does not exist.");
+        
         var request = new PutObjectRequest
         {
             BucketName = bucketName,
@@ -30,11 +32,20 @@ public class FileController : ControllerBase
             CannedACL = S3CannedACL.PublicRead
         };
         
-        request.Metadata.Add("Content-Type", file.ContentType);
-        request.Metadata.Add("File-Name", file.Name);
+        request.Metadata.Add("Name", file.FileName);
+        request.Metadata.Add("ContentType", file.Headers.ContentType);
+        request.Metadata.Add("Room", bucketName);
+        request.Metadata.Add("User", prefix);
+
+        var meta = new MetadataDto(
+            FileName:file.FileName, 
+            ContentType:file.ContentType, 
+            RoomName:bucketName, 
+            User:prefix!
+        );
         
         await _s3Client.PutObjectAsync(request);
-        return Ok($"File {prefix}/{file.FileName} uploaded to S3 successfully!");
+        return Ok(meta);
     }
     
     [HttpGet("get-by-key")]
@@ -45,7 +56,7 @@ public class FileController : ControllerBase
         var s3Object = await _s3Client.GetObjectAsync(bucketName, key);
         
         //try get metadata
-        var meta = s3Object.Metadata;
+        //var meta = s3Object.Metadata;
         
         return File(s3Object.ResponseStream, s3Object.Headers.ContentType);
     }

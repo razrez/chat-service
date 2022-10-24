@@ -18,6 +18,24 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+      
+  mongodb:
+    container_name: "mongodb"
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+  
+  zenko:
+    image: zenko/cloudserver
+    container_name: s3server
+    ports:
+      - "8000:8000"
+    environment:
+      - SCALITY_ACCESS_KEY_ID=access
+      - SCALITY_SECRET_ACCESS_KEY=secret
+      - S3DATA=multiple
+      - S3BACKEND=mem
         
         
   chat-client:
@@ -46,6 +64,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8001:80"
+    restart: always
     depends_on:
       - db
       - rabbitmq

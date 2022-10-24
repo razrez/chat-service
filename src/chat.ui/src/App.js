@@ -43,8 +43,8 @@ const App = () => {
             await connection.start();
 
             //загрузка истории
-            let url = "http://localhost:5038/api/chat?room=";
-            const loadedHistory = await axios.get(`${url}${room}`)
+            let getHistoryUrl = "http://localhost:5038/api/chat?room=";
+            const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
                 .then(response => response.data);
 
             await connection.invoke('JoinRoom', {user, room});
