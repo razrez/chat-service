@@ -1,4 +1,5 @@
-﻿using Chat.Domain.Entities;
+﻿using Chat.AppCore.Common.DTO;
+using Chat.Domain.Entities;
 using Chat.Infrastructure.Persistence.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,8 +15,39 @@ public class MetadataController : ControllerBase
 
     public MetadataController(MetadataService metadata) =>
         _metadata = metadata;
+    
+    [HttpGet("get-by-id")]
+    public async Task<ActionResult<MetadataFile>> Get(string id)
+    {
+        var metadataFile = await _metadata.GetAsync(id);
 
-    [HttpGet("get-all")]
-    public async Task<List<MetadataFile>> GetRoom(string room) =>
+        if (metadataFile is null)
+        {
+            return NotFound();
+        }
+
+        return metadataFile;
+    }
+
+    [HttpGet("get-by-room")]
+    public async Task<List<MetadataFile>> GetByRoom(string room) =>
         await _metadata.GetAsyncByRoom(room);
+
+    [HttpPost]
+    public async Task<IActionResult> Create(MetadataDto metadataDto)
+    {
+        var newMeta = new MetadataFile
+        {
+            FileName = metadataDto.FileName,
+            ContentType = metadataDto.ContentType,
+            RoomName = metadataDto.RoomName,
+            User = metadataDto.User
+        };
+        
+        await _metadata.CreateAsync(newMeta);
+        return CreatedAtAction(
+            nameof(Get),
+            new { id = newMeta.Id },
+            newMeta);
+    }
 }

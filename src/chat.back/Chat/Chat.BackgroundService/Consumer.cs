@@ -2,6 +2,7 @@ using System.Text.Json;
 using Chat.AppCore.Common.DTO;
 using Chat.Infrastructure.Persistence.Repository;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson.Serialization;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
