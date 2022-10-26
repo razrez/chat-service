@@ -37,7 +37,13 @@ export const FileUploader = () => {
                 htmlFor="file-loader-button"
                 className="file-uploader__custom-button"
             >
-                Загрузить файл
+                Upload file
+            </label>
+            <label
+                htmlFor="file-loader-button"
+                className="file-uploader__send-button"
+            >
+                Send file
             </label>
             <input
                 id="file-loader-button"
