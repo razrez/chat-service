@@ -12,12 +12,12 @@ services:
       POSTGRES_PASSWORD: "3369"
       POSTGRES_DB: "postgres"
 
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+#  rabbitmq:
+#    image: rabbitmq:3-management-alpine
+#    container_name: 'rabbitmq'
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
       
   mongodb:
     container_name: "mongodb"
@@ -28,7 +28,7 @@ services:
   
   zenko:
     image: zenko/cloudserver
-    container_name: s3server
+    container_name: "zenko"
     ports:
       - "8000:8000"
     environment:
@@ -37,34 +37,33 @@ services:
       - S3DATA=multiple
       - S3BACKEND=mem
         
+#  chat-client:
+#    build:
+#      context: chat.ui
+#      dockerfile: Dockerfile
+#    ports:
+#      - "3000:3000"
         
-  chat-client:
-    build:
-      context: chat.ui
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-        
-        
-  chat-api:
-    build:
-      context: chat.back/Chat
-      dockerfile: Chat.API/Dockerfile
-    ports:
-      - "5038:80"
-    depends_on:
-      - db
-      - rabbitmq
+#  chatapi:
+#    build:
+#      context: chat.back/Chat
+#      dockerfile: Chat.API/Dockerfile
+#    ports:
+#      - "5038:80"
+#    depends_on:
+#      - db
+#      - rabbitmq
+
       
-  chat-saver:
-    build:
-      context: ./chat.back/Chat
-      dockerfile: Chat.BackgroundService/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "8001:80"
-    restart: always
-    depends_on:
-      - db
-      - rabbitmq
+#  chat-saver:
+#    build:
+#      context: ./chat.back/Chat
+#      dockerfile: Chat.BackgroundService/Dockerfile
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=Development
+#    ports:
+#      - "8001:80"
+#    restart: always
+#    depends_on:
+#      - db
+#      - rabbitmq

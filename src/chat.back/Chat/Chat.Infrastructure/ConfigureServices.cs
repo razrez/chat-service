@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Chat.Infrastructure.Persistence.Repository;
-using Chat.Infrastructure.Persistence.Services;
 using MongoDB.Driver.Core.Configuration;
 
 namespace Chat.Infrastructure;

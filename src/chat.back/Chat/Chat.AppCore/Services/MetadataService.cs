@@ -3,7 +3,7 @@ using Chat.Domain.Entities;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace Chat.Infrastructure.Persistence.Services;
+namespace Chat.AppCore.Services;
 
 public class MetadataService
 {

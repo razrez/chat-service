@@ -27,7 +27,7 @@ public class Consumer : Microsoft.Extensions.Hosting.BackgroundService
     {
         _connectionFactory = new ConnectionFactory
         {
-            HostName = "rabbitmq",
+            HostName = "localhost"
         };
         
         _connection = _connectionFactory.CreateConnection();

@@ -1,6 +1,6 @@
 ﻿using Chat.AppCore.Common.DTO;
+using Chat.AppCore.Services;
 using Chat.Domain.Entities;
-using Chat.Infrastructure.Persistence.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.API.Controllers;

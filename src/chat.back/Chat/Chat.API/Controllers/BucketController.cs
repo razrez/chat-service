@@ -1,5 +1,9 @@
 ﻿using Amazon.S3;
+using Amazon.S3.Endpoints;
+using Amazon.S3.Internal;
+using Amazon.S3.Model;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace Chat.API.Controllers;
 
@@ -20,6 +24,13 @@ public class BucketController : ControllerBase
         if (bucketExists) return BadRequest($"Bucket {bucketName} already exists.");
         await _s3Client.PutBucketAsync(bucketName);
         return Ok($"Bucket {bucketName} created.");
+        /*var putBucketRequest = new PutBucketRequest
+        {
+            BucketName = bucketName,
+            UseClientRegion = true
+        };
+        var response = await _s3Client.PutBucketAsync(putBucketRequest);
+        return Ok(_s3Client.Config.ServiceURL);*/
     }
     
     [HttpDelete("delete")]
