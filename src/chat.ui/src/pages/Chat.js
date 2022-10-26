@@ -13,7 +13,6 @@ const Chat = ({messages, sendMessage, closeConnection, users, history}) => <div>
         <MessageContainer messages={messages} history={history}/>
         <SendMessageForm sendMessage={sendMessage} />
     </div>
-    <FileUploader></FileUploader>
    </div>
 
 export default Chat;
