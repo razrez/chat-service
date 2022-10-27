@@ -25,7 +25,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddDefaultAWSOptions(new AWSOptions
 {
     Credentials = new BasicAWSCredentials("access","secret"),
-    DefaultClientConfig = { ServiceURL = "http://localhost:8000"},
+    DefaultClientConfig = { ServiceURL = "http://192.168.1.3:8000" },
     Region = RegionEndpoint.USWest2
 });
 builder.Services.AddAWSService<IAmazonS3>();

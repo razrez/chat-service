@@ -83,7 +83,7 @@ const App = () => {
         <hr className="line"></hr>
         {!connection
             ? <Lobby joinRoom={joinRoom} />
-            : <Chat messages={messages} sendMessage={sendMessage} closeConnection={closeConnection} users={users} history={history}/>}
+            : <Chat messages={messages} sendMessage={sendMessage} closeConnection={closeConnection} users={users} history={history} />}
     </div>
 
 

@@ -10,7 +10,7 @@ public class MessagePublisher : IMessagePublisher
     {
         var factory = new ConnectionFactory
         {
-            HostName = "localhost"
+            HostName = "rabbitmq"
         };
         
         var connection = factory.CreateConnection();

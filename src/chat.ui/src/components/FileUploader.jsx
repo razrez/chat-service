@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import "./FileUploader.css";
+import axios from "axios";
 
 export const FileUploader = () => {
     const [image, setImage] = useState();
     const [imageURL, setImageURL] = useState();
     const fileReader = new FileReader();
+
     fileReader.onloadend = () => {
         setImageURL(fileReader.result);
     };
@@ -30,6 +32,18 @@ export const FileUploader = () => {
         event.preventDefault();
         event.stopPropagation();
     };
+
+    const sendFile = async (file) => {
+        try {
+            //await connection.invoke('SendFile', file);
+            // let getHistoryUrl = "http://localhost:5038/api/files/upload?";
+            // const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
+            //     .then(response => response.data);
+            console.log(file)
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     return (
         <form className="file-uploader">
