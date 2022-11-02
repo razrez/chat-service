@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Chat.API.Hubs.Models;
 using Chat.AppCore.Common.DTO;
 using PutObjectRequest = Amazon.S3.Model.PutObjectRequest;
 
@@ -16,13 +17,12 @@ public class FileController : ControllerBase
         _s3Client = s3Client;
     }
     
-    //нужно, чтобы при удачной загрузке
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFile(IFormFile file, string bucketName, string? prefix)
     {
         //bucketName - название комнаты; prefix - имя юзера
         var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
-        if (!bucketExists) return NotFound($"Bucket {bucketName} does not exist.");
+        if (!bucketExists) await _s3Client.PutBucketAsync(bucketName);
         
         var request = new PutObjectRequest
         {
@@ -32,9 +32,9 @@ public class FileController : ControllerBase
             CannedACL = S3CannedACL.PublicRead
         };
         
-        request.Metadata.Add("Name", file.FileName);
+        request.Metadata.Add("FileName", file.FileName);
         request.Metadata.Add("ContentType", file.Headers.ContentType);
-        request.Metadata.Add("Room", bucketName);
+        request.Metadata.Add("RoomName", bucketName);
         request.Metadata.Add("User", prefix);
 
         var meta = new MetadataDto(
@@ -54,9 +54,6 @@ public class FileController : ControllerBase
         var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
         if (!bucketExists) return NotFound($"Bucket {bucketName} does not exist.");
         var s3Object = await _s3Client.GetObjectAsync(bucketName, key);
-        
-        //try get metadata
-        //var meta = s3Object.Metadata;
         
         return File(s3Object.ResponseStream, s3Object.Headers.ContentType);
     }

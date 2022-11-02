@@ -1,13 +1,10 @@
 using Amazon;
-using Amazon.Extensions.NETCore.Setup;
-using Amazon.Runtime;
-using Amazon.Runtime.Endpoints;
 using Amazon.S3;
-using Amazon.S3.Internal;
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
 using Chat.AppCore.Common.Models;
+using Chat.AppCore.Extensions;
 using Chat.AppCore.Services;
 using Chat.Infrastructure;
 
@@ -20,15 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure(builder.Configuration);
-
-//builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
-builder.Services.AddDefaultAWSOptions(new AWSOptions
-{
-    Credentials = new BasicAWSCredentials("access","secret"),
-    DefaultClientConfig = { ServiceURL = "http://192.168.1.3:8000" },
-    Region = RegionEndpoint.USWest2
-});
-builder.Services.AddAWSService<IAmazonS3>();
+builder.Services.AddAwsService(builder.Configuration);
 
 builder.Services.AddSignalR();
 builder.Services.AddScoped<IMessagePublisher, MessagePublisher>();

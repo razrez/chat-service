@@ -12,6 +12,13 @@ const App = () => {
     const [messages, setMessages] = useState([]);
     const [users, setUsers] = useState([]);
     const [history, setHistory] = useState([]);
+    const [metaMessages, setMetaMessages] = useState([]);
+    const [metaHistory, setMetaHistory] = useState([]);
+
+    //user info
+    const [userName, setUserName] = useState();
+    const [roomName, setRoomName] = useState();
+
     const joinRoom = async (user, room) => {
         try
         {
@@ -35,9 +42,15 @@ const App = () => {
                 setUsers([]);
             });
 
-            //вывод юзеров в чате
+            // вывод юзеров в чате
             connection.on('UsersInRoom', (users) => {
                 setUsers(users);
+            });
+
+            // вывод только что отправленных метаданных
+            connection.on('ReceiveMeta', (metadata) => {
+                //console.log(metadata);
+                setMetaMessages(metadata);
             });
 
             await connection.start();
@@ -47,10 +60,18 @@ const App = () => {
             const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
                 .then(response => response.data);
 
+            //загрузка метаданных в комнате
+            let getMetadataUrl = "http://localhost:5038/api/file-metadata/get-by-room?room=";
+            const loadedMetadataHistory = await axios.get(`${getMetadataUrl}${room}`)
+                .then(response => response.data);
+
             await connection.invoke('JoinRoom', {user, room});
 
-            setHistory(loadedHistory);
             setConnection(connection);
+            setUserName(user);
+            setRoomName(room);
+            setHistory(loadedHistory);
+            setMetaHistory(loadedMetadataHistory);
         }
 
         catch (e) {
@@ -58,11 +79,37 @@ const App = () => {
         }
     }
 
-    const sendMessage = async (message) => {
+    const sendMessage = async (message, file) => {
         try {
             if (message.trim() !== ''){
                 await connection.invoke('SendMessage', message);
+
+                if (file !== ''){
+                    //загрузка файла
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    const config = {
+                        Headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    };
+
+                    let postFileUrl = 'http://localhost:5038/api/files/upload?';
+                    const response = await axios.post(
+                        `${postFileUrl}bucketName=${roomName}&prefix=${userName}`,
+                        formData, config)
+                        .then(response => response.data);
+                    console.log(response);
+
+                    //отрисовка метаданных для возможности скачивания
+                    await connection.invoke('SendMetadata', response)
+                }
             }
+
+            else if((file !== '')){
+                //send just only file
+            }
+
             else console.log("attempt to send an empty string")
         } catch (e) {
             console.log(e);
@@ -83,10 +130,9 @@ const App = () => {
         <hr className="line"></hr>
         {!connection
             ? <Lobby joinRoom={joinRoom} />
-            : <Chat messages={messages} sendMessage={sendMessage} closeConnection={closeConnection} users={users} history={history} />}
+            : <Chat messages={messages} sendMessage={sendMessage} closeConnection={closeConnection} users={users}
+                    history={history} metaMessages={metaMessages} metaHistory={metaHistory}/>}
     </div>
-
-
 }
 
 export default App;
