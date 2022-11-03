@@ -10,7 +10,6 @@ const SendMessageForm = ({ sendMessage }) => {
             e.preventDefault();
             sendMessage(message, file);
             setMessage('');
-            setFile('');
         }}>
         <InputGroup>
             <FormControl type="user" placeholder="message..."

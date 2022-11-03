@@ -48,9 +48,8 @@ const App = () => {
             });
 
             // вывод только что отправленных метаданных
-            connection.on('ReceiveMeta', (metadata) => {
-                //console.log(metadata);
-                setMetaMessages(metadata);
+            connection.on('ReceiveMeta', (newMeta) => {
+                setMetaMessages(current => [...current, newMeta]);
             });
 
             await connection.start();
@@ -81,10 +80,11 @@ const App = () => {
 
     const sendMessage = async (message, file) => {
         try {
-            if (message.trim() !== ''){
+
+            if (message.trim() !== '' ){
                 await connection.invoke('SendMessage', message);
 
-                if (file !== ''){
+                if (file !== undefined){
                     //загрузка файла
                     const formData = new FormData();
                     formData.append('file', file);
@@ -99,9 +99,8 @@ const App = () => {
                         `${postFileUrl}bucketName=${roomName}&prefix=${userName}`,
                         formData, config)
                         .then(response => response.data);
-                    console.log(response);
 
-                    //отрисовка метаданных для возможности скачивания
+                    //отрисовка метаданных у всей комнаты для возможности скачивания
                     await connection.invoke('SendMetadata', response)
                 }
             }
@@ -131,7 +130,7 @@ const App = () => {
         {!connection
             ? <Lobby joinRoom={joinRoom} />
             : <Chat messages={messages} sendMessage={sendMessage} closeConnection={closeConnection} users={users}
-                    history={history} metaMessages={metaMessages} metaHistory={metaHistory}/>}
+                    history={history} metaMessages={metaMessages} metaHistory={metaHistory} connection={connection}/>}
     </div>
 }
 

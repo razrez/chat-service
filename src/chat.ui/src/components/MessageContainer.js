@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const MessageContainer = ({ messages, history, metaMessages, metaHistory}) => {
+const MessageContainer = ({ messages, history, metaMessages, metaHistory, connection}) => {
 
     //ссылка на message-container
     const messageRef = useRef();
@@ -14,12 +14,15 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory}) => {
                 behavior: 'smooth'
             });
         }
-    }, [messages]); //крч если messages изменяется
+    }, [messages, metaMessages]); //крч если messages изменяется
 
+    useEffect(() => {
+        }, [metaMessages]);
     //то, что уже сохранено в монго
     console.log(metaHistory);
     const downloadFile = () => {
         console.log("download logic goes here")
+        console.log(metaMessages)
     }
 
     return <div className='message-container' ref={messageRef}>
@@ -31,6 +34,13 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory}) => {
             </div>
         )}
 
+        {metaHistory.map((m, index) =>
+            <div key={index} className="user-message user-file">
+                <button className="message box" id="downloadBtn" onClick={downloadFile} value="download">{m.fileName}</button>
+                <div className='from-user'>{m.user}</div>
+            </div>
+        )}
+
         {messages.map((m, index) =>
             <div key={index} className='user-message'>
                 <div className='message bg-primary'>{m.message}</div>
@@ -38,16 +48,14 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory}) => {
             </div>
         )}
 
-        <div className="user-message user-file">
-            <button className="message box" id="downloadBtn" onClick={downloadFile} value="download">file.ext</button>
-            <div className='from-user'>user</div>
-        </div>
         {metaMessages.map((m, index) =>
-            <div className="user-message user-file">
+            <div key={index} className="user-message user-file">
                 <button className="message box" id="downloadBtn" onClick={downloadFile} value="download">{m.fileName}</button>
                 <div className='from-user'>{m.user}</div>
             </div>
         )}
+
+
     </div>
 }
 
