@@ -10,7 +10,7 @@ public static class AwsExtentions
 {
     public static IServiceCollection AddAwsService(this IServiceCollection collection, IConfiguration configuration)
     {
-        var awsConfig = configuration.GetAWSOptions();
+        //var awsConfig = configuration.GetAWSOptions();
         var awsOpt = new AWSOptions
         {
             Credentials = new BasicAWSCredentials(

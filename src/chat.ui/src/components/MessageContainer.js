@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import axios from "axios";
 
 const MessageContainer = ({ messages, history, metaMessages, metaHistory, connection}) => {
 
@@ -16,14 +17,17 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory, connec
         }
     }, [messages, metaMessages]); //крч если messages изменяется
 
-    useEffect(() => {
-        }, [metaMessages]);
-    //то, что уже сохранено в монго
-    console.log(metaHistory);
-    const downloadFile = () => {
+    const downloadFile = async (room, key) => {
         console.log("download logic goes here")
-        console.log(metaMessages)
-    }
+        //загрузка истории
+        let getFileUrl = "http://localhost:5038/api/files/get-by-key?";
+        //console.log(room,key);
+        await axios.get(`${getFileUrl}bucketName=${room}&key=${key}`, {responseType: 'blob'})
+            .then((response) => {
+                console.log(window.URL.createObjectURL(response.data));
+
+            });
+    };
 
     return <div className='message-container' ref={messageRef}>
 
@@ -36,7 +40,10 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory, connec
 
         {metaHistory.map((m, index) =>
             <div key={index} className="user-message user-file">
-                <button className="message box" id="downloadBtn" onClick={downloadFile} value="download">{m.fileName}</button>
+                <button className="message box" id="downloadBtn"
+                        onClick={() => downloadFile(m.roomName, m.user + "/" + m.fileName)}
+                        value="download">{m.fileName}
+                </button>
                 <div className='from-user'>{m.user}</div>
             </div>
         )}
@@ -50,7 +57,9 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory, connec
 
         {metaMessages.map((m, index) =>
             <div key={index} className="user-message user-file">
-                <button className="message box" id="downloadBtn" onClick={downloadFile} value="download">{m.fileName}</button>
+                <button className="message box" id="downloadBtn"
+                        onClick={() => downloadFile(m.roomName, m.user + "/" + m.fileName)}
+                        value="download">{m.fileName}</button>
                 <div className='from-user'>{m.user}</div>
             </div>
         )}

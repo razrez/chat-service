@@ -50,12 +50,10 @@ public class ChatHub : Hub
     {
         if (_connections.TryGetValue(Context.ConnectionId, out var userConnection))
         {
-            
             await Clients.Group(userConnection.Room)
                 .SendAsync("ReceiveMeta", metadataDto);
             
             //далее meta отправляются в rabbit на сохранение в монгодб
-            
         }
     }
 

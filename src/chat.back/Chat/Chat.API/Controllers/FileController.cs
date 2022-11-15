@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Chat.API.Hubs.Models;
+using Chat.API.Publisher;
 using Chat.AppCore.Common.DTO;
+using Chat.AppCore.Extensions;
+using Microsoft.Extensions.Caching.Distributed;
 using PutObjectRequest = Amazon.S3.Model.PutObjectRequest;
 
 namespace Chat.API.Controllers;
@@ -12,40 +14,64 @@ namespace Chat.API.Controllers;
 public class FileController : ControllerBase
 {
     private readonly IAmazonS3 _s3Client;
-    public FileController(IAmazonS3 s3Client)
+    private readonly IMessagePublisher _publisher;
+    private readonly IDistributedCache _cache;
+    public FileController(IAmazonS3 s3Client, IMessagePublisher publisher, IDistributedCache cache)
     {
         _s3Client = s3Client;
+        _publisher = publisher;
+        _cache = cache;
     }
     
     [HttpPost("upload")]
-    public async Task<IActionResult> UploadFile(IFormFile file, string bucketName, string? prefix)
+    public async Task<IActionResult> UploadFile(IFormFile file, string roomName, string prefix)
     {
-        //bucketName - название комнаты; prefix - имя юзера
-        var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
-        if (!bucketExists) await _s3Client.PutBucketAsync(bucketName);
+        // prefix - userName
+        // теперь 2 корзины: temp and persistant 
+        
+        // создаем корзину, если ее нет
+        var bucketExists = await _s3Client.DoesS3BucketExistAsync("temp");
+        if (!bucketExists) await _s3Client.PutBucketAsync("temp");
         
         var request = new PutObjectRequest
         {
-            BucketName = bucketName,
-            Key = string.IsNullOrEmpty(prefix) ? file.FileName : $"{prefix.TrimEnd('/')}/{file.FileName}",
+            BucketName = "temp",
+            Key = string.IsNullOrEmpty(prefix) ? file.FileName : $"{roomName}/{prefix.TrimEnd('/')}/{file.FileName}",
             InputStream = file.OpenReadStream(),
             CannedACL = S3CannedACL.PublicRead
         };
-        
+
         request.Metadata.Add("FileName", file.FileName);
         request.Metadata.Add("ContentType", file.Headers.ContentType);
-        request.Metadata.Add("RoomName", bucketName);
+        request.Metadata.Add("RoomName", roomName);
         request.Metadata.Add("User", prefix);
-
-        var meta = new MetadataDto(
-            FileName:file.FileName, 
-            ContentType:file.ContentType, 
-            RoomName:bucketName, 
-            User:prefix!
-        );
         
+        // сохраняяем в Temp Bucket
         await _s3Client.PutObjectAsync(request);
-        return Ok(meta);
+        
+        // var meta = new MetadataDto(
+        //     FileName:file.FileName, 
+        //     ContentType:file.ContentType, 
+        //     RoomName:roomName, 
+        //     User:prefix!
+        // );
+        
+        string recordKey = $"File_{request.Key}";
+        await _cache.SetRecordAsync(recordKey, request.Key); // типо File ID, который потом связывается с метой
+        
+        var copyObjectRequest = new Amazon.S3.Model.CopyObjectRequest
+        {
+            SourceBucket = request.BucketName,
+            SourceKey = request.Key,
+            DestinationBucket = "persistent",
+            DestinationKey = request.Key,
+            CannedACL = S3CannedACL.PublicRead
+        };
+        
+        // отправляем запрос в очередь, который потом уже вызовется в обработчике события на Consumer'е 
+        _publisher.UploadFileOrMeta(copyObjectRequest);
+        
+        return Ok(request.Key);
     }
     
     [HttpGet("get-by-key")]

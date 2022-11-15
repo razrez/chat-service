@@ -20,6 +20,9 @@ public class MetadataService
         _metaCollection = mongoDb.GetCollection<MetadataFile>(
             metadataDbSettings.Value.MetadataCollectionName);
     }
+
+    public async Task<List<MetadataFile>> GetAllSync() =>
+        await _metaCollection.Find(_ => true).ToListAsync();
     
     public async Task<List<MetadataFile>> GetAsyncByRoom(string room) =>
         await _metaCollection.Find(r => r.RoomName == room).ToListAsync();

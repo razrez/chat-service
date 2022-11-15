@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using Amazon.S3.Model;
 using RabbitMQ.Client;
 
 namespace Chat.API.Publisher;
@@ -30,5 +31,16 @@ public class MessagePublisher : IMessagePublisher
             routingKey: "message-queue",
             basicProperties: null,
             body: body);
+    }
+
+
+    public void UploadFileOrMeta(CopyObjectRequest copyObjectRequest)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void UploadFileOrMeta<T>(T? meta)
+    {
+        throw new NotImplementedException();
     }
 }

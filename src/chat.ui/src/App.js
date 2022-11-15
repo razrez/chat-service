@@ -78,35 +78,38 @@ const App = () => {
         }
     }
 
+    const uploadFile = async (file) => {
+        //загрузка файла
+        const formData = new FormData();
+        formData.append('file', file);
+        const config = {
+            Headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+        let postFileUrl = 'http://localhost:5038/api/files/upload?';
+        const response = await axios.post(
+            `${postFileUrl}bucketName=${roomName}&prefix=${userName}`,
+            formData, config)
+            .then(response => response.data);
+
+        //отрисовка метаданных у всей комнаты для возможности скачивания
+        await connection.invoke('SendMetadata', response);
+    }
+
     const sendMessage = async (message, file) => {
         try {
 
             if (message.trim() !== '' ){
                 await connection.invoke('SendMessage', message);
-
                 if (file !== undefined){
-                    //загрузка файла
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    const config = {
-                        Headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    };
-
-                    let postFileUrl = 'http://localhost:5038/api/files/upload?';
-                    const response = await axios.post(
-                        `${postFileUrl}bucketName=${roomName}&prefix=${userName}`,
-                        formData, config)
-                        .then(response => response.data);
-
-                    //отрисовка метаданных у всей комнаты для возможности скачивания
-                    await connection.invoke('SendMetadata', response)
+                    await uploadFile(file);
                 }
+
             }
 
-            else if((file !== '')){
-                //send just only file
+            else if(file !== undefined){
+                await uploadFile(file);
             }
 
             else console.log("attempt to send an empty string")

@@ -3,10 +3,14 @@ using Amazon.S3;
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
+using Chat.AppCore;
 using Chat.AppCore.Common.Models;
 using Chat.AppCore.Extensions;
 using Chat.AppCore.Services;
+using Chat.AppCore.Services.CacheService;
 using Chat.Infrastructure;
+using RabbitMQ.Client;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +46,14 @@ builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ =>
 //MongoDB Metadata Service
 builder.Services.Configure<MetadataDbSettings>(builder.Configuration.GetSection("MongoDB"));
 builder.Services.AddSingleton<MetadataService>();
+
+//Redis Service
+/*builder.Services.AddSingleton<IConnectionMultiplexer>(x => 
+    ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("RedisConnection")));
+builder.Services.AddSingleton<ICacheService, CacheService>();*/
+
+//My implementation
+builder.Services.AddAppCore(builder.Configuration);
 
 var app = builder.Build();
 

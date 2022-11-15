@@ -24,13 +24,6 @@ public class BucketController : ControllerBase
         if (bucketExists) return BadRequest($"Bucket {bucketName} already exists.");
         await _s3Client.PutBucketAsync(bucketName);
         return Ok($"Bucket {bucketName} created.");
-        /*var putBucketRequest = new PutBucketRequest
-        {
-            BucketName = bucketName,
-            UseClientRegion = true
-        };
-        var response = await _s3Client.PutBucketAsync(putBucketRequest);
-        return Ok(_s3Client.Config.ServiceURL);*/
     }
     
     [HttpDelete("delete")]

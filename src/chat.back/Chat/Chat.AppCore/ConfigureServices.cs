@@ -9,8 +9,12 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddAppCore(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        //var mongpOpt = configuration.GetSection("Mongodb");
-        serviceCollection.AddAwsService(configuration);
+        //Adds Redis distributed caching service
+        serviceCollection.AddStackExchangeRedisCache(opt =>
+        {
+            opt.Configuration = configuration.GetConnectionString("RedisConnection");
+            opt.InstanceName = "RedisChat_";
+        });
         return serviceCollection;
     }
 }
