@@ -11,7 +11,7 @@ public class MessagePublisher : IMessagePublisher
     {
         var factory = new ConnectionFactory
         {
-            HostName = "rabbitmq"
+            HostName = "localhost"
         };
         
         var connection = factory.CreateConnection();
@@ -34,13 +34,29 @@ public class MessagePublisher : IMessagePublisher
     }
 
 
-    public void UploadFileOrMeta(CopyObjectRequest copyObjectRequest)
+    public void UploadFileOrMeta<T>(T data, string queueName)
     {
-        throw new NotImplementedException();
-    }
+        var factory = new ConnectionFactory
+        {
+            HostName = "localhost"
+        };
+        
+        var connection = factory.CreateConnection();
+        using var channel = connection.CreateModel();
+        
+        channel.ExchangeDeclare("logs", ExchangeType.Fanout);
+        channel.QueueDeclare(queue: queueName,
+            durable: false,
+            exclusive: false,
+            autoDelete: false,
+            arguments: null);
 
-    public void UploadFileOrMeta<T>(T? meta)
-    {
-        throw new NotImplementedException();
+        var jsonMessage = JsonSerializer.Serialize(data);
+        var body = Encoding.UTF8.GetBytes(jsonMessage);
+
+        channel.BasicPublish(exchange: "",
+            routingKey: queueName,
+            basicProperties: null,
+            body: body);
     }
 }

@@ -69,7 +69,7 @@ public class FileController : ControllerBase
         };
         
         // отправляем запрос в очередь, который потом уже вызовется в обработчике события на Consumer'е 
-        _publisher.UploadFileOrMeta(copyObjectRequest);
+        _publisher.UploadFileOrMeta(copyObjectRequest, "file-queue");
         
         return Ok(request.Key);
     }

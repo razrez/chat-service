@@ -13,10 +13,10 @@ public static class DistributedCacheExtentions
     {
         var options = new DistributedCacheEntryOptions();
         
-        //определяем сколько запись в кеше будет жить 
+        // определяем сколько запись в кеше будет жить 
         options.AbsoluteExpirationRelativeToNow = absoluteExpireTime ?? TimeSpan.FromSeconds(120);
         
-        //определяем время, через которое удаляется запись из кеша, если не используется
+        // определяем время, через которое удаляется запись из кеша, если не используется
         options.SlidingExpiration = unusedExpiredTime;
         
         var jsonData =  JsonSerializer.Serialize(data);

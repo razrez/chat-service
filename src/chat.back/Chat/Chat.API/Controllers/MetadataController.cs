@@ -70,10 +70,11 @@ public class MetadataController : ControllerBase
             User = metadataDto.User
         };
 
-        await _cache.SetRecordAsync(newMeta.Id!, newMeta); // caching
+        await _cache.SetRecordAsync(newMeta.Id!, newMeta); // caching 
         
         // отправка в очередь для сохранения в монгу
-        _publisher.UploadFileOrMeta(metadataDto);
+        _publisher.UploadFileOrMeta(metadataDto, "metadata-queue");
+        
         // await _metadata.CreateAsync(newMeta);
         
         return CreatedAtAction(

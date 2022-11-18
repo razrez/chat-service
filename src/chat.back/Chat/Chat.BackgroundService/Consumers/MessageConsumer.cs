@@ -2,22 +2,21 @@ using System.Text.Json;
 using Chat.AppCore.Common.DTO;
 using Chat.Infrastructure.Persistence.Repository;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson.Serialization;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Chat.BackgroundService;
+namespace Chat.BackgroundService.Consumers;
 
-public class Consumer : Microsoft.Extensions.Hosting.BackgroundService
+public class MessageConsumer : Microsoft.Extensions.Hosting.BackgroundService
 {
     private IConnection _connection;
     private IModel _channel;
     private ConnectionFactory _connectionFactory;
     private const string QueueName = "message-queue";
-    private readonly ILogger<Consumer> _logger;
+    private readonly ILogger<MessageConsumer> _logger;
     private readonly IChatRepository _context;
 
-    public Consumer(IChatRepository context, ILogger<Consumer> logger)
+    public MessageConsumer(IChatRepository context, ILogger<MessageConsumer> logger)
     {
         _context = context;
         _logger = logger;
@@ -27,7 +26,7 @@ public class Consumer : Microsoft.Extensions.Hosting.BackgroundService
     {
         _connectionFactory = new ConnectionFactory
         {
-            HostName = "rabbitmq"
+            HostName = "localhost"
         };
         
         _connection = _connectionFactory.CreateConnection();
