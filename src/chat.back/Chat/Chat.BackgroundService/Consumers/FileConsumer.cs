@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using CopyObjectRequest = Amazon.S3.Model.CopyObjectRequest;
+using PutObjectRequest = Amazon.S3.Model.PutObjectRequest;
 
 namespace Chat.BackgroundService.Consumers;
 
@@ -69,8 +70,16 @@ public class FileConsumer : Microsoft.Extensions.Hosting.BackgroundService
                 var copyObjectRequest = JsonSerializer.Deserialize<CopyObjectRequest>(body);
 
                 // файл двигается из temp в persistent bucket 
-                await _s3Client.CopyObjectAsync(copyObjectRequest);
-
+                
+                //var file = s3Object.ResponseStream;
+                var s3Object = await _s3Client.GetObjectAsync(
+                    copyObjectRequest!.SourceBucket, 
+                    copyObjectRequest.SourceKey,
+                    cancellationToken);
+                
+                copyObjectRequest.ETagToMatch = s3Object.ETag;
+                await _s3Client.CopyObjectAsync(copyObjectRequest, cancellationToken);
+                
                 // далее идёт инкрементация в кеш
             }
             catch (Exception exception)

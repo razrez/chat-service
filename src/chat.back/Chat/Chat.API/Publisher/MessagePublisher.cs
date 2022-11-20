@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.Json;
-using Amazon.S3.Model;
 using RabbitMQ.Client;
 
 namespace Chat.API.Publisher;
