@@ -67,19 +67,22 @@ public class MetadataController : ControllerBase
             FileName = metadataDto.FileName,
             ContentType = metadataDto.ContentType,
             RoomName = metadataDto.RoomName,
-            User = metadataDto.User
+            User = metadataDto.User,
+            RequestId = metadataDto.RequestId
         };
-
-        await _cache.SetRecordAsync(newMeta.Id!, newMeta); // caching 
+        
+        // этот id передаётся с фронта
+        string recordKey = $"RequestId";
+        
+        await _cache.SetRecordAsync(recordKey, newMeta); // caching 
         
         // отправка в очередь для сохранения в монгу
         _publisher.UploadFileOrMeta(metadataDto, "metadata-queue");
-        
-        // await _metadata.CreateAsync(newMeta);
-        
-        return CreatedAtAction(
+
+        return Ok(newMeta.Id);
+        /*return CreatedAtAction(
             nameof(Get),
             new { id = newMeta.Id },
-            newMeta);
+            newMeta);*/
     }
 }

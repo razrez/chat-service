@@ -49,11 +49,14 @@ public class FileController : ControllerBase
         // сохраняяем в Temp Bucket
         await _s3Client.PutObjectAsync(request);
         
-        string recordKey = $"File_{request.Key}";
+        // этот id передаётся с фронта
+        string recordKey = $"RequestId";
         await _cache.SetRecordAsync(recordKey, request.Key); // типо File ID, который потом связывается с метой
         
-        var copyObjectRequest = new Amazon.S3.Model.CopyObjectRequest
+        // отправляем запрос в очередь, который потом уже вызовется в обработчике события на Consumer'е 
+        var copyObjectRequest = new CopyRequest()
         {
+            RequestId = recordKey,
             SourceBucket = "temp",
             SourceKey = request.Key,
             DestinationBucket = "persistent",
@@ -61,7 +64,6 @@ public class FileController : ControllerBase
             CannedACL = S3CannedACL.PublicRead,
         };
         
-        // отправляем запрос в очередь, который потом уже вызовется в обработчике события на Consumer'е 
         _publisher.UploadFileOrMeta(copyObjectRequest, "file-queue");
         
         return Ok(request.Key);

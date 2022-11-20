@@ -20,4 +20,7 @@ public class MetadataFile
     
     [BsonElement("User")]
     public string User { get; set; } = null!;
+    
+    [BsonElement("RequestId")]
+    public string? RequestId { get; set; } = null!;
 }

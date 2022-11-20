@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Chat.AppCore.Common.DTO;
 using Chat.AppCore.Services;
 using Chat.Domain.Entities;
 using Microsoft.Extensions.Caching.Distributed;
@@ -63,8 +64,12 @@ public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
             try
             {
                 var body = ea.Body.ToArray();
-                var meta = JsonSerializer.Deserialize<MetadataFile>(body);
-                if (meta != null) await _metadata.CreateAsync(meta);
+                var metadataFile = JsonSerializer.Deserialize<MetadataFile>(body);
+                
+                if (metadataFile != null)
+                {
+                    await _metadata.CreateAsync(metadataFile);
+                }
             }
             catch (Exception exception)
             {

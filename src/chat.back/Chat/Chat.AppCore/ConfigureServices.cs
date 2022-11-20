@@ -1,6 +1,4 @@
-﻿using Chat.AppCore.Common.Models;
-using Chat.AppCore.Extensions;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Chat.AppCore;

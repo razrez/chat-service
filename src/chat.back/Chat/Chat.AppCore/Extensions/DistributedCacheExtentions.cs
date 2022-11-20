@@ -18,7 +18,7 @@ public static class DistributedCacheExtentions
         
         // определяем время, через которое удаляется запись из кеша, если не используется
         options.SlidingExpiration = unusedExpiredTime;
-        
+
         var jsonData =  JsonSerializer.Serialize(data);
         await cache.SetStringAsync(recordId, jsonData, options);
     }
@@ -28,5 +28,12 @@ public static class DistributedCacheExtentions
         var jsonData = await cache.GetStringAsync(recordId);
         if (jsonData is null) return default(T);
         return JsonSerializer.Deserialize<T>(jsonData);
+    }
+
+    public static async Task AddRecord<T>(this IDistributedCache cache,
+        string recordId, T data)
+    {
+        var jsonData =  JsonSerializer.Serialize(data);
+        //var alreadyCached = await cache.GetRecordAsync<Metada>()
     }
 }

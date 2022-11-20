@@ -1,11 +1,12 @@
 ﻿using System.Text.Json;
 using Amazon.S3;
+using Amazon.S3.Model;
+using Chat.AppCore.Common.DTO;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using CopyObjectRequest = Amazon.S3.Model.CopyObjectRequest;
-using PutObjectRequest = Amazon.S3.Model.PutObjectRequest;
 
 namespace Chat.BackgroundService.Consumers;
 
@@ -67,20 +68,28 @@ public class FileConsumer : Microsoft.Extensions.Hosting.BackgroundService
                 if (!bucketExists) await _s3Client.PutBucketAsync("persistent");
                 
                 var body = ea.Body.ToArray();
-                var copyObjectRequest = JsonSerializer.Deserialize<CopyObjectRequest>(body);
+                var copyRequest = JsonSerializer.Deserialize<CopyRequest>(body);
 
                 // файл двигается из temp в persistent bucket 
-                
-                //var file = s3Object.ResponseStream;
                 var s3Object = await _s3Client.GetObjectAsync(
-                    copyObjectRequest!.SourceBucket, 
-                    copyObjectRequest.SourceKey,
+                    copyRequest!.SourceBucket, 
+                    copyRequest.SourceKey,
                     cancellationToken);
                 
-                copyObjectRequest.ETagToMatch = s3Object.ETag;
+                var copyObjectRequest = new CopyObjectRequest
+                {
+                    SourceBucket = copyRequest.SourceBucket,
+                    SourceKey = copyRequest.SourceKey,
+                    DestinationBucket = copyRequest.DestinationBucket,
+                    DestinationKey = copyRequest.DestinationKey,
+                    ETagToMatch = s3Object.ETag,
+                    CannedACL = S3CannedACL.PublicRead,
+                };
+                
                 await _s3Client.CopyObjectAsync(copyObjectRequest, cancellationToken);
                 
                 // далее идёт инкрементация в кеш
+                //Console.WriteLine(copyObjectRequest.RequestId);
             }
             catch (Exception exception)
             {
