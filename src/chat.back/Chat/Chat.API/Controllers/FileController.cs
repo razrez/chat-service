@@ -25,7 +25,7 @@ public class FileController : ControllerBase
     }
     
     [HttpPost("upload")]
-    public async Task<IActionResult> UploadFile(IFormFile file, string roomName, string prefix)
+    public async Task<IActionResult> UploadFile(IFormFile file, string roomName, string prefix, string reqId)
     {
         // prefix - userName
         // теперь 2 корзины: temp and persistant 
@@ -51,13 +51,13 @@ public class FileController : ControllerBase
         await _s3Client.PutObjectAsync(request);
         
         // этот id передаётся с фронта
-        string recordKey = $"RequestId";
-        await _cache.AppendRecordAsync(recordKey, request.Key); // типо File ID, который потом связывается с метой
+        string recordKey = $"FileId_{reqId}";
+        await _cache.SetRecordAsync(recordKey, request.Key); // типо File ID, который потом связывается с метой
         
         // отправляем запрос в очередь, который потом уже вызовется в обработчике события на Consumer'е 
-        var copyObjectRequest = new CopyRequest()
+        var copyRequest = new CopyRequest()
         {
-            RequestId = recordKey,
+            RequestId = reqId,
             SourceBucket = "temp",
             SourceKey = request.Key,
             DestinationBucket = "persistent",
@@ -65,7 +65,7 @@ public class FileController : ControllerBase
             CannedACL = S3CannedACL.PublicRead,
         };
         
-        _publisher.UploadFileOrMeta(copyObjectRequest, "file-queue");
+        _publisher.UploadFileOrMeta(copyRequest, "file-queue");
         
         return Ok(request.Key);
     }

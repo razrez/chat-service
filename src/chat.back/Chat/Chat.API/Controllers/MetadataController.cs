@@ -61,12 +61,9 @@ public class MetadataController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(MetadataDto metadataDto)
     {
-        
-        
         // этот id передаётся с фронта
-        string recordKey = metadataDto.RequestId;
-        recordKey = "RequestId";
-        await _cache.AppendRecordAsync(recordKey, metadataDto);
+        var recordKey = $"Metadata_{metadataDto.RequestId}";
+        await _cache.SetRecordAsync(recordKey, metadataDto);
         
         // отправка в очередь для сохранения в монгу
         _publisher.UploadFileOrMeta(metadataDto, "metadata-queue");
