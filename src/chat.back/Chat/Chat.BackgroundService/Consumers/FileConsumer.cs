@@ -88,9 +88,14 @@ public class FileConsumer : Microsoft.Extensions.Hosting.BackgroundService
                 };
                 
                 await _s3Client.CopyObjectAsync(copyObjectRequest, cancellationToken);
-                
+
                 // далее идёт инкрементация в кеш
-                //Console.WriteLine(copyObjectRequest.RequestId);
+                if (copyRequest.RequestId != null)
+                {
+                    await _cache.IncrementAsync(copyRequest.RequestId);
+                    // отправляем сообщение в очередь для проверки синхронизации
+                    
+                }
             }
             catch (Exception exception)
             {

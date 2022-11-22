@@ -76,6 +76,10 @@ public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
                         RoomName = metadataDto.RoomName,
                         User = metadataDto.User
                     });
+                    
+                    await _cache.IncrementAsync(metadataDto.RequestId);
+                    // отправляем сообщение в очередь для проверки синхронизации
+                    
                 }
             }
             catch (Exception exception)
