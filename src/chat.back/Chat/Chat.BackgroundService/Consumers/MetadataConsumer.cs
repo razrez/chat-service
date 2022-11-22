@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Chat.AppCore.Common.DTO;
 using Chat.AppCore.Services;
+using Chat.AppCore.Services.CacheService;
 using Chat.Domain.Entities;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
@@ -18,9 +19,9 @@ public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
     private const string QueueName = "metadata-queue";
     private readonly ILogger<MessageConsumer> _logger;
     private readonly MetadataService _metadata;
-    private readonly IDistributedCache _cache;
+    private readonly ICacheService _cache;
 
-    public MetadataConsumer(ILogger<MessageConsumer> logger, MetadataService metadata, IDistributedCache cache)
+    public MetadataConsumer(ILogger<MessageConsumer> logger, MetadataService metadata, ICacheService cache)
     {
         _logger = logger;
         _metadata = metadata;
@@ -64,11 +65,17 @@ public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
             try
             {
                 var body = ea.Body.ToArray();
-                var metadataFile = JsonSerializer.Deserialize<MetadataFile>(body);
+                var metadataDto = JsonSerializer.Deserialize<MetadataDto>(body);
                 
-                if (metadataFile != null)
+                if (metadataDto != null)
                 {
-                    await _metadata.CreateAsync(metadataFile);
+                    await _metadata.CreateAsync(new MetadataFile
+                    {
+                        FileName = metadataDto.FileName,
+                        ContentType = metadataDto.ContentType,
+                        RoomName = metadataDto.RoomName,
+                        User = metadataDto.User
+                    });
                 }
             }
             catch (Exception exception)

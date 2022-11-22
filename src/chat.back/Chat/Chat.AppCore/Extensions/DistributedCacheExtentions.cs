@@ -29,11 +29,4 @@ public static class DistributedCacheExtentions
         if (jsonData is null) return default(T);
         return JsonSerializer.Deserialize<T>(jsonData);
     }
-
-    public static async Task AddRecord<T>(this IDistributedCache cache,
-        string recordId, T data)
-    {
-        var jsonData =  JsonSerializer.Serialize(data);
-        //var alreadyCached = await cache.GetRecordAsync<Metada>()
-    }
 }

@@ -21,11 +21,11 @@ var host = Host
         //MongoDB Metadata Service
         services.AddAwsService(config);
         services.Configure<MetadataDbSettings>(config.GetSection("MongoDB"));
+        services.AddMultiplexer(config);
         services.AddSingleton<MetadataService>();
         services.AddHostedService<MessageConsumer>();
         services.AddHostedService<FileConsumer>();
         services.AddHostedService<MetadataConsumer>();
-        services.AddAppCore(config);
     })
     .Build();
 

@@ -14,11 +14,10 @@ namespace Chat.API.Controllers;
 public class MetadataController : ControllerBase
 {
     private readonly MetadataService _metadata;
-    private readonly IDistributedCache _cache;
+    private readonly ICacheService _cache;
     private readonly IMessagePublisher _publisher;
     
-
-    public MetadataController(MetadataService metadata, IDistributedCache cache, IMessagePublisher publisher)
+    public MetadataController(MetadataService metadata, ICacheService cache, IMessagePublisher publisher)
     {
         _metadata = metadata;
         _cache = cache;
@@ -62,24 +61,17 @@ public class MetadataController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(MetadataDto metadataDto)
     {
-        var newMeta = new MetadataFile
-        {
-            FileName = metadataDto.FileName,
-            ContentType = metadataDto.ContentType,
-            RoomName = metadataDto.RoomName,
-            User = metadataDto.User,
-            RequestId = metadataDto.RequestId
-        };
+        
         
         // этот id передаётся с фронта
-        string recordKey = $"RequestId";
-        
-        await _cache.SetRecordAsync(recordKey, newMeta); // caching 
+        string recordKey = metadataDto.RequestId;
+        recordKey = "RequestId";
+        await _cache.AppendRecordAsync(recordKey, metadataDto);
         
         // отправка в очередь для сохранения в монгу
         _publisher.UploadFileOrMeta(metadataDto, "metadata-queue");
 
-        return Ok(newMeta.Id);
+        return Ok(metadataDto);
         /*return CreatedAtAction(
             nameof(Get),
             new { id = newMeta.Id },

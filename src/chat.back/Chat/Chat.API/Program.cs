@@ -1,7 +1,6 @@
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
-using Chat.AppCore;
 using Chat.AppCore.Common.Models;
 using Chat.AppCore.Extensions;
 using Chat.AppCore.Services;
@@ -43,7 +42,7 @@ builder.Services.Configure<MetadataDbSettings>(builder.Configuration.GetSection(
 builder.Services.AddSingleton<MetadataService>();
 
 //Redis Service
-builder.Services.AddAppCore(builder.Configuration);
+builder.Services.AddMultiplexer(builder.Configuration);
 
 var app = builder.Build();
 

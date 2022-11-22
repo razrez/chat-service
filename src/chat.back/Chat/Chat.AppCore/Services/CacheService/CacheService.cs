@@ -1,25 +1,42 @@
-﻿using StackExchange.Redis;
+﻿using System.Text.Json;
+using StackExchange.Redis;
 
 namespace Chat.AppCore.Services.CacheService;
 
 public class CacheService : ICacheService
 {
-    private readonly IConnectionMultiplexer _connectionMultiplexer;
-
+    private IDatabase _db;
+    
     public CacheService(IConnectionMultiplexer connectionMultiplexer)
     {
-        _connectionMultiplexer = connectionMultiplexer;
+        _db = connectionMultiplexer.GetDatabase();
+    }
+    
+    public async Task SetRecordAsync<T>(string key, T data, TimeSpan? expireTime = null)
+    {
+        var jsonData =  JsonSerializer.Serialize(data);
+        await _db.StringSetAsync(
+                key:key, 
+                value:jsonData, 
+                expiry: expireTime?? TimeSpan.FromSeconds(120))
+            .ConfigureAwait(false);
     }
 
-    public async Task<string?> Get(string key)
+    public async Task<T?> GetRecordAsync<T>(string key)
     {
-        var db = _connectionMultiplexer.GetDatabase();
-        return await db.StringGetAsync(key).ConfigureAwait(false);
+        var jsonData = await _db.StringGetAsync(key).ConfigureAwait(false);
+        return JsonSerializer.Deserialize<T>(jsonData!);
     }
 
-    public async Task Set(string key, string value)
+    public async Task IncrementAsync(string key)
     {
-        var db = _connectionMultiplexer.GetDatabase();
-        await db.StringSetAsync(key, value).ConfigureAwait(false);
+        await _db.StringIncrementAsync(key);
     }
+
+    public async Task AppendRecordAsync<T>(string key, T data)
+    {
+        var jsonData =  JsonSerializer.Serialize(data);
+        await _db.StringAppendAsync(key, jsonData);
+    }
+
 }

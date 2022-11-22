@@ -4,6 +4,7 @@ using Amazon.S3.Model;
 using Chat.API.Publisher;
 using Chat.AppCore.Common.DTO;
 using Chat.AppCore.Extensions;
+using Chat.AppCore.Services.CacheService;
 using Microsoft.Extensions.Caching.Distributed;
 using PutObjectRequest = Amazon.S3.Model.PutObjectRequest;
 
@@ -15,8 +16,8 @@ public class FileController : ControllerBase
 {
     private readonly IAmazonS3 _s3Client;
     private readonly IMessagePublisher _publisher;
-    private readonly IDistributedCache _cache;
-    public FileController(IAmazonS3 s3Client, IMessagePublisher publisher, IDistributedCache cache)
+    private readonly ICacheService _cache;
+    public FileController(IAmazonS3 s3Client, IMessagePublisher publisher, ICacheService cache)
     {
         _s3Client = s3Client;
         _publisher = publisher;
@@ -51,7 +52,7 @@ public class FileController : ControllerBase
         
         // этот id передаётся с фронта
         string recordKey = $"RequestId";
-        await _cache.SetRecordAsync(recordKey, request.Key); // типо File ID, который потом связывается с метой
+        await _cache.AppendRecordAsync(recordKey, request.Key); // типо File ID, который потом связывается с метой
         
         // отправляем запрос в очередь, который потом уже вызовется в обработчике события на Consumer'е 
         var copyObjectRequest = new CopyRequest()

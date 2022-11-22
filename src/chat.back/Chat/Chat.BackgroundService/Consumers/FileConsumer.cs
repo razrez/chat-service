@@ -2,6 +2,7 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using Chat.AppCore.Common.DTO;
+using Chat.AppCore.Services.CacheService;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -17,10 +18,10 @@ public class FileConsumer : Microsoft.Extensions.Hosting.BackgroundService
     private ConnectionFactory _connectionFactory;
     private const string QueueName = "file-queue";
     private readonly ILogger<MessageConsumer> _logger;
-    private readonly IDistributedCache _cache;
+    private readonly ICacheService _cache;
     private readonly IAmazonS3 _s3Client;
 
-    public FileConsumer(ILogger<MessageConsumer> logger, IDistributedCache cache, IAmazonS3 s3Client)
+    public FileConsumer(ILogger<MessageConsumer> logger, ICacheService cache, IAmazonS3 s3Client)
     {
         _logger = logger;
         _cache = cache;
