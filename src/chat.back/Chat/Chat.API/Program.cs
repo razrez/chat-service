@@ -1,3 +1,4 @@
+using Chat.API.Consumer;
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
@@ -43,6 +44,7 @@ builder.Services.AddSingleton<MetadataService>();
 
 //Redis Service
 builder.Services.AddMultiplexer(builder.Configuration);
+builder.Services.AddHostedService<RedisSubscriber>();
 
 var app = builder.Build();
 

@@ -1,9 +1,6 @@
 ﻿using Amazon.S3;
-using Amazon.S3.Endpoints;
-using Amazon.S3.Internal;
-using Amazon.S3.Model;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Chat.API.Controllers;
 

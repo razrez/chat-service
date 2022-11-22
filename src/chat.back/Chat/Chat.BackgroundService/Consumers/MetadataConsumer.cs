@@ -78,8 +78,8 @@ public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
                     });
                     
                     await _cache.IncrementAsync(metadataDto.RequestId);
-                    // отправляем сообщение в очередь для проверки синхронизации
-                    
+                    // публикуем запрос для проверки синхронизации - RedisSubscriber обрабатывает 
+                    await _cache.SyncRequest("sync", metadataDto.RequestId);
                 }
             }
             catch (Exception exception)

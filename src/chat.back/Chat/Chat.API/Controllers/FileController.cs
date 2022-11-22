@@ -6,6 +6,7 @@ using Chat.AppCore.Common.DTO;
 using Chat.AppCore.Extensions;
 using Chat.AppCore.Services.CacheService;
 using Microsoft.Extensions.Caching.Distributed;
+using MongoDB.Bson;
 using PutObjectRequest = Amazon.S3.Model.PutObjectRequest;
 
 namespace Chat.API.Controllers;
@@ -67,7 +68,7 @@ public class FileController : ControllerBase
         
         _publisher.UploadFileOrMeta(copyRequest, "file-queue");
         
-        return Ok(request.Key);
+        return Ok(request.Metadata.ToJson());
     }
     
     [HttpGet("get-by-key")]

@@ -46,7 +46,7 @@ public class ChatHub : Hub
         }
     }
     
-    public async Task SendMetadata(MetadataDto metadataDto)
+    public async Task SendMetadata(MetadataDto? metadataDto)
     {
         if (_connections.TryGetValue(Context.ConnectionId, out var userConnection))
         {

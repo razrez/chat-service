@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using Chat.AppCore.Extensions;
+using Microsoft.Extensions.Caching.Distributed;
 using StackExchange.Redis;
 
 namespace Chat.AppCore.Services.CacheService;
@@ -6,9 +8,11 @@ namespace Chat.AppCore.Services.CacheService;
 public class CacheService : ICacheService
 {
     private IDatabase _db;
+    private readonly IDistributedCache _distributedCache;
     
-    public CacheService(IConnectionMultiplexer connectionMultiplexer)
+    public CacheService(IConnectionMultiplexer connectionMultiplexer, IDistributedCache distributedCache)
     {
+        _distributedCache = distributedCache;
         _db = connectionMultiplexer.GetDatabase();
     }
     
@@ -18,14 +22,19 @@ public class CacheService : ICacheService
         await _db.StringSetAsync(
                 key:key, 
                 value:jsonData, 
-                expiry: expireTime?? TimeSpan.FromSeconds(120))
+                expiry: expireTime?? TimeSpan.FromSeconds(180))
             .ConfigureAwait(false);
     }
 
     public async Task<T?> GetRecordAsync<T>(string key)
     {
-        var jsonData = await _db.StringGetAsync(key).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<T>(jsonData!);
+        return await _distributedCache.GetRecordAsync<T>(key);
+    }
+
+    public T? GetRecord<T>(string key)
+    {
+        var dataString = _db.StringGet(key);
+        return JsonSerializer.Deserialize<T>(dataString!);
     }
 
     public async Task IncrementAsync(string key)
@@ -38,6 +47,12 @@ public class CacheService : ICacheService
         var jsonData =  JsonSerializer.Serialize(data);
         await _db.StringAppendAsync(key, jsonData);
         await _db.StringGetSetExpiryAsync(key, expireTime?? TimeSpan.FromSeconds(180));
+    }
+    
+    // синхронизация запросов
+    public async Task SyncRequest(string channel, string requestId)
+    {
+        await _db.PublishAsync(channel, requestId);
     }
 
 }

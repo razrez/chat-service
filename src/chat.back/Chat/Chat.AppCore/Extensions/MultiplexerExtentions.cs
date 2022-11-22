@@ -9,6 +9,11 @@ public static class MultiplexerExtentions
 {
     public static IServiceCollection AddMultiplexer(this IServiceCollection collection, IConfiguration configuration)
     {
+        collection.AddStackExchangeRedisCache(opt =>
+        {
+            opt.Configuration = configuration.GetConnectionString("RedisConnection");
+        });
+        
         collection.AddSingleton<IConnectionMultiplexer>(x =>
             ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")));
         collection.AddSingleton<ICacheService, CacheService>();

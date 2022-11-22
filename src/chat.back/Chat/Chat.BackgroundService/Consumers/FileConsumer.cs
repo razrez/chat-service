@@ -93,8 +93,8 @@ public class FileConsumer : Microsoft.Extensions.Hosting.BackgroundService
                 if (copyRequest.RequestId != null)
                 {
                     await _cache.IncrementAsync(copyRequest.RequestId);
-                    // отправляем сообщение в очередь для проверки синхронизации
-                    
+                    // публикуем запрос для проверки синхронизации - RedisSubscriber в Chat.API обрабатывает 
+                    await _cache.SyncRequest("sync", copyRequest.RequestId);
                 }
             }
             catch (Exception exception)
