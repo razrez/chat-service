@@ -9,7 +9,7 @@ public static class MultiplexerExtentions
 {
     public static IServiceCollection AddMultiplexer(this IServiceCollection collection, IConfiguration configuration)
     {
-        collection.AddSingleton<IConnectionMultiplexer>(x => 
+        collection.AddSingleton<IConnectionMultiplexer>(x =>
             ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")));
         collection.AddSingleton<ICacheService, CacheService>();
         

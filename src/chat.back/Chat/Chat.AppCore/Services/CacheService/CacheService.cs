@@ -33,10 +33,11 @@ public class CacheService : ICacheService
         await _db.StringIncrementAsync(key);
     }
 
-    public async Task AppendRecordAsync<T>(string key, T data)
+    public async Task AppendRecordAsync<T>(string key, T data, TimeSpan? expireTime = null)
     {
         var jsonData =  JsonSerializer.Serialize(data);
         await _db.StringAppendAsync(key, jsonData);
+        await _db.StringGetSetExpiryAsync(key, expireTime?? TimeSpan.FromSeconds(180));
     }
 
 }
