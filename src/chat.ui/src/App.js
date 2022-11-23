@@ -57,22 +57,22 @@ const App = () => {
             await connection.start();
 
             //загрузка истории
-           /* let getHistoryUrl = "http://localhost:5038/api/chat?room=";
+            let getHistoryUrl = "http://localhost:5038/api/chat?room=";
             const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
                 .then(response => response.data);
 
             //загрузка метаданных в комнате
             let getMetadataUrl = "http://localhost:5038/api/file-metadata/get-by-room?room=";
             const loadedMetadataHistory = await axios.get(`${getMetadataUrl}${room}`)
-                .then(response => response.data);*/
+                .then(response => response.data);
 
             await connection.invoke('JoinRoom', {user, room});
 
             setConnection(connection);
             setUserName(user);
             setRoomName(room);
-            //setHistory(loadedHistory);
-            //setMetaHistory(loadedMetadataHistory);
+            setHistory(loadedHistory);
+            setMetaHistory(loadedMetadataHistory);
         }
 
         catch (e) {

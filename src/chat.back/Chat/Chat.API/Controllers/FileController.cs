@@ -72,11 +72,11 @@ public class FileController : ControllerBase
     }
     
     [HttpGet("get-by-key")]
-    public async Task<IActionResult> GetFileByKeyAsync(string bucketName, string key)
+    public async Task<IActionResult> GetFileByKeyAsync(string key)
     {
-        var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
-        if (!bucketExists) return NotFound($"Bucket {bucketName} does not exist.");
-        var s3Object = await _s3Client.GetObjectAsync(bucketName, key);
+        var bucketExists = await _s3Client.DoesS3BucketExistAsync("persistent");
+        if (!bucketExists) return NotFound($"Bucket persistent does not exist.");
+        var s3Object = await _s3Client.GetObjectAsync("persistent", key);
         
         return File(s3Object.ResponseStream, s3Object.Headers.ContentType);
     }

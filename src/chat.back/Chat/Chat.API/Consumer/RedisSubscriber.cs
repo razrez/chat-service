@@ -26,15 +26,15 @@ public class RedisSubscriber : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var sub = _connectionMultiplexer.GetSubscriber();
-        await sub.SubscribeAsync(ChannelName, (channel, value) =>
+        await sub.SubscribeAsync(ChannelName, (_, value) =>
         {
             var recordCounter = _connectionMultiplexer.GetDatabase().StringGet(value.ToString());
-            //var recordCounter = await _cacheService.GetRecordAsync<string>(value!);
             Console.WriteLine(recordCounter);
             if (recordCounter == "2")
             {
                 _metadataDto = _cacheService.GetRecord<MetadataDto>("Metadata_" + value);
                 _fileId = _connectionMultiplexer.GetDatabase().StringGet("FileId_" + value);
+                
                 _hub.Clients.Group(_metadataDto!.RoomName)
                     .SendAsync("ReceiveMeta", _metadataDto, cancellationToken: stoppingToken);
             }

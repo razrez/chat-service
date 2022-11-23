@@ -18,7 +18,7 @@ const SendMessageForm = ({ sendMessage }) => {
             <FormControl type="user" placeholder="message..."
                 onChange={e => setMessage(e.target.value)} value={message}/>
 
-            <FormControl type="file" onChange={e => setFile(e.target.files[0])} onChange={e => setShow(true)}/>
+            <FormControl type="file" onChange={e => setFile(e.target.files[0])}/>
 
             <InputGroup>
                 <Button variant="primary" type="submit"

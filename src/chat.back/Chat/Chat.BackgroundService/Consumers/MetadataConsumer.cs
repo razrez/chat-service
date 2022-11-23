@@ -32,7 +32,7 @@ public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
     {
         _connectionFactory = new ConnectionFactory
         {
-            HostName = "localhost"
+            HostName = "rabbitmq"
         };
         
         _connection = _connectionFactory.CreateConnection();

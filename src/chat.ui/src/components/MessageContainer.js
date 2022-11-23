@@ -17,16 +17,18 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory, connec
         }
     }, [messages, metaMessages]); //крч если messages изменяется
 
+    
     const downloadFile = async (room, key) => {
         console.log("download logic goes here")
         //загрузка истории
         let getFileUrl = "http://localhost:5038/api/files/get-by-key?";
+        window.open(`${getFileUrl}key=${room}/${key}`, '_blank', 'noopener,noreferrer');
         //console.log(room,key);
-        await axios.get(`${getFileUrl}bucketName=${room}&key=${key}`, {responseType: 'blob'})
+        /*await axios.get(`${getFileUrl}key=${room}/${key}`, {responseType: 'blob'})
             .then((response) => {
-                console.log(window.URL.createObjectURL(response.data));
-
-            });
+                console.log(response);
+                
+            });*/
     };
 
     return <div className='message-container' ref={messageRef}>
