@@ -68,7 +68,7 @@ public class FileController : ControllerBase
         
         _publisher.UploadFileOrMeta(copyRequest, "file-queue");
         
-        return Ok(request.Metadata.ToJson());
+        return Ok(request.Key);
     }
     
     [HttpGet("get-by-key")]

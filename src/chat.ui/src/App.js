@@ -8,6 +8,7 @@ import axios from "axios";
 import {HttpTransportType} from "@microsoft/signalr";
 import Modal from './modal/Modal'
 import React from "react";
+import { v4 as uuid } from 'uuid';
 
 const App = () => {
     const [connection, setConnection] = useState();
@@ -82,21 +83,43 @@ const App = () => {
 
     const uploadFile = async (file) => {
         //загрузка файла
+        const reqId = uuid().slice(0,8);
         const formData = new FormData();
         formData.append('file', file);
-        const config = {
+        const fileConfig = {
             Headers: {
                 'Content-Type': 'multipart/form-data',
             },
+            d: {
+                "fileName": file.name,
+                "contentType": file.type,
+                "roomName": roomName,
+                "user": userName,
+                "requestId": reqId
+            }   
         };
         let postFileUrl = 'http://localhost:5038/api/files/upload?';
-        const response = await axios.post(
-            `${postFileUrl}bucketName=${roomName}&prefix=${userName}`,
-            formData, config)
-            .then(response => response.data);
-
-        //отрисовка метаданных у всей комнаты для возможности скачивания
-        await connection.invoke('SendMetadata', response);
+        //отправка базовых метаданных
+        let postMetaUrl = 'http://localhost:5038/api/file-metadata';
+        
+        const responses = await Promise.all(
+            axios.post(
+                `${postFileUrl}roomName=${roomName}&prefix=${userName}&reqId=${reqId}`,
+                formData, fileConfig),
+            axios.post(postMetaUrl,
+                {
+                    "fileName": file.name,
+                    "contentType": file.type,
+                    "roomName": roomName,
+                    "user": userName,
+                    "requestId": reqId
+                },
+                {
+                    Headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+        );
     }
 
     const sendMessage = async (message, file) => {
