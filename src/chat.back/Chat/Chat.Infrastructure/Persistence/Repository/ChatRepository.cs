@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Chat.AppCore.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Chat.Domain.Entities;
 
 namespace Chat.Infrastructure.Persistence.Repository;
 
 public class ChatRepository : IChatRepository
 {
-    private readonly ApplicationDbContext _chatContext;
+    private readonly IApplicationDbContext _chatContext;
 
-    public ChatRepository(ApplicationDbContext chatContext)
+    public ChatRepository(IApplicationDbContext chatContext)
     {
         _chatContext = chatContext;
     }
@@ -30,7 +31,7 @@ public class ChatRepository : IChatRepository
                     Message = message
                 });
             
-            var saveRes = await _chatContext.SaveChangesAsync();
+            var saveRes = await _chatContext.SaveChangesAsync(new CancellationToken());
             return saveRes > 0; // > 0 => saved
         }
         catch (Exception)

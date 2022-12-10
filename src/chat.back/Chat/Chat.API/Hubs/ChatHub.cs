@@ -45,6 +45,17 @@ public class ChatHub : Hub
                 Message: message));
         }
     }
+    
+    public async Task SendMetadata(MetadataDto? metadataDto)
+    {
+        if (_connections.TryGetValue(Context.ConnectionId, out var userConnection))
+        {
+            await Clients.Group(userConnection.Room)
+                .SendAsync("ReceiveMeta", metadataDto);
+            
+            //далее meta отправляются в rabbit на сохранение в монгодб
+        }
+    }
 
     public override Task OnDisconnectedAsync(Exception? exception)
     {

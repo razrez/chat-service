@@ -1,40 +1,40 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using Chat.AppCore.Common.DTO;
-using Chat.Infrastructure.Persistence.Repository;
+using Chat.AppCore.Services.CacheService;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Chat.BackgroundService;
+namespace Chat.BackgroundService.Consumers;
 
-public class Consumer : Microsoft.Extensions.Hosting.BackgroundService
+// saves metadata and move file to persistent bucket
+public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
 {
     private IConnection _connection;
     private IModel _channel;
     private ConnectionFactory _connectionFactory;
-    private const string QueueName = "message-queue";
-    private readonly ILogger<Consumer> _logger;
-    private readonly IChatRepository _context;
+    private const string QueueName = "metadata-queue";
+    private readonly ILogger<MessageConsumer> _logger;
+    private readonly ICacheService _cache;
 
-    public Consumer(IChatRepository context, ILogger<Consumer> logger)
+    public MetadataConsumer(ILogger<MessageConsumer> logger, ICacheService cache)
     {
-        _context = context;
         _logger = logger;
+        _cache = cache;
     }
-    
+
     public override Task StartAsync(CancellationToken cancellationToken)
     {
-        // REFACTOR: apply external config
         _connectionFactory = new ConnectionFactory
         {
-            HostName = "rabbitmq",
+            HostName = "rabbitmq"
         };
         
         _connection = _connectionFactory.CreateConnection();
         _channel = _connection.CreateModel();
         
         _channel.ExchangeDeclare(exchange:"logs", type: ExchangeType.Fanout );
-        _channel.QueueDeclare(queue: "message-queue",
+        _channel.QueueDeclare(queue: "metadata-queue",
             durable: false,
             exclusive: false,
             autoDelete: false,
@@ -44,7 +44,14 @@ public class Consumer : Microsoft.Extensions.Hosting.BackgroundService
 
         return base.StartAsync(cancellationToken);
     }
-    
+
+    public override async Task StopAsync(CancellationToken cancellationToken)
+    {
+        await base.StopAsync(cancellationToken);
+        _connection.Close();
+        _logger.LogInformation("MetadataConsumer is stopped");
+    }
+
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         var consumer = new EventingBasicConsumer(_channel);
@@ -53,8 +60,15 @@ public class Consumer : Microsoft.Extensions.Hosting.BackgroundService
             try
             {
                 var body = ea.Body.ToArray();
-                var message = JsonSerializer.Deserialize<SaveMessageDto>(body);
-                await _context.SaveMessage(message.Room, message.User, message.Message);
+                var metadataDto = JsonSerializer.Deserialize<MetadataDto>(body);
+                
+                if (metadataDto != null)
+                {
+                    await _cache.IncrementAsync(metadataDto.RequestId);
+                    
+                    // публикуем запрос для проверки синхронизации - RedisSubscriber обрабатывает 
+                    await _cache.SyncRequest("sync", metadataDto.RequestId);
+                }
             }
             catch (Exception exception)
             {
@@ -66,12 +80,4 @@ public class Consumer : Microsoft.Extensions.Hosting.BackgroundService
 
         await Task.CompletedTask;
     }
-    
-    public override async Task StopAsync(CancellationToken cancellationToken)
-    {
-        await base.StopAsync(cancellationToken);
-        _connection.Close();
-        _logger.LogInformation("Consumer is stopped");
-    }
-
 }

@@ -12,7 +12,7 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        Database.EnsureCreated();
+        Database.MigrateAsync();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

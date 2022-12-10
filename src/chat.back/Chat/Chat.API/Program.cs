@@ -1,8 +1,11 @@
+using Chat.API.Consumer;
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
+using Chat.AppCore.Common.Models;
+using Chat.AppCore.Extensions;
+using Chat.AppCore.Services;
 using Chat.Infrastructure;
-using Chat.Infrastructure.Persistence.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,24 +16,35 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddAwsService(builder.Configuration);
+
 builder.Services.AddSignalR();
 builder.Services.AddScoped<IMessagePublisher, MessagePublisher>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(corsPolicyBuilder =>
-    {
-        corsPolicyBuilder.WithOrigins("http://localhost:3000")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
+    options.AddPolicy(name: "anybody",
+        corsPolicyBuilder =>
+        {
+            corsPolicyBuilder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .SetIsOriginAllowed(_ => true);
+        });
 });
 
 //ConnectionId - the key
 builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ => 
     new Dictionary<string, UserConnection>());
+
+//MongoDB Metadata Service
+builder.Services.Configure<MetadataDbSettings>(builder.Configuration.GetSection("MongoDB"));
+builder.Services.AddSingleton<MetadataService>();
+
+//Redis Service
+builder.Services.AddMultiplexer(builder.Configuration);
+builder.Services.AddHostedService<RedisSubscriber>();
 
 var app = builder.Build();
 
@@ -43,11 +57,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-app.UseCors();
-
-//app.UseHttpsRedirection();
-
-//app.UseAuthorization();
+app.UseCors("anybody");
 
 app.MapControllers();
 
