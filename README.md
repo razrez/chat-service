@@ -1,7 +1,7 @@
 # react_chat
-## Simple Chat UI:
+### Simple Chat UI:
 - REACT JS
-## Chat (C#) backend services:
+### Chat (C#) backend services:
 - websockets: SignalR 
 - message brocker: RabbitMQ & Redis
 - caching service: Redis 
