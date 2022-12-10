@@ -1,6 +1,5 @@
 ﻿using Amazon.S3;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 namespace Chat.API.Controllers;
 

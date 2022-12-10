@@ -1,9 +1,6 @@
 ﻿using System.Text.Json;
 using Chat.AppCore.Common.DTO;
-using Chat.AppCore.Services;
 using Chat.AppCore.Services.CacheService;
-using Chat.Domain.Entities;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -18,13 +15,11 @@ public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
     private ConnectionFactory _connectionFactory;
     private const string QueueName = "metadata-queue";
     private readonly ILogger<MessageConsumer> _logger;
-    private readonly MetadataService _metadata;
     private readonly ICacheService _cache;
 
-    public MetadataConsumer(ILogger<MessageConsumer> logger, MetadataService metadata, ICacheService cache)
+    public MetadataConsumer(ILogger<MessageConsumer> logger, ICacheService cache)
     {
         _logger = logger;
-        _metadata = metadata;
         _cache = cache;
     }
 
@@ -69,15 +64,8 @@ public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
                 
                 if (metadataDto != null)
                 {
-                    await _metadata.CreateAsync(new MetadataFile
-                    {
-                        FileName = metadataDto.FileName,
-                        ContentType = metadataDto.ContentType,
-                        RoomName = metadataDto.RoomName,
-                        User = metadataDto.User
-                    });
-                    
                     await _cache.IncrementAsync(metadataDto.RequestId);
+                    
                     // публикуем запрос для проверки синхронизации - RedisSubscriber обрабатывает 
                     await _cache.SyncRequest("sync", metadataDto.RequestId);
                 }

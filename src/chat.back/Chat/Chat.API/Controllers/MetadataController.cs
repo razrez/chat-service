@@ -1,11 +1,9 @@
 ﻿using Chat.API.Publisher;
 using Chat.AppCore.Common.DTO;
-using Chat.AppCore.Extensions;
 using Chat.AppCore.Services;
 using Chat.AppCore.Services.CacheService;
 using Chat.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace Chat.API.Controllers;
 

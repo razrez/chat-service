@@ -6,7 +6,6 @@ import {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from "axios";
 import {HttpTransportType} from "@microsoft/signalr";
-import Modal from './modal/Modal'
 import React from "react";
 import { v4 as uuid } from 'uuid';
 
@@ -102,7 +101,7 @@ const App = () => {
         //отправка базовых метаданных
         let postMetaUrl = 'http://localhost:5038/api/file-metadata';
         
-        const responses = await Promise.all(
+        await Promise.all(
             axios.post(
                 `${postFileUrl}roomName=${roomName}&prefix=${userName}&reqId=${reqId}`,
                 formData, fileConfig),

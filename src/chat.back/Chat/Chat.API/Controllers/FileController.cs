@@ -3,10 +3,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Chat.API.Publisher;
 using Chat.AppCore.Common.DTO;
-using Chat.AppCore.Extensions;
 using Chat.AppCore.Services.CacheService;
-using Microsoft.Extensions.Caching.Distributed;
-using MongoDB.Bson;
 using PutObjectRequest = Amazon.S3.Model.PutObjectRequest;
 
 namespace Chat.API.Controllers;

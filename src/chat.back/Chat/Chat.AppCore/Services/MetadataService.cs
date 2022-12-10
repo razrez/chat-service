@@ -32,5 +32,7 @@ public class MetadataService
 
     public async Task CreateAsync(MetadataFile metadataFile) =>
         await _metaCollection.InsertOneAsync(metadataFile);
+    public void Create(MetadataFile metadataFile) =>
+        _metaCollection.InsertOne(metadataFile);
 
 }

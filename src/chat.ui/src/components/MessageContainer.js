@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import axios from "axios";
 
 const MessageContainer = ({ messages, history, metaMessages, metaHistory, connection}) => {
 
@@ -23,12 +22,7 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory, connec
         //загрузка истории
         let getFileUrl = "http://localhost:5038/api/files/get-by-key?";
         window.open(`${getFileUrl}key=${room}/${key}`, '_blank', 'noopener,noreferrer');
-        //console.log(room,key);
-        /*await axios.get(`${getFileUrl}key=${room}/${key}`, {responseType: 'blob'})
-            .then((response) => {
-                console.log(response);
-                
-            });*/
+
     };
 
     return <div className='message-container' ref={messageRef}>
