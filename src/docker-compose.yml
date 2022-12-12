@@ -38,8 +38,7 @@ services:
       - SCALITY_SECRET_ACCESS_KEY=secret
       - S3DATA=multiple
       - S3BACKEND=mem
-      - ENDPOINT=zenko
-    hostname: zenko
+      - ENDPOINT=s3store
     
   redis-master:
     image: bitnami/redis:latest
@@ -68,38 +67,12 @@ services:
 
   chat-saver:
     build:
-      context: ./chat.back/Chat
+      context: chat.back/Chat
       dockerfile: Chat.BackgroundService/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8001:80"
-    restart: always
-    depends_on:
-      - db
-      - rabbitmq
-  
-  spotify-ui:
-    build:
-      context: spotify/spotify-clone
-      dockerfile: ./UI/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "7057:80"
-    restart: always
-    depends_on:
-      - db
-      - rabbitmq
-
-  spotify-api:
-    build:
-      context: spotify/db_web_api
-      dockerfile: ./src/DB/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "7030:80"
     restart: always
     depends_on:
       - db
