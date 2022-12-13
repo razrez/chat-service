@@ -27,9 +27,9 @@ services:
     ports:
       - "27017:27017"
   
-  zenko:
+  s3:
     image: zenko/cloudserver
-    container_name: "zenko"
+    container_name: "s3"
     ports:
       - "8000:8000"
     restart: always
@@ -38,7 +38,7 @@ services:
       - SCALITY_SECRET_ACCESS_KEY=secret
       - S3DATA=multiple
       - S3BACKEND=mem
-      - ENDPOINT=s3store
+      - ENDPOINT=s3
     
   redis-master:
     image: bitnami/redis:latest
@@ -64,6 +64,8 @@ services:
     depends_on:
       - db
       - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
 
   chat-saver:
     build:

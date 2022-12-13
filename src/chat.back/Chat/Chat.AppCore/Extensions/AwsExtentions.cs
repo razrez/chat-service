@@ -1,5 +1,4 @@
-﻿using Amazon.Extensions.NETCore.Setup;
-using Amazon.Runtime;
+﻿using Amazon;
 using Amazon.S3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,22 +9,16 @@ public static class AwsExtentions
 {
     public static IServiceCollection AddAwsService(this IServiceCollection collection, IConfiguration configuration)
     {
-        //var awsConfig = configuration.GetAWSOptions();
-        var awsOpt = new AWSOptions
+        var s3Config = new AmazonS3Config
         {
-            Credentials = new BasicAWSCredentials(
-                configuration["AWS:AccessKey"],
-                configuration["AWS:AccessSecret"]),
-
-            DefaultClientConfig =
-            {
-                ServiceURL = configuration["AWS:ServiceUrl"],
-            }
+            RegionEndpoint = RegionEndpoint.USWest1,
+            ForcePathStyle = true,
+            ServiceURL = configuration["AWS:ServiceURL"]
         };
-
-        collection.AddDefaultAWSOptions(awsOpt);
-        collection.AddAWSService<IAmazonS3>();
+        collection.AddSingleton<IAmazonS3>(_ => GetS3Client(configuration, s3Config));
         
         return collection;
     }
+    private static AmazonS3Client GetS3Client(IConfiguration configuration, AmazonS3Config s3Config) 
+        => new(configuration["AWS:AccessKey"], configuration["AWS:AccessSecret"], s3Config);
 }
