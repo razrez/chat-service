@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+        <GenerateProgramFile>false</GenerateProgramFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="ResponseToken.fs" />
+        <Compile Include="AuthorizeUser.fs" />
+        <Compile Include="GetResponse.fs" />
+        <Compile Include="ProfileTests.fs" />
+        <Compile Include="NewHomePageTests.fs" />
+        <Compile Include="AuthorizationTests.fs" />
+        <Compile Include="UserContentTests.fs" />
+        <Compile Include="SearchPageTests.fs" />
+        <Compile Include="PlaylistTests.fs" />
+        <Compile Include="SongTests.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.4" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+        <PackageReference Include="Moq" Version="4.18.1" />
+        <PackageReference Include="Moq.FSharp.Extensions" Version="0.2.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="coverlet.collector" Version="3.1.0">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DB\DB.csproj" />
+    </ItemGroup>
+
+</Project>
