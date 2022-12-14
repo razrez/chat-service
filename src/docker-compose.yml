@@ -64,19 +64,48 @@ services:
     depends_on:
       - db
       - rabbitmq
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
 
   chat-saver:
     build:
       context: chat.back/Chat
       dockerfile: Chat.BackgroundService/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8001:80"
     restart: always
     depends_on:
       - db
       - rabbitmq
+        
+  spotify-ui:
+    build:
+      context: spotify/spotify-clone
+      dockerfile: UI/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+#      - ASPNETCORE_URLS=https://+:443;http://+:80
+#      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+#      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - "7057:80"
+    restart: always
+    depends_on:
+      - db
 
+  spotify-api:
+    build:
+      context: spotify/db_web_api/src/DB
+      dockerfile: ./Dockerfile
+    container_name: "spotify-api"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ENDPOINT=localhost
+#      - ASPNETCORE_URLS=https://+:443;http://+:80
+#      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+#      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+#    volumes:
+#      - ~/.aspnet/https:/https:ro
+    ports:
+      - "7030:80"
+    restart: always
+    depends_on:
+      - db
