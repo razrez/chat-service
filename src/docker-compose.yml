@@ -80,11 +80,9 @@ services:
     build:
       context: spotify/spotify-clone
       dockerfile: UI/Dockerfile
+    container_name: "spotify-ui"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-#      - ASPNETCORE_URLS=https://+:443;http://+:80
-#      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
-#      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     ports:
       - "7057:80"
     restart: always
@@ -99,11 +97,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ENDPOINT=localhost
-#      - ASPNETCORE_URLS=https://+:443;http://+:80
-#      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
-#      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-#    volumes:
-#      - ~/.aspnet/https:/https:ro
     ports:
       - "7030:80"
     restart: always
