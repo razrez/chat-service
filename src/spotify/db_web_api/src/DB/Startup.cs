@@ -37,9 +37,10 @@ public class Startup
             opt.AddDefaultPolicy(builder =>
             {
                 builder
-                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowAnyMethod();
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(_ => true);
             });
         });
         services.AddAuthenticationAndJwt(_configuration)

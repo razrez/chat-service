@@ -1,4 +1,6 @@
-﻿const Countries = {0: "Russia", 1:"Ukraine", 2:"USA", 3:"Greece"}
+﻿import {getClaims} from "js/getClaims";
+
+const Countries = {0: "Russia", 1:"Ukraine", 2:"USA", 3:"Greece"}
 const Months = {
     1:"January", 2:"February", 3:"March", 4:"April",
     5:"May", 6:"June", 7:"July", 8:"August", 9:"September",
@@ -16,6 +18,7 @@ function getProfile(userId){
     let country = document.getElementById("country")
     fetch(`${api}/profile/getProfile?userId=${userId}`, {
         headers : {
+            'Access-Control-Allow-Origin': '*',
             'Authorization': `Bearer ${getToken()}`
         }
     })

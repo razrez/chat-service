@@ -21,6 +21,7 @@ function onLoad(){
     fetch(api + "/auth/validate_token", {
         method: "GET",
         headers: {
+            'Access-Control-Allow-Origin': '*',
             'Authorization': `Bearer ${getToken()}`
         }
     })

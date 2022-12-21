@@ -16,6 +16,11 @@ public class ChatHub : Hub
         _publisher = publisher;
     }
 
+    public override Task OnConnectedAsync()
+    {
+        return base.OnConnectedAsync();
+    }
+
     public async Task JoinRoom(UserConnection userConnection)
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.Room);
