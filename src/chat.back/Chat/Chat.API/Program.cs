@@ -39,6 +39,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ => 
     new Dictionary<string, UserConnection>());
 
+builder.Services.AddSingleton<UsersQueue>();
 
 //MongoDB Metadata Service
 builder.Services.Configure<MetadataDbSettings>(builder.Configuration.GetSection("MongoDB"));

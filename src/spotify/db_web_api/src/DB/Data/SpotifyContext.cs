@@ -377,7 +377,7 @@ namespace DB.Data
                         },
                         new Profile()
                         {
-                            UserId = "4b89cecf-5188-44bf-94b2-6eb0cdf8da02",
+                            UserId = "4b89cecf-5188-44bf-94b2-6eb0cdf8da02", //qWe!123
                             Username = "admin03",
                             Birthday = new DateOnly(1995, 2, 21),
                             Country = Country.Usa,

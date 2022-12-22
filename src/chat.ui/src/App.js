@@ -16,14 +16,17 @@ const App = () => {
     const [history, setHistory] = useState([]);
     const [metaMessages, setMetaMessages] = useState([]);
     const [metaHistory, setMetaHistory] = useState([]);
+    const [needHelp, setNeedHelp] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(true);
 
     //user info
     const [userName, setUserName] = useState();
     const [roomName, setRoomName] = useState();
 
-    const joinRoom = async (user, room) => {
-        try
-        {
+
+    const joinRoom = async (user, room, isAdmin) => {
+        try {
+
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("http://localhost:5038/chat", {
                     withCredentials: false,
@@ -54,25 +57,61 @@ const App = () => {
                 setMetaMessages(current => [...current, newMeta]);
             });
 
+            connection.on('AdminInfo', async (roomToConnect) => {
+                room = roomToConnect;
+                setRoomName(roomToConnect);
+
+                if (roomToConnect === '') {
+                    setConnection();
+                    setNeedHelp(false);
+                    alert("no need help");
+                }
+            });
             await connection.start();
+            if (isAdmin) {
+                await connection.invoke('JoinRoomByAdmin', user);
 
-            //загрузка истории
-            let getHistoryUrl = "http://localhost:5038/api/chat?room=";
-            const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
-                .then(response => response.data);
+                if(room !== ""){
+                    //загрузка истории
+                    let getHistoryUrl = "http://localhost:5038/api/chat?room=";
+                    const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
+                        .then(response => response.data);
 
-            //загрузка метаданных в комнате
-            let getMetadataUrl = "http://localhost:5038/api/file-metadata/get-by-room?room=";
-            const loadedMetadataHistory = await axios.get(`${getMetadataUrl}${room}`)
-                .then(response => response.data);
+                    //загрузка метаданных в комнате
+                    let getMetadataUrl = "http://localhost:5038/api/file-metadata/get-by-room?room=";
+                    const loadedMetadataHistory = await axios.get(`${getMetadataUrl}${roomName}`)
+                        .then(response => response.data);
 
-            await connection.invoke('JoinRoom', {user, room});
+                    setUserName(user);
+                    //setRoomName(room);
+                    setConnection(connection);
+                    setHistory(loadedHistory);
+                    setMetaHistory(loadedMetadataHistory);
+                    setIsAdmin(isAdmin);
+                }
+            }
+            else {
+                await connection.invoke('JoinRoom', {user, room});
+                //setUserName(user);
+                //setConnection(connection);
 
-            setConnection(connection);
-            setUserName(user);
-            setRoomName(room);
-            setHistory(loadedHistory);
-            setMetaHistory(loadedMetadataHistory);
+                //загрузка истории
+                let getHistoryUrl = "http://localhost:5038/api/chat?room=";
+                const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
+                    .then(response => response.data);
+
+                //загрузка метаданных в комнате
+                let getMetadataUrl = "http://localhost:5038/api/file-metadata/get-by-room?room=";
+                const loadedMetadataHistory = await axios.get(`${getMetadataUrl}${room}`)
+                    .then(response => response.data);
+
+                setConnection(connection);
+                setUserName(user);
+                setRoomName(room);
+                setHistory(loadedHistory);
+                setMetaHistory(loadedMetadataHistory);
+                setIsAdmin(isAdmin);
+            }
         }
 
         catch (e) {
