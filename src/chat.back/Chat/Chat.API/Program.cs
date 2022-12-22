@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Chat.API.Consumer;
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
@@ -37,6 +38,7 @@ builder.Services.AddCors(options =>
 //ConnectionId - the key
 builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ => 
     new Dictionary<string, UserConnection>());
+
 
 //MongoDB Metadata Service
 builder.Services.Configure<MetadataDbSettings>(builder.Configuration.GetSection("MongoDB"));

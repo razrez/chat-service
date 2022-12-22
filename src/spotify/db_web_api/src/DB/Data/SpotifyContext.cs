@@ -166,15 +166,16 @@ namespace DB.Data
                         new UserInfo()
                         {
                             Id = "4b89cecf-5188-44bf-94b2-6eb0cdf8da02",
-                            UserName = "artist03@gmail.com",
-                            NormalizedUserName = "ARTIST03@GMAIL.COM",
-                            Email = "artist03@gmail.comm",
-                            NormalizedEmail = "ARTIST03@GMAIL.COM",
+                            UserName = "admin03@gmail.com",
+                            NormalizedUserName = "ADMIN03@GMAIL.COM",
+                            Email = "admin03@gmail.comm",
+                            NormalizedEmail = "ADMIN03@GMAIL.COM",
                             ConcurrencyStamp = "37285e0f-b3c2-4a75-85f6-73a3c4c6da29",
                             PasswordHash = "AQAAAAEAACcQAAAAEED86xKz3bHadNf8B1Hg8t5qNefw4Bq1Kr2q6Jx9Ss/DcRIcUpLiFkDgQZTqUgJThA==", //qWe!123
                             SecurityStamp = "DKBWMTFC7TZQZ6UFNZ5BN5XQNDYUBJYQ,09bd35b0-9c9f-4772-8789-e6d4b9fbe9c4",
                             EmailConfirmed = true
-                        },
+                        }, 
+                        
                     });
             });
 
@@ -377,11 +378,11 @@ namespace DB.Data
                         new Profile()
                         {
                             UserId = "4b89cecf-5188-44bf-94b2-6eb0cdf8da02",
-                            Username = "artist03",
+                            Username = "admin03",
                             Birthday = new DateOnly(1995, 2, 21),
                             Country = Country.Usa,
                             ProfileImg = "src7",
-                            UserType = UserType.Artist
+                            UserType = UserType.Admin
                         },
                     }
                     );

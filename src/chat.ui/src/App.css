@@ -108,3 +108,13 @@ input[type="file"]::-webkit-file-upload-button:hover {
 	border: 2px solid #00cec9;
 }
 
+.runningText {
+	background-color: #13ee79;
+	font-family: "Britannic Bold", serif;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	width: 20%;
+}
+
+

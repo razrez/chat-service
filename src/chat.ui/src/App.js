@@ -151,11 +151,23 @@ const App = () => {
         }
     }
 
+    function getToken() {
+        let cookie = {};
+        document.cookie.split(';').forEach(function(el) {
+            let [key,value] = el.split('=');
+            cookie[key.trim()] = value;
+        })
+        return cookie['.AspNetCore.Connection.Token'];
+    }
+
+    const decode = require('jwt-claims');
+    const userClaims = decode(getToken());
+
     return <div className="app">
         <h2>Chat</h2>
         <hr className="line"></hr>
         {!connection
-            ? <Lobby joinRoom={joinRoom} />
+            ? <Lobby joinRoom={joinRoom} userClaims={userClaims} />
             : <Chat messages={messages} sendMessage={sendMessage} closeConnection={closeConnection} users={users}
                     history={history} metaMessages={metaMessages} metaHistory={metaHistory} connection={connection}/>}
     </div>

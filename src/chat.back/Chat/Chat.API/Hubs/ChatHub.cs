@@ -1,4 +1,5 @@
-﻿using Chat.API.Hubs.Models;
+﻿using System.Collections.Concurrent;
+using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
 using Chat.AppCore.Common.DTO;
 using Microsoft.AspNetCore.SignalR;
@@ -9,16 +10,12 @@ public class ChatHub : Hub
 {
     private readonly IDictionary<string, UserConnection> _connections;
     private readonly IMessagePublisher _publisher;
+    
 
     public ChatHub(IDictionary<string, UserConnection> connections, IMessagePublisher publisher)
     {
         _connections = connections;
         _publisher = publisher;
-    }
-
-    public override Task OnConnectedAsync()
-    {
-        return base.OnConnectedAsync();
     }
 
     public async Task JoinRoom(UserConnection userConnection)
@@ -30,7 +27,7 @@ public class ChatHub : Hub
         await Clients.Group(userConnection.Room)
             .SendAsync(
                 "ReceiveMessage","ChatBot",
-                $"{userConnection.User} has joined {userConnection.Room}"
+                $"{userConnection.User} has joined"
                 );
         
         await SendConnectedUsers(userConnection.Room);
