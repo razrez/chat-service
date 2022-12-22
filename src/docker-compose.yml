@@ -1,6 +1,7 @@
 ﻿version: '3.8'
     
 services:
+  
   db:
     image: postgres:latest
     container_name: 'db'
@@ -19,6 +20,7 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+      
       
   mongodb:
     container_name: "mongodb"
@@ -40,6 +42,7 @@ services:
       - S3BACKEND=mem
       - ENDPOINT=s3
     
+    
   redis-master:
     image: bitnami/redis:latest
     ports:
@@ -54,6 +57,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+        
         
   chatapi:
     build:
@@ -75,6 +79,7 @@ services:
     depends_on:
       - db
       - rabbitmq
+        
         
   spotify-ui:
     build:

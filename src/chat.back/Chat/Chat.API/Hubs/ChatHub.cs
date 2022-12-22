@@ -24,9 +24,6 @@ public class ChatHub : Hub
         // add user to the queue
         _usersQueue.AddUser(userConnection.User);
         
-        // output as a array
-        Console.WriteLine(_usersQueue.ToString());
-        
         await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.Room);
         _connections[Context.ConnectionId] = userConnection;
         

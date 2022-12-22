@@ -6,11 +6,6 @@ public class UsersQueue
 {
     private static readonly ConcurrentQueue<string> Queue = new();
 
-    public override string? ToString()
-    {
-        return Queue.ToArray().ToString();
-    }
-
     public void AddUser(string userName)
     {
         if (Queue.Contains(userName)) return;

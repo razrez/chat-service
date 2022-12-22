@@ -20,10 +20,10 @@ const SendMessageForm = ({ sendMessage }) => {
             setMessage('');
         }}>
         <InputGroup>
-            <FormControl type="user" placeholder="message..."
+            <FormControl type="user" className="text-light bg-dark" placeholder="message..."
                 onChange={e => setMessage(e.target.value)} value={message}/>
 
-            <FormControl type="file" onChange={e => {
+            <FormControl  type="file" className="text-light bg-dark" onChange={e => {
                 setFile(e.target.files[0]);
                 setShow(true);
                 setFileType(e.target.files[0].type);
@@ -31,7 +31,7 @@ const SendMessageForm = ({ sendMessage }) => {
             }}/>
 
             <InputGroup>
-                <Button variant="primary" type="submit"
+                <Button variant="dark" type="submit"
                         disabled={(!message && !file)}>Send</Button>
             </InputGroup>
 

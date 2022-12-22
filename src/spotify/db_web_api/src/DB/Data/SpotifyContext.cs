@@ -138,13 +138,14 @@ namespace DB.Data
                             SecurityStamp = "DKBWMTFC7TZQZ6UFNZ5BN5XQNDYUBJYQ,09bd35b0-9c9f-4772-8789-e6d4b9fbe9c4",
                             EmailConfirmed = true
                         },
+                        
                         new UserInfo()
                         {
                             Id = "26ecd8e6-2f2c-4385-b855-aa0a2bd8d429",
-                            UserName = "artist01@gmail.com",
-                            NormalizedUserName = "ARTIST01@GMAIL.COM",
-                            Email = "artist01@gmail.com",
-                            NormalizedEmail = "ARTIST01@GMAIL.COM",
+                            UserName = "admin01@gmail.com",
+                            NormalizedUserName = "ADMIN01@GMAIL.COM",
+                            Email = "admin01@gmail.com",
+                            NormalizedEmail = "ADMIN01@GMAIL.COM",
                             ConcurrencyStamp = "37285e0f-b3c2-4a75-85f6-73a3c4c6da29",
                             PasswordHash = "AQAAAAEAACcQAAAAEED86xKz3bHadNf8B1Hg8t5qNefw4Bq1Kr2q6Jx9Ss/DcRIcUpLiFkDgQZTqUgJThA==", //qWe!123
                             SecurityStamp = "DKBWMTFC7TZQZ6UFNZ5BN5XQNDYUBJYQ,09bd35b0-9c9f-4772-8789-e6d4b9fbe9c4",
@@ -153,10 +154,10 @@ namespace DB.Data
                         new UserInfo()
                         {
                             Id = "ca2aa01b-a215-4611-838a-f11b9552103e",
-                            UserName = "artist02@gmail.com",
-                            NormalizedUserName = "ARTIST02@GMAIL.COM",
-                            Email = "artist02@gamil.com",
-                            NormalizedEmail = "ARTIST02@GMAIL.COM",
+                            UserName = "admin02@gmail.com",
+                            NormalizedUserName = "ADMIN02@GMAIL.COM",
+                            Email = "admin02@gamil.com",
+                            NormalizedEmail = "ADMIN02@GMAIL.COM",
                             ConcurrencyStamp = "37285e0f-b3c2-4a75-85f6-73a3c4c6da29",
                             PasswordHash = "AQAAAAEAACcQAAAAEED86xKz3bHadNf8B1Hg8t5qNefw4Bq1Kr2q6Jx9Ss/DcRIcUpLiFkDgQZTqUgJThA==", //qWe!123
                             SecurityStamp = "DKBWMTFC7TZQZ6UFNZ5BN5XQNDYUBJYQ,09bd35b0-9c9f-4772-8789-e6d4b9fbe9c4",
@@ -357,27 +358,27 @@ namespace DB.Data
                             ProfileImg = "src4",
                             UserType = UserType.User
                         },
-                        new Profile()
+                        new Profile()  //qWe!123
                         {
                             UserId = "26ecd8e6-2f2c-4385-b855-aa0a2bd8d429",
-                            Username = "artist10",
+                            Username = "admin01",
                             Birthday = new DateOnly(1985, 2, 21),
                             Country = Country.Russia,
                             ProfileImg = "src5",
-                            UserType = UserType.Artist
+                            UserType = UserType.Admin
                         },
                         new Profile()
                         {
                             UserId = "ca2aa01b-a215-4611-838a-f11b9552103e",
-                            Username = "artist02",
+                            Username = "admin02",
                             Birthday = new DateOnly(1998, 2, 21),
                             Country = Country.Usa,
                             ProfileImg = "src6",
-                            UserType = UserType.Artist
+                            UserType = UserType.Admin
                         },
                         new Profile()
                         {
-                            UserId = "4b89cecf-5188-44bf-94b2-6eb0cdf8da02", //qWe!123
+                            UserId = "4b89cecf-5188-44bf-94b2-6eb0cdf8da02",
                             Username = "admin03",
                             Birthday = new DateOnly(1995, 2, 21),
                             Country = Country.Usa,

@@ -3,7 +3,7 @@ Form Button {
 }
 
 h2 {
-	color: #313131;
+	color: #020202;
 }
 
 h6 {
@@ -39,21 +39,22 @@ hr.line {
 
 .user-list {
 	float: left;
-	background-color: #313131;
+	background-color: rgba(2, 2, 2, 0.82);
 	color:white;
 	width: 200px;
-	height: 440px;
+	height: 400px;
 	margin-right: 4px;
 	position: relative;
+	border-radius: 20px;
 }
 
 .message-container {
 	height: 400px;
-	background-color: rgba(35, 189, 208, 0.61);
+	background-color: rgba(2, 2, 2, 0.73);
 	overflow: auto;
 	border-radius: 5px;
 	margin-bottom: 20px;
-	box-shadow: 5px 1px 5px 1px gray;
+	box-shadow: 5px 1px 5px 1px rgba(49, 49, 49, 0.77);
 }
 
 .user-message {
@@ -75,6 +76,7 @@ hr.line {
 	font-size: small;
 	margin-bottom: 3px;
 	margin-right: 5px;
+	color: white;
 }
 
 .box {
@@ -109,12 +111,13 @@ input[type="file"]::-webkit-file-upload-button:hover {
 }
 
 .runningText {
-	background-color: #13ee79;
+	background-color: rgb(32, 167, 62);
 	font-family: "Britannic Bold", serif;
 	font-size: 20px;
 	font-weight: bold;
 	text-align: center;
 	width: 20%;
+	border-radius: 25px;
 }
 
 
