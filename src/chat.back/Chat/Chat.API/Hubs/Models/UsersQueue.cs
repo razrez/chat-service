@@ -4,16 +4,17 @@ namespace Chat.API.Hubs.Models;
 
 public class UsersQueue
 {
-    private static Queue<UserConnection> _concurrentQueue = new();
+    private static readonly ConcurrentQueue<string> Queue = new();
 
     public override string? ToString()
     {
-        return _concurrentQueue.ToString();
+        return Queue.ToArray().ToString();
     }
 
-    public void AddUser(UserConnection userConnection)
+    public void AddUser(string userName)
     {
-        _concurrentQueue.Enqueue(userConnection);
+        if (Queue.Contains(userName)) return;
+        Queue.Enqueue(userName);
     }
 
     /// <summary>
@@ -22,7 +23,7 @@ public class UsersQueue
     /// <returns></returns>
     public string HelpUser()
     {
-        _concurrentQueue.TryDequeue(out UserConnection? result);
-        return result != null ? result.Room : "";
+        Queue.TryDequeue(out string? result);
+        return result ?? "";
     }
 }

@@ -67,51 +67,39 @@ const App = () => {
                     alert("no need help");
                 }
             });
+
             await connection.start();
+
             if (isAdmin) {
                 await connection.invoke('JoinRoomByAdmin', user);
 
                 if(room !== ""){
-                    //загрузка истории
-                    let getHistoryUrl = "http://localhost:5038/api/chat?room=";
-                    const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
-                        .then(response => response.data);
-
-                    //загрузка метаданных в комнате
-                    let getMetadataUrl = "http://localhost:5038/api/file-metadata/get-by-room?room=";
-                    const loadedMetadataHistory = await axios.get(`${getMetadataUrl}${roomName}`)
-                        .then(response => response.data);
-
                     setUserName(user);
-                    //setRoomName(room);
+                    setRoomName(room);
                     setConnection(connection);
-                    setHistory(loadedHistory);
-                    setMetaHistory(loadedMetadataHistory);
-                    setIsAdmin(isAdmin);
                 }
             }
             else {
                 await connection.invoke('JoinRoom', {user, room});
-                //setUserName(user);
-                //setConnection(connection);
-
-                //загрузка истории
-                let getHistoryUrl = "http://localhost:5038/api/chat?room=";
-                const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
-                    .then(response => response.data);
-
-                //загрузка метаданных в комнате
-                let getMetadataUrl = "http://localhost:5038/api/file-metadata/get-by-room?room=";
-                const loadedMetadataHistory = await axios.get(`${getMetadataUrl}${room}`)
-                    .then(response => response.data);
-
                 setConnection(connection);
                 setUserName(user);
                 setRoomName(room);
-                setHistory(loadedHistory);
-                setMetaHistory(loadedMetadataHistory);
-                setIsAdmin(isAdmin);
+
             }
+            
+            //загрузка истории
+            let getHistoryUrl = "http://localhost:5038/api/chat?room=";
+            const loadedHistory = await axios.get(`${getHistoryUrl}${room}`)
+                .then(response => response.data);
+
+            //загрузка метаданных в комнате
+            let getMetadataUrl = "http://localhost:5038/api/file-metadata/get-by-room?room=";
+            const loadedMetadataHistory = await axios.get(`${getMetadataUrl}${roomName}`)
+                .then(response => response.data);
+
+            setHistory(loadedHistory);
+            setMetaHistory(loadedMetadataHistory);
+            setIsAdmin(isAdmin);
         }
 
         catch (e) {

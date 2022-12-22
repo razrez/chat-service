@@ -21,10 +21,11 @@ public class ChatHub : Hub
 
     public async Task JoinRoom(UserConnection userConnection)
     {
-        //add user to the queue
-        _usersQueue.AddUser(userConnection);
+        // add user to the queue
+        _usersQueue.AddUser(userConnection.User);
         
-        Console.WriteLine(_usersQueue);
+        // output as a array
+        Console.WriteLine(_usersQueue.ToString());
         
         await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.Room);
         _connections[Context.ConnectionId] = userConnection;
@@ -40,18 +41,24 @@ public class ChatHub : Hub
     }
     public async Task JoinRoomByAdmin(string adminName)
     {
-        var adminConnection = new UserConnection();
-        if (_usersQueue.HelpUser() != "")
+        var roomToHelp = _usersQueue.HelpUser();
+        
+        if (roomToHelp != "")
         {
-            adminConnection.User = adminName;
-            adminConnection.Room = _usersQueue.HelpUser();
+            // define room for admin
+            await Clients.Client(Context.ConnectionId).SendAsync("AdminInfo", roomToHelp);
+            
+            var adminConnection = new UserConnection
+            {
+                User = adminName,
+                Room = roomToHelp
+            };
+            
             Console.WriteLine(adminConnection.Room);
             
             await Groups.AddToGroupAsync(Context.ConnectionId, adminConnection.Room);
             _connections[Context.ConnectionId] = adminConnection;
             
-            // define room for admin
-            await Clients.Client(Context.ConnectionId).SendAsync("AdminInfo", adminConnection.Room);
         
             //real-time message from ChatBot
             await Clients.Group(adminConnection.Room)
