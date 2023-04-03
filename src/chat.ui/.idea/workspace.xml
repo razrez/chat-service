@@ -3,16 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d2db5de3-8e83-463f-8a31-24d6a73b2a6b" name="Changes" comment="осталось добавить скачивание, ну и порядок отображения пофиксить потом как-то">
       <change beforePath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Hubs/ChatHub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Hubs/ChatHub.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Hubs/Models/UsersQueue.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Hubs/Models/UsersQueue.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MessageContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MessageContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SendMessageForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SendMessageForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Chat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Publisher/IMessagePublisher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Publisher/IMessagePublisher.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../spotify/db_web_api/src/DB/Data/SpotifyContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../spotify/db_web_api/src/DB/Data/SpotifyContext.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,21 +31,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/sharp/Desktop/testAmg/myApp",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\sharp\Desktop\react_chat\src\chat.ui\public" />
@@ -79,6 +73,7 @@
       <workItem from="1670611919418" duration="348000" />
       <workItem from="1671655477344" duration="29487000" />
       <workItem from="1671719963412" duration="1599000" />
+      <workItem from="1672949946663" duration="49000" />
     </task>
     <task id="LOCAL-00001" summary="Dockerfile">
       <created>1666033968921</created>

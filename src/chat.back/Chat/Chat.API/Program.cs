@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using Chat.API.Consumer;
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;

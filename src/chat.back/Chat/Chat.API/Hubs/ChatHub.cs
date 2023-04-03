@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Chat.API.Hubs.Models;
+﻿using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
 using Chat.AppCore.Common.DTO;
 using Microsoft.AspNetCore.SignalR;
@@ -81,7 +80,7 @@ public class ChatHub : Hub
             await Clients.Group(userConnection.Room)
                 .SendAsync("ReceiveMessage", userConnection.User, message);
             
-            //тут должна быть логика для передачи сообщения в MassTransit, который потом добавляет сообщение в бд
+            // логика для передачи сообщения в MassTransit, который потом добавляет сообщение в бд
             _publisher.SaveMessage(new SaveMessageDto(
                 User: userConnection.User, 
                 Room: userConnection.Room, 
@@ -118,7 +117,7 @@ public class ChatHub : Hub
         var users = _connections.Values
             .Where(c => c.Room == room)
             .Select(c => c.User);
-
+        
         return Clients.Group(room).SendAsync("UsersInRoom", users);
     }
 }
