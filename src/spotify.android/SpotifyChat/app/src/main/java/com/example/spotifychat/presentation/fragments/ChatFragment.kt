@@ -1,11 +1,11 @@
-package com.example.spotifychat.fragments
+package com.example.spotifychat.presentation.fragments
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core.http_clients.FragmentBase
 import com.example.spotifychat.R
 import com.example.spotifychat.databinding.FragmentChatBinding
-import com.example.spotifychat.viewmodels.ChatViewModel
+import com.example.spotifychat.presentation.viewmodels.ChatViewModel
 
 class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainFragmentContainer) {
 
