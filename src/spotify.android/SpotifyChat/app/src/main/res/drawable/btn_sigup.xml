@@ -1,9 +1,11 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="337dp"
-    android:height="49dp"
-    android:viewportWidth="337"
-    android:viewportHeight="49">
-  <path
-      android:pathData="M0,24.5C0,10.97 10.97,0 24.5,0H312.5C326.03,0 337,10.97 337,24.5C337,38.03 326.03,49 312.5,49H24.5C10.97,49 0,38.03 0,24.5Z"
-      android:fillColor="#1ED760"/>
-</vector>
+<shape
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:shape="rectangle">
+
+  <corners android:radius="100dp"/>
+
+  <!-- This is the border color -->
+<!--  <stroke android:width="10dp" android:color="#0F000000" />-->
+  <!--- This is the background color -->
+
+</shape>

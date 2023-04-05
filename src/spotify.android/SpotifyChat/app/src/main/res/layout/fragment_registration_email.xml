@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/textview_second"
-        android:text="Sign in"
+        android:text="Create account"
         android:layout_marginTop="42sp"
         android:textSize="20sp"
         android:textColor="@color/white"
@@ -34,12 +34,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="28sp"
-        android:layout_marginTop="91sp"
-        android:text="Enter your email"
+        android:layout_marginTop="29sp"
+        android:text="What's your email?"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_second"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -50,47 +50,33 @@
         android:background="@drawable/edit_text_border"
         android:backgroundTint="#777777"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.608"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.568" />
+        />
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="28sp"
-        android:layout_marginTop="25sp"
-        android:text="Enter your password"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="You’ll need to confirm this email later."
+        android:textSize="10sp"
         android:textColor="@color/white"
-        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_email"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="365sp"
-        android:layout_height="51sp"
-        android:layout_marginTop="8sp"
-        android:background="@drawable/edit_text_border"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
+        app:layout_constraintTop_toBottomOf="@id/input_email" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_second"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/spotify_main"
-        android:layout_marginTop="56sp"
-        android:text="Create an account"
+        android:layout_marginTop="62sp"
+        android:text="Next"
         android:textColor="@color/black"
         app:cornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/input_email"
         app:layout_constraintVertical_bias="0.286" />
 </androidx.constraintlayout.widget.ConstraintLayout>
