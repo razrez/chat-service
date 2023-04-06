@@ -1,5 +1,4 @@
-package com.example.core.http_clients
-
+package com.example.core.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -17,7 +16,6 @@ import androidx.viewbinding.ViewBinding
 abstract class FragmentBase<VBinding : ViewBinding, ViewModelClass : ViewModel>(
     private var fragmentContainerId: Int?
 ) : Fragment() {
-
 
     protected lateinit var viewModel: ViewModelClass
     protected abstract fun getViewModelClass(): Class<ViewModelClass>

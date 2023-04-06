@@ -1,44 +1,101 @@
 package com.example.spotifychat.presentation.adapters
 
-import android.service.autofill.UserData
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.spotifychat.R
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domain.common.Message
+import com.example.spotifychat.R
+import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.VIEW_TYPE_MESSAGE_RECEIVED
+import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.VIEW_TYPE_MESSAGE_SENT
+import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.dateFormatter
+import java.text.SimpleDateFormat
 
-class CustomRecyclerAdapter(private val users: List<Message>?) :
-    RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>()  {
+//https://medium.com/codex/how-to-build-a-messaging-ui-for-your-android-chat-app-883fad05f43a
+class CustomRecyclerAdapter(private val messages: List<Message>?) :
+    RecyclerView.Adapter<ViewHolder>()  {
 
-    // it's a container for all list's components, needs to optimize resources
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        /*val largeTextView: TextView = itemView.findViewById(R.id.textViewLarge)
-        val smallTextView: TextView = itemView.findViewById(R.id.textViewSmall)*/
+    object ViewHolderConstants {
+        const val VIEW_TYPE_MESSAGE_SENT  = 1
+        const val VIEW_TYPE_MESSAGE_RECEIVED  = 2
+
+        @SuppressLint("SimpleDateFormat")
+        var dateFormatter: SimpleDateFormat = SimpleDateFormat("hh:mm:ss")
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        TODO()
-        /*val itemView =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.recyclerview_item, parent, false)
+    class ReceivedMessageHolder(itemView: View) : ViewHolder(itemView){
+        private val messageText: TextView = itemView.findViewById(R.id.text_gchat_message_other)
+        private val timeText: TextView = itemView.findViewById(R.id.text_gchat_timestamp_other)
+        private val nameText: TextView = itemView.findViewById(R.id.text_gchat_user_other)
 
-        return MyViewHolder(itemView)*/
+        // TODO(later will be implemented image message)
+
+        fun bind(message: Message){
+            messageText.text = message.message
+            timeText.text = dateFormatter.format(message.createdAt)
+            nameText.text = message.sender?.username
+        }
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        /*holder.largeTextView.text = users?.get(position)?.id.toString()
-        holder.smallTextView.text = users?.get(position)?.name*/
+    class SentMessageHolder (itemView: View) : ViewHolder(itemView){
+
+        private val messageText: TextView = itemView.findViewById(R.id.text_gchat_message_me)
+        private val timeText: TextView = itemView.findViewById(R.id.text_gchat_timestamp_me)
+
+        fun bind(message: Message){
+            messageText.text = message.message
+            timeText.text = dateFormatter.format(message.createdAt)
+        }
     }
 
     // returns amount of collection's elements
     override fun getItemCount(): Int {
 
-        if (users == null)
+        if (messages == null)
             return 0
 
-        return users.size
+        return messages.size
+    }
+
+    // Determines the appropriate ViewType according to the sender of the message.
+    override fun getItemViewType(position: Int): Int {
+        val message = messages?.get(position)
+
+        if(message?.sender?.username == null){
+            return VIEW_TYPE_MESSAGE_SENT
+        }
+
+        return VIEW_TYPE_MESSAGE_RECEIVED
+    }
+
+    // Inflates the appropriate layout according to the ViewType.
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+        if (viewType == VIEW_TYPE_MESSAGE_SENT){
+            val itemView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_chat_me, parent, false)
+
+            return SentMessageHolder(itemView)
+        }
+
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_chat_other, parent, false)
+
+        return ReceivedMessageHolder(itemView)
+
+    }
+
+    // Passes the message object to a ViewHolder so that the contents can be bound to UI.
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val message = messages?.get(position)
+
+        when (holder.itemViewType){
+            VIEW_TYPE_MESSAGE_SENT -> message?.let { (holder as SentMessageHolder).bind(it) }
+            VIEW_TYPE_MESSAGE_RECEIVED -> message?.let { (holder as ReceivedMessageHolder).bind(it) }
+        }
     }
 
 }
