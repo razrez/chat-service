@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SpotifyChat</string>
+    <string name="message_placeholder">Send a message</string>
 </resources>

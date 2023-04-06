@@ -1,4 +1,4 @@
-package com.example.core.http_clients
+package com.example.core.base
 
 
 import android.annotation.SuppressLint
