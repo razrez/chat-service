@@ -14,7 +14,7 @@ import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewH
 import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.dateFormatter
 import java.text.SimpleDateFormat
 
-//https://medium.com/codex/how-to-build-a-messaging-ui-for-your-android-chat-app-883fad05f43a
+// https://medium.com/codex/how-to-build-a-messaging-ui-for-your-android-chat-app-883fad05f43a
 class CustomRecyclerAdapter(private val messages: List<Message>?) :
     RecyclerView.Adapter<ViewHolder>()  {
 

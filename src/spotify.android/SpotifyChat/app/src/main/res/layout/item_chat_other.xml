@@ -14,7 +14,8 @@
         android:layout_marginStart="16dp"
         android:contentDescription="User Icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_supporter"/>
 
     <TextView
         android:id="@+id/text_gchat_user_other"
