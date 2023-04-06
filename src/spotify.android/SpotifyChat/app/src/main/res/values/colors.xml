@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="spotify_main">#1ED760</color>
     <color name="background_color">#121212</color>
+    <color name="dark_spotify_main">#13744B</color>
 </resources>

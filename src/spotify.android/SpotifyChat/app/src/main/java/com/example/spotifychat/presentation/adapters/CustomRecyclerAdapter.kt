@@ -98,4 +98,9 @@ class CustomRecyclerAdapter(private val messages: List<Message>?) :
         }
     }
 
+    fun sendMessage(message: Message){
+        /*messages
+        this.notifyDataSetChanged()*/
+    }
+
 }

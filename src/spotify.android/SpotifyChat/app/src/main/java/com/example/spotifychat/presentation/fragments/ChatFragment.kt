@@ -19,6 +19,12 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = CustomRecyclerAdapter(fillList())
 
+        val messageInput = binding.editGchatMessage
+        binding.buttonGchatSend.setOnClickListener{
+            if (messageInput.text.toString() != ""){
+                // add message to recycler
+            }
+        }
     }
 
     override fun getViewModelClass(): Class<ChatViewModel> {
