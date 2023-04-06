@@ -1,5 +1,6 @@
 package com.example.spotifychat.presentation.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,8 @@ import com.example.domain.common.Message
 import com.example.spotifychat.R
 import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.VIEW_TYPE_MESSAGE_RECEIVED
 import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.VIEW_TYPE_MESSAGE_SENT
-import java.util.Date
+import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.dateFormatter
+import java.text.SimpleDateFormat
 
 //https://medium.com/codex/how-to-build-a-messaging-ui-for-your-android-chat-app-883fad05f43a
 class CustomRecyclerAdapter(private val messages: List<Message>?) :
@@ -19,30 +21,33 @@ class CustomRecyclerAdapter(private val messages: List<Message>?) :
     object ViewHolderConstants {
         const val VIEW_TYPE_MESSAGE_SENT  = 1
         const val VIEW_TYPE_MESSAGE_RECEIVED  = 2
+
+        @SuppressLint("SimpleDateFormat")
+        var dateFormatter: SimpleDateFormat = SimpleDateFormat("hh:mm:ss")
     }
 
     class ReceivedMessageHolder(itemView: View) : ViewHolder(itemView){
-        val messageText: TextView = itemView.findViewById(R.id.text_gchat_message_other)
-        val timeText: TextView = itemView.findViewById(R.id.text_gchat_timestamp_other)
-        val nameText: TextView = itemView.findViewById(R.id.text_gchat_user_other)
+        private val messageText: TextView = itemView.findViewById(R.id.text_gchat_message_other)
+        private val timeText: TextView = itemView.findViewById(R.id.text_gchat_timestamp_other)
+        private val nameText: TextView = itemView.findViewById(R.id.text_gchat_user_other)
 
         // TODO(later will be implemented image message)
 
         fun bind(message: Message){
             messageText.text = message.message
-            timeText.text = Date(message.createdAt).toString()
+            timeText.text = dateFormatter.format(message.createdAt)
             nameText.text = message.sender?.username
         }
     }
 
     class SentMessageHolder (itemView: View) : ViewHolder(itemView){
 
-        val messageText: TextView = itemView.findViewById(R.id.text_gchat_message_me)
-        val timeText: TextView = itemView.findViewById(R.id.text_gchat_timestamp_me)
+        private val messageText: TextView = itemView.findViewById(R.id.text_gchat_message_me)
+        private val timeText: TextView = itemView.findViewById(R.id.text_gchat_timestamp_me)
 
         fun bind(message: Message){
             messageText.text = message.message
-            timeText.text = Date(message.createdAt).toString()
+            timeText.text = dateFormatter.format(message.createdAt)
         }
     }
 
