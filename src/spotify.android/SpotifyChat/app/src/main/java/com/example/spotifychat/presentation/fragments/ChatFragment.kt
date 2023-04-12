@@ -40,7 +40,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         fun newInstance() = ChatFragment()
     }
 
-    // Let's create a useless list of strings for now, which we will pass to the adapter.
+    // Let's create a useless list of messages for now, which we will pass to the adapter.
     private fun fillList(): List<Message> {
         val data = mutableListOf<Message>()
         (0..9).forEach {

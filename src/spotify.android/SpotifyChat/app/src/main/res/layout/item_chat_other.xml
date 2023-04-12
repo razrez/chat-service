@@ -10,23 +10,24 @@
 
     <ImageView
         android:id="@+id/image_gchat_profile_other"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_width="31dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="6dp"
         android:contentDescription="User Icon"
+        android:src="@drawable/ic_supporter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_supporter"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_gchat_user_other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="John Grady Cole"
+        android:layout_marginStart="3dp"
+        android:text="support manager"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/image_gchat_profile_other"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_gchat_message_other"
@@ -70,6 +71,7 @@
         android:text="8:00"
         android:textColor="#C0C0C0"
         android:textSize="10sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/card_gchat_message_other"
         app:layout_constraintStart_toEndOf="@+id/card_gchat_message_other" />
 

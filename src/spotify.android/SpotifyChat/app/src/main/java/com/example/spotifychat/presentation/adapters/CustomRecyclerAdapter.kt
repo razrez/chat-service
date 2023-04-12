@@ -23,7 +23,7 @@ class CustomRecyclerAdapter(private val messages: List<Message>?) :
         const val VIEW_TYPE_MESSAGE_RECEIVED  = 2
 
         @SuppressLint("SimpleDateFormat")
-        var dateFormatter: SimpleDateFormat = SimpleDateFormat("hh:mm:ss")
+        var dateFormatter: SimpleDateFormat = SimpleDateFormat("hh:mm")
     }
 
     class ReceivedMessageHolder(itemView: View) : ViewHolder(itemView){
@@ -35,8 +35,8 @@ class CustomRecyclerAdapter(private val messages: List<Message>?) :
 
         fun bind(message: Message){
             messageText.text = message.message
+            nameText.text = message.sender!!.username
             timeText.text = dateFormatter.format(message.createdAt)
-            nameText.text = message.sender?.username
         }
     }
 
