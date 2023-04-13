@@ -22,7 +22,7 @@ class RegistrationPasswordFragment : FragmentBase<FragmentRegistrationPasswordBi
         binding.btnCreateAccount.setOnClickListener {
             this.activity?.supportFragmentManager
                 ?.beginTransaction()
-                ?.replace(R.id.mainFragmentContainer, ChatFragment.newInstance())
+                ?.replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())
                 ?.addToBackStack(StartFragment::javaClass.name)
                 ?.commit()
         }

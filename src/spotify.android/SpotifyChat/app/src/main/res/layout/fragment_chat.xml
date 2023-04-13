@@ -6,24 +6,24 @@
     android:layout_height="match_parent"
     android:background="@color/background_color">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/layout_group_chat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:id="@+id/layout_group_chat"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:background="@color/background_color">-->
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_gchannel"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/Widget.AppCompat.Toolbar"
-            app:popupTheme="@style/Theme.AppCompat.Light">
-
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar_gchannel"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            android:theme="@style/Widget.AppCompat.Toolbar"-->
+<!--            app:popupTheme="@style/Theme.AppCompat.Light"-->
+<!--            android:textAlignment="center">-->
+<!--        </androidx.appcompat.widget.Toolbar>-->
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_gchat"
@@ -33,7 +33,7 @@
         tools:listitem="@layout/item_chat_other"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/text_gchat_indicator"
-        app:layout_constraintTop_toBottomOf="@+id/layout_group_chat" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/text_gchat_indicator"
@@ -58,7 +58,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <EditText
             android:id="@+id/edit_gchat_message"
             android:layout_width="match_parent"
@@ -68,12 +67,12 @@
             android:layout_toStartOf="@+id/button_gchat_send"
             android:background="@android:color/transparent"
             android:hint="@string/message_placeholder"
-            android:textColorHint="@color/dark_spotify_main"
-            android:textColor="@color/white"
             android:inputType="text"
             android:maxLines="6"
             android:minHeight="48dp"
-            tools:ignore="Autofill" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/dark_spotify_main"
+            tools:ignore="Autofill,VisualLintTextFieldSize" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_gchat_send"
@@ -84,7 +83,6 @@
             android:layout_gravity="end|bottom"
             android:layout_marginStart="5sp"
             android:layout_marginEnd="5sp"
-            android:layout_marginRight="5dp"
             android:layout_marginBottom="5sp"
             android:background="@drawable/button_send"
             android:backgroundTint="@color/spotify_main"

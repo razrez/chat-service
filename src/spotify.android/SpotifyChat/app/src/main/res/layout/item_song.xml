@@ -10,36 +10,27 @@
 
     <ImageView
         android:id="@+id/image_gchat_profile_other"
-        android:layout_width="31dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="6dp"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:contentDescription="User Icon"
-        android:src="@drawable/ic_supporter"
+        android:src="@drawable/ic_music"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_gchat_user_other"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:text="support manager"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/image_gchat_profile_other"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/white"/>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_gchat_message_other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#1ED660"
-        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="#00C3C3C3"
         app:cardElevation="0dp"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
         app:layout_constraintStart_toEndOf="@+id/image_gchat_profile_other"
-        app:layout_constraintTop_toBottomOf="@+id/text_gchat_user_other">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/layout_gchat_container_other"
@@ -48,32 +39,31 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/text_gchat_user_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="260dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:text="Eminem"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/image_gchat_profile_other"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/white"/>
+
+            <TextView
                 android:id="@+id/text_gchat_message_other"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:maxWidth="260dp"
                 android:paddingLeft="12dp"
-                android:paddingTop="8dp"
                 android:paddingRight="12dp"
-                android:text="Message"
-                android:textColor="#000000"
+                android:text="slim shady"
+                android:textColor="@color/nav_inactive"
                 android:textSize="16sp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-
-    <TextView
-        android:id="@+id/text_gchat_timestamp_other"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="8:00"
-        android:textColor="#C0C0C0"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/card_gchat_message_other"
-        app:layout_constraintStart_toEndOf="@+id/card_gchat_message_other" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
