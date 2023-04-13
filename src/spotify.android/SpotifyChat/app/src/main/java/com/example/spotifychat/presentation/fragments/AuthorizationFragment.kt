@@ -21,7 +21,7 @@ class AuthorizationFragment : FragmentBase<FragmentAuthorizationBinding, AuthVie
         binding.btnSignIn.setOnClickListener {
             this.requireActivity().supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.mainFragmentContainer, ChatFragment.newInstance())
+                .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())
                 .addToBackStack(StartFragment::javaClass.name)
                 .commit()
         }

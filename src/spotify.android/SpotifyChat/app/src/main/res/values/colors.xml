@@ -10,4 +10,5 @@
     <color name="spotify_main">#1ED760</color>
     <color name="background_color">#121212</color>
     <color name="dark_spotify_main">#388E3C</color>
+    <color name="nav_inactive">#777777</color>
 </resources>
