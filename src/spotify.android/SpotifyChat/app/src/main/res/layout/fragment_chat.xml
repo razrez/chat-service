@@ -6,25 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/background_color">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:id="@+id/layout_group_chat"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fitsSystemWindows="true"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:background="@color/background_color">-->
-
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolbar_gchannel"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            android:theme="@style/Widget.AppCompat.Toolbar"-->
-<!--            app:popupTheme="@style/Theme.AppCompat.Light"-->
-<!--            android:textAlignment="center">-->
-<!--        </androidx.appcompat.widget.Toolbar>-->
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_gchat"
         android:layout_width="match_parent"
@@ -58,21 +39,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_attachment"
+            android:layout_width="32sp"
+            android:layout_height="32sp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="end|bottom"
+            android:layout_marginStart="5sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginBottom="5sp"
+            android:background="@drawable/ic_attachment"
+            android:backgroundTint="@color/spotify_main"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
         <EditText
             android:id="@+id/edit_gchat_message"
+            android:layout_marginVertical="3dp"
+            android:layout_marginHorizontal="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
             android:layout_toStartOf="@+id/button_gchat_send"
-            android:background="@android:color/transparent"
+            android:layout_toEndOf="@+id/button_attachment"
+            android:background="@drawable/chat_input_border"
             android:hint="@string/message_placeholder"
             android:inputType="text"
             android:maxLines="6"
             android:minHeight="48dp"
             android:textColor="@color/white"
             android:textColorHint="@color/dark_spotify_main"
-            tools:ignore="Autofill,VisualLintTextFieldSize" />
+            android:paddingHorizontal="20dp"
+            tools:ignore="Autofill,VisualLintTextFieldSize"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_gchat_send"
