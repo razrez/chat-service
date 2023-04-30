@@ -26,6 +26,7 @@ namespace DB.Controllers
     
             return new JsonResult(song);
         }
+        
 
         [HttpGet("getLikedSongs")]
         public async Task<IActionResult> GetLikedSongs(string userId)
@@ -74,6 +75,14 @@ namespace DB.Controllers
             return createRes ? Ok("song deleted in liked playlist") : BadRequest(new {Error = "the song/playlist was not found or already deleted"});
         }
         
+        [HttpGet("allSongs")]
+        public async Task<IActionResult> GetSong()
+        {
+            var song = await _ctx.GetSongs();
+            if (song == null) return NotFound(new {Error = "songs not found"});
+    
+            return new JsonResult(song);
+        }
     }
     
     

@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domain.common.Message
 import com.example.spotifychat.R
-import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.VIEW_TYPE_MESSAGE_RECEIVED
-import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.VIEW_TYPE_MESSAGE_SENT
-import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter.ViewHolderConstants.dateFormatter
+import com.example.spotifychat.presentation.adapters.ChatRecyclerAdapter.ViewHolderConstants.VIEW_TYPE_MESSAGE_RECEIVED
+import com.example.spotifychat.presentation.adapters.ChatRecyclerAdapter.ViewHolderConstants.VIEW_TYPE_MESSAGE_SENT
+import com.example.spotifychat.presentation.adapters.ChatRecyclerAdapter.ViewHolderConstants.dateFormatter
 import java.text.SimpleDateFormat
 
 // https://medium.com/codex/how-to-build-a-messaging-ui-for-your-android-chat-app-883fad05f43a
-class CustomRecyclerAdapter(private val messages: List<Message>?) :
+class ChatRecyclerAdapter(private val messages: List<Message>?) :
     RecyclerView.Adapter<ViewHolder>()  {
 
     object ViewHolderConstants {

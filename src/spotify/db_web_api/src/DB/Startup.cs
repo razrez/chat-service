@@ -100,6 +100,7 @@ public class Startup
         );
         
         services.AddScoped<ISpotifyRepository, SpotifyRepository>();
+        services.AddGraphQl();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -123,8 +124,9 @@ public class Startup
             .UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapGraphQL("/graphql");
             });
-    }
+    }       
 
     public static IHostBuilder CreateHostBuilder(string[] args)
     {

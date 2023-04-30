@@ -42,4 +42,6 @@ dependencies {
 
     //ktor
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 }

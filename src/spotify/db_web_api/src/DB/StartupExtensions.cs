@@ -117,4 +117,12 @@ public static class StartupExtensions
             }
         }
     }
+
+    public static IServiceCollection AddGraphQl(this IServiceCollection services)
+    {
+        services.AddGraphQLServer().AddQueryType<Query>()
+            .AddProjections().AddFiltering().AddSorting().AddMutationConventions(applyToAllMutations: true);
+
+        return services;
+    }
 }

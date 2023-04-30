@@ -7,7 +7,7 @@ import com.example.domain.common.Message
 import com.example.domain.common.User
 import com.example.spotifychat.R
 import com.example.spotifychat.databinding.FragmentChatBinding
-import com.example.spotifychat.presentation.adapters.CustomRecyclerAdapter
+import com.example.spotifychat.presentation.adapters.ChatRecyclerAdapter
 import com.example.spotifychat.presentation.viewmodels.ChatViewModel
 
 class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainFragmentContainer) {
@@ -17,7 +17,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
 
         val recyclerView: RecyclerView = binding.recyclerGchat
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        recyclerView.adapter = CustomRecyclerAdapter(fillList())
+        recyclerView.adapter = ChatRecyclerAdapter(fillList())
 
         val messageInput = binding.editGchatMessage
         binding.buttonGchatSend.setOnClickListener{
@@ -48,7 +48,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
             if (it % 2 != 0){
                 data.add(
                     Message(
-                        message = "no problem :) (${it})",
+                        message = "no problem :)",
                         sender = User("support"),
                         createdAt = System.currentTimeMillis()
                     )
@@ -58,7 +58,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
             else{
                 data.add(
                     Message(
-                        message = "can u help me? (${it})",
+                        message = "can u help me?",
                         sender = null,
                         createdAt = System.currentTimeMillis()
                     )

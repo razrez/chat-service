@@ -60,7 +60,7 @@
             android:layout_gravity="start"
             android:layout_marginStart="45sp"
             android:background="@drawable/ic_library"
-            android:backgroundTint="@color/nav_inactive"
+            android:backgroundTint="@color/white"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:gravity="center_horizontal|top"
             android:text="@string/your_library"
             android:textAppearance="@style/navText"
-            android:textColor="#78909C" />
+            android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_nav_search"
@@ -124,6 +124,5 @@
 
 
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
