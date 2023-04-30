@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="20dp">
+        tools:layout_editor_absoluteY="20dp"
+        android:id="@+id/search_container">
 
         <TextView
             android:id="@+id/textView2"
@@ -56,4 +57,6 @@
 
 
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

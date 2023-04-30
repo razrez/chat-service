@@ -1,7 +1,10 @@
 package com.example.spotifychat.presentation.fragments
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.core.view.iterator
 import com.example.core.base.FragmentBase
 import com.example.spotifychat.R
 import com.example.spotifychat.databinding.FragmentSearchBinding
@@ -13,10 +16,11 @@ class SearchFragment: FragmentBase<FragmentSearchBinding, SearchViewModel>(R.id.
         super.setUpViews()
 
         val listView: ListView = binding.listView
-        val list = arrayOf("Pop", "Rock", "Indie", "Podcasts", "Charts")
+        val list = arrayOf("Rock", "Jazz", "Techno", "Electro", "Country", "Pop")
 
         val adapter: ArrayAdapter<String> = ArrayAdapter(this.requireContext(),
             R.layout.fragment_genre, list)
+
         listView.adapter = adapter;
     }
 
