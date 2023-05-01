@@ -45,84 +45,11 @@
         app:layout_constraintTop_toBottomOf="@+id/title_container">
     </androidx.recyclerview.widget.RecyclerView>
 
-    <RelativeLayout
-        app:layout_constraintBottom_toBottomOf="parent"
+    <include app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/nav_footer_container"
         android:layout_width="match_parent"
-        android:layout_height="79dp">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_nav_library"
-            android:layout_width="32sp"
-            android:layout_height="32sp"
-            android:layout_alignParentEnd="false"
-            android:layout_gravity="start"
-            android:layout_marginStart="45sp"
-            android:background="@drawable/ic_library"
-            android:backgroundTint="@color/white"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-        <TextView
-            android:id="@+id/your_library_text"
-            android:layout_width="59dp"
-            android:layout_height="19dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="35dp"
-            android:gravity="center_horizontal|top"
-            android:text="@string/your_library"
-            android:textAppearance="@style/navText"
-            android:textColor="@color/white" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_nav_search"
-            android:layout_width="32sp"
-            android:layout_height="32sp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="end|bottom"
-            android:layout_marginStart="5sp"
-            android:layout_marginEnd="5sp"
-            android:layout_marginBottom="5sp"
-            android:background="@drawable/ic_search"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-        <TextView
-            android:id="@+id/search_text"
-            android:layout_width="59dp"
-            android:layout_height="15dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp"
-            android:gravity="center_horizontal|top"
-            android:text="@string/search"
-            android:textAppearance="@style/navText"
-            android:textColor="#78909C"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_nav_chat"
-            android:layout_width="32sp"
-            android:layout_height="32sp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="45sp"
-            android:layout_marginBottom="5sp"
-            android:background="@drawable/ic_support"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-        <TextView
-            android:id="@+id/support_text"
-            android:layout_width="86dp"
-            android:layout_height="19dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="35dp"
-            android:layout_marginEnd="18sp"
-            android:gravity="center_horizontal|top"
-            android:text="@string/support"
-            android:textAppearance="@style/navText"
-            android:textColor="#78909C"/>
-
-
-    </RelativeLayout>
+        android:layout_height="79dp"
+        layout="@layout/nav_footer"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

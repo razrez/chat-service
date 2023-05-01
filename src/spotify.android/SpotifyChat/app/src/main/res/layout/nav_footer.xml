@@ -11,7 +11,10 @@
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/nav_footer_container"
         android:layout_width="match_parent"
-        android:layout_height="79dp">
+        android:layout_height="79dp"
+        android:backgroundTintMode="add"
+        android:background="@color/background_color"
+        android:paddingTop="10dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_nav_library"

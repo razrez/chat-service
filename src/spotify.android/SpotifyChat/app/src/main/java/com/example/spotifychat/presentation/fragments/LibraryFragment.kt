@@ -1,5 +1,7 @@
 package com.example.spotifychat.presentation.fragments
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core.base.FragmentBase
@@ -17,7 +19,11 @@ class LibraryFragment : FragmentBase<FragmentLibraryBinding, LibraryViewModel>(R
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = SongsRecyclerAdapter(fillSongs())
 
-        binding.buttonNavSearch.setOnClickListener{
+        // active color
+        binding.navFooterContainer.yourLibraryText.setTextColor(Color.WHITE)
+        binding.navFooterContainer.buttonNavLibrary.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+
+        binding.navFooterContainer.buttonNavSearch.setOnClickListener{
             this.requireActivity().supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.mainFragmentContainer, SearchFragment.newInstance())
@@ -25,7 +31,7 @@ class LibraryFragment : FragmentBase<FragmentLibraryBinding, LibraryViewModel>(R
                 .commit()
         }
 
-        binding.buttonNavChat.setOnClickListener {
+        binding.navFooterContainer.buttonNavChat.setOnClickListener {
             this.requireActivity().supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.mainFragmentContainer, ChatFragment.newInstance())

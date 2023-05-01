@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
-    android:padding="20sp">
+    android:background="@color/background_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,6 +12,7 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="20dp"
+        android:padding="20sp"
         android:id="@+id/search_container">
 
         <TextView
@@ -55,8 +55,13 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="20sp"/>
 
-
     </LinearLayout>
 
+    <include app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/nav_footer_container"
+        android:layout_width="match_parent"
+        android:layout_height="79dp"
+        layout="@layout/nav_footer"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

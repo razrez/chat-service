@@ -1,5 +1,6 @@
 package com.example.spotifychat.presentation.fragments
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.widget.ArrayAdapter
@@ -22,6 +23,26 @@ class SearchFragment: FragmentBase<FragmentSearchBinding, SearchViewModel>(R.id.
             R.layout.fragment_genre, list)
 
         listView.adapter = adapter;
+
+        // active color
+        binding.navFooterContainer.searchText.setTextColor(Color.WHITE)
+        binding.navFooterContainer.buttonNavSearch.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+
+        binding.navFooterContainer.buttonNavLibrary.setOnClickListener{
+            this.requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())
+                .addToBackStack(this::javaClass.name)
+                .commit()
+        }
+
+        binding.navFooterContainer.buttonNavChat.setOnClickListener {
+            this.requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.mainFragmentContainer, ChatFragment.newInstance())
+                .addToBackStack(this::javaClass.name)
+                .commit()
+        }
     }
 
     override fun getViewModelClass(): Class<SearchViewModel> {
