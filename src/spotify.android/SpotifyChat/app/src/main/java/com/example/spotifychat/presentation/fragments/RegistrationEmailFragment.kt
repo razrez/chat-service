@@ -21,7 +21,7 @@ class RegistrationEmailFragment : FragmentBase<FragmentRegistrationEmailBinding,
         binding.btnNextToPassword.setOnClickListener {
             this.requireActivity().supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.mainFragmentContainer, RegistrationPasswordFragment.newInstance())
+                .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())
                 .addToBackStack(StartFragment::javaClass.name)
                 .commit()
         }
