@@ -1,0 +1,566 @@
+type Query {
+  songs(
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    where: SongFilterInput
+    order: [SongSortInput!]
+  ): SongsConnection
+  genres(
+    """
+    Returns the first _n_ elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+
+    """
+    Returns the last _n_ elements from the list.
+    """
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    where: GenreFilterInput
+    order: [GenreSortInput!]
+  ): GenresConnection
+}
+
+input SongFilterInput {
+  and: [SongFilterInput!]
+  or: [SongFilterInput!]
+  id: IntOperationFilterInput
+  userId: StringOperationFilterInput
+  originPlaylistId: IntOperationFilterInput
+  name: StringOperationFilterInput
+  source: StringOperationFilterInput
+  user: UserInfoFilterInput
+  playlists: ListFilterInputTypeOfPlaylistFilterInput
+}
+
+input SongSortInput {
+  id: SortEnumType
+  userId: SortEnumType
+  originPlaylistId: SortEnumType
+  name: SortEnumType
+  source: SortEnumType
+  user: UserInfoSortInput
+}
+
+input GenreFilterInput {
+  and: [GenreFilterInput!]
+  or: [GenreFilterInput!]
+  playlistId: IntOperationFilterInput
+  genreType: GenreTypeOperationFilterInput
+  playlist: PlaylistFilterInput
+}
+
+input GenreSortInput {
+  playlistId: SortEnumType
+  genreType: SortEnumType
+  playlist: PlaylistSortInput
+}
+
+"""
+A connection to a list of items.
+"""
+type SongsConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [SongsEdge!]
+
+  """
+  A flattened list of the nodes.
+  """
+  nodes: [Song]
+}
+
+"""
+A connection to a list of items.
+"""
+type GenresConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [GenresEdge!]
+
+  """
+  A flattened list of the nodes.
+  """
+  nodes: [Genre]
+}
+
+input IntOperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int]
+  nin: [Int]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
+}
+
+input UserInfoFilterInput {
+  and: [UserInfoFilterInput!]
+  or: [UserInfoFilterInput!]
+  id: StringOperationFilterInput
+  email: StringOperationFilterInput
+  userPremium: UserPremiumFilterInput
+  profile: ProfileFilterInput
+  songs: ListFilterInputTypeOfSongFilterInput
+  playlists: ListFilterInputTypeOfPlaylistFilterInput
+  userName: StringOperationFilterInput
+  normalizedUserName: StringOperationFilterInput
+  normalizedEmail: StringOperationFilterInput
+  emailConfirmed: BooleanOperationFilterInput
+  passwordHash: StringOperationFilterInput
+  securityStamp: StringOperationFilterInput
+  concurrencyStamp: StringOperationFilterInput
+  phoneNumber: StringOperationFilterInput
+  phoneNumberConfirmed: BooleanOperationFilterInput
+  twoFactorEnabled: BooleanOperationFilterInput
+  lockoutEnd: DateTimeOperationFilterInput
+  lockoutEnabled: BooleanOperationFilterInput
+  accessFailedCount: IntOperationFilterInput
+}
+
+input ListFilterInputTypeOfPlaylistFilterInput {
+  all: PlaylistFilterInput
+  none: PlaylistFilterInput
+  some: PlaylistFilterInput
+  any: Boolean
+}
+
+enum SortEnumType {
+  ASC
+  DESC
+}
+
+input UserInfoSortInput {
+  id: SortEnumType
+  email: SortEnumType
+  userPremium: UserPremiumSortInput
+  profile: ProfileSortInput
+  userName: SortEnumType
+  normalizedUserName: SortEnumType
+  normalizedEmail: SortEnumType
+  emailConfirmed: SortEnumType
+  passwordHash: SortEnumType
+  securityStamp: SortEnumType
+  concurrencyStamp: SortEnumType
+  phoneNumber: SortEnumType
+  phoneNumberConfirmed: SortEnumType
+  twoFactorEnabled: SortEnumType
+  lockoutEnd: SortEnumType
+  lockoutEnabled: SortEnumType
+  accessFailedCount: SortEnumType
+}
+
+input GenreTypeOperationFilterInput {
+  eq: GenreType
+  neq: GenreType
+  in: [GenreType!]
+  nin: [GenreType!]
+}
+
+input PlaylistFilterInput {
+  and: [PlaylistFilterInput!]
+  or: [PlaylistFilterInput!]
+  id: IntOperationFilterInput
+  title: StringOperationFilterInput
+  userId: StringOperationFilterInput
+  playlistType: PlaylistTypeOperationFilterInput
+  genreType: GenreTypeOperationFilterInput
+  imgSrc: StringOperationFilterInput
+  verified: BooleanOperationFilterInput
+  songs: ListFilterInputTypeOfSongFilterInput
+  users: ListFilterInputTypeOfUserInfoFilterInput
+}
+
+input PlaylistSortInput {
+  id: SortEnumType
+  title: SortEnumType
+  userId: SortEnumType
+  playlistType: SortEnumType
+  genreType: SortEnumType
+  imgSrc: SortEnumType
+  verified: SortEnumType
+}
+
+"""
+Information about pagination in a connection.
+"""
+type PageInfo {
+  """
+  Indicates whether more edges exist following the set defined by the clients arguments.
+  """
+  hasNextPage: Boolean!
+
+  """
+  Indicates whether more edges exist prior the set defined by the clients arguments.
+  """
+  hasPreviousPage: Boolean!
+
+  """
+  When paginating backwards, the cursor to continue.
+  """
+  startCursor: String
+
+  """
+  When paginating forwards, the cursor to continue.
+  """
+  endCursor: String
+}
+
+type Song {
+  id: Int!
+  userId: String!
+  originPlaylistId: Int!
+  name: String!
+  source: String!
+  user: UserInfo!
+  playlists: [Playlist!]!
+}
+
+"""
+An edge in a connection.
+"""
+type SongsEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Song
+}
+
+type Genre {
+  playlistId: Int
+  genreType: GenreType!
+  playlist: Playlist
+}
+
+"""
+An edge in a connection.
+"""
+type GenresEdge {
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+
+  """
+  The item at the end of the edge.
+  """
+  node: Genre
+}
+
+input UserPremiumFilterInput {
+  and: [UserPremiumFilterInput!]
+  or: [UserPremiumFilterInput!]
+  userId: StringOperationFilterInput
+  premiumId: IntOperationFilterInput
+  startAt: DateTimeOperationFilterInput
+  endAt: DateTimeOperationFilterInput
+  user: UserInfoFilterInput
+  premium: PremiumFilterInput
+}
+
+input ProfileFilterInput {
+  and: [ProfileFilterInput!]
+  or: [ProfileFilterInput!]
+  userId: StringOperationFilterInput
+  username: StringOperationFilterInput
+  birthday: DateOperationFilterInput
+  country: NullableOfCountryOperationFilterInput
+  profileImg: StringOperationFilterInput
+  userType: UserTypeOperationFilterInput
+  user: UserInfoFilterInput
+}
+
+input ListFilterInputTypeOfSongFilterInput {
+  all: SongFilterInput
+  none: SongFilterInput
+  some: SongFilterInput
+  any: Boolean
+}
+
+input BooleanOperationFilterInput {
+  eq: Boolean
+  neq: Boolean
+}
+
+input DateTimeOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime]
+  nin: [DateTime]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
+input UserPremiumSortInput {
+  userId: SortEnumType
+  premiumId: SortEnumType
+  startAt: SortEnumType
+  endAt: SortEnumType
+  user: UserInfoSortInput
+  premium: PremiumSortInput
+}
+
+input ProfileSortInput {
+  userId: SortEnumType
+  username: SortEnumType
+  birthday: SortEnumType
+  country: SortEnumType
+  profileImg: SortEnumType
+  userType: SortEnumType
+  user: UserInfoSortInput
+}
+
+input PlaylistTypeOperationFilterInput {
+  eq: PlaylistType
+  neq: PlaylistType
+  in: [PlaylistType!]
+  nin: [PlaylistType!]
+}
+
+input ListFilterInputTypeOfUserInfoFilterInput {
+  all: UserInfoFilterInput
+  none: UserInfoFilterInput
+  some: UserInfoFilterInput
+  any: Boolean
+}
+
+input PremiumFilterInput {
+  and: [PremiumFilterInput!]
+  or: [PremiumFilterInput!]
+  id: IntOperationFilterInput
+  name: StringOperationFilterInput
+  description: StringOperationFilterInput
+  price: FloatOperationFilterInput
+  userCount: IntOperationFilterInput
+  userPremiums: ListFilterInputTypeOfUserPremiumFilterInput
+}
+
+input DateOperationFilterInput {
+  eq: Date
+  neq: Date
+  in: [Date]
+  nin: [Date]
+  gt: Date
+  ngt: Date
+  gte: Date
+  ngte: Date
+  lt: Date
+  nlt: Date
+  lte: Date
+  nlte: Date
+}
+
+input NullableOfCountryOperationFilterInput {
+  eq: Country
+  neq: Country
+  in: [Country]
+  nin: [Country]
+}
+
+input UserTypeOperationFilterInput {
+  eq: UserType
+  neq: UserType
+  in: [UserType!]
+  nin: [UserType!]
+}
+
+"""
+The `DateTime` scalar represents an ISO-8601 compliant date time type.
+"""
+scalar DateTime
+
+input PremiumSortInput {
+  id: SortEnumType
+  name: SortEnumType
+  description: SortEnumType
+  price: SortEnumType
+  userCount: SortEnumType
+}
+
+input FloatOperationFilterInput {
+  eq: Float
+  neq: Float
+  in: [Float]
+  nin: [Float]
+  gt: Float
+  ngt: Float
+  gte: Float
+  ngte: Float
+  lt: Float
+  nlt: Float
+  lte: Float
+  nlte: Float
+}
+
+input ListFilterInputTypeOfUserPremiumFilterInput {
+  all: UserPremiumFilterInput
+  none: UserPremiumFilterInput
+  some: UserPremiumFilterInput
+  any: Boolean
+}
+
+"""
+The `Date` scalar represents an ISO-8601 compliant date type.
+"""
+scalar Date
+
+enum GenreType {
+  ROCK
+  JAZZ
+  TECHNO
+  ELECTRO
+  COUNTRY
+  POP
+}
+
+type UserInfo {
+  id: String!
+  email: String!
+  userPremium: UserPremium!
+  profile: Profile!
+  songs: [Song!]!
+  playlists: [Playlist!]!
+  userName: String
+  normalizedUserName: String
+  normalizedEmail: String
+  emailConfirmed: Boolean!
+  passwordHash: String
+  securityStamp: String
+  concurrencyStamp: String
+  phoneNumber: String
+  phoneNumberConfirmed: Boolean!
+  twoFactorEnabled: Boolean!
+  lockoutEnd: DateTime
+  lockoutEnabled: Boolean!
+  accessFailedCount: Int!
+}
+
+type Playlist {
+  id: Int!
+  title: String!
+  userId: String!
+  playlistType: PlaylistType!
+  genreType: GenreType!
+  imgSrc: String
+  verified: Boolean
+  songs: [Song!]!
+  users: [UserInfo!]!
+}
+
+enum PlaylistType {
+  ALBUM
+  SINGLE
+  EP
+  USER
+  LIKED_SONGS
+}
+
+enum Country {
+  RUSSIA
+  UKRAINE
+  USA
+  GREECE
+}
+
+enum UserType {
+  USER
+  ARTIST
+  ADMIN
+}
+
+type Profile {
+  userId: String!
+  username: String!
+  birthday: Date
+  country: Country
+  profileImg: String
+  userType: UserType!
+  user: UserInfo
+}
+
+type UserPremium {
+  userId: String!
+  premiumId: Int!
+  startAt: DateTime!
+  endAt: DateTime!
+  user: UserInfo!
+  premium: Premium!
+}
+
+type Premium {
+  id: Int!
+  name: String!
+  description: String!
+  price: Float!
+  userCount: Int!
+  userPremiums: [UserPremium!]!
+}

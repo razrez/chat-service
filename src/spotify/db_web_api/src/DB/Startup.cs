@@ -100,6 +100,8 @@ public class Startup
         );
         
         services.AddScoped<ISpotifyRepository, SpotifyRepository>();
+        
+        // GraphQl
         services.AddGraphQl();
     }
 
