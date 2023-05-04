@@ -20,7 +20,15 @@ class TokenUseCase : ITokenUseCase {
     override suspend fun signUp(loginData: LoginData, profileData: ProfileData): Token? {
         return DataSource
             .tokenService
-            .signUp(loginData, profileData)
+            .signUp(loginData.grant_type,
+                    loginData.username,
+                    loginData.password,
+                    profileData.Name,
+                    profileData.BirthYear,
+                    profileData.BirthMonth,
+                    profileData.BirthDay,
+                    profileData.Country,
+                    profileData.ProfileImg,)
             .awaitResponse()
             .body()
     }

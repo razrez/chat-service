@@ -18,6 +18,15 @@ interface IDataSourceRetrofit {
               @Field("username") username:String,
               @Field("password") password:String ): Call<Token>
 
+    @FormUrlEncoded
     @POST("api/auth/signup")
-    fun signUp(@Body loginData:LoginData, @Body profileData: ProfileData): Call<Token>
+    fun signUp(@Field("grant_type") grant_type:String,
+               @Field("username") username:String,
+               @Field("password") password:String,
+               @Field("Name") Name:String,
+               @Field("BirthYear") BirthYear:Int,
+               @Field("BirthMonth") BirthMonth:Int,
+               @Field("BirthDay") BirthDay:Int,
+               @Field("Country") Country:Int,
+               @Field("ProfileImg") ProfileImg:String ): Call<Token>
 }

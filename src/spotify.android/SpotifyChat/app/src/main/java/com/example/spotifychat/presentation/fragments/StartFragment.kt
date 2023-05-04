@@ -18,7 +18,7 @@ class StartFragment : FragmentBase<FragmentStartBinding, StartViewModel>(R.id.ma
         binding.btnRegistration.setOnClickListener {
             this.requireActivity().supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.mainFragmentContainer, RegistrationEmailFragment.newInstance())
+                .replace(R.id.mainFragmentContainer, RegistrationFragment.newInstance())
                 .addToBackStack(StartFragment::javaClass.name)
                 .commit()
         }
