@@ -8,28 +8,49 @@ import com.example.domain.common.User
 import com.example.spotifychat.R
 import com.example.spotifychat.databinding.FragmentChatBinding
 import com.example.spotifychat.presentation.adapters.ChatRecyclerAdapter
+import com.example.spotifychat.presentation.adapters.SongsRecyclerAdapter
 import com.example.spotifychat.presentation.viewmodels.ChatViewModel
 
 class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainFragmentContainer) {
 
+    private lateinit var recyclerView: RecyclerView
     override fun setUpViews() {
         super.setUpViews()
 
-        val recyclerView: RecyclerView = binding.recyclerGchat
+        recyclerView = binding.recyclerGchat
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = ChatRecyclerAdapter(fillList())
+        //viewModel.loadMessages()
 
         val messageInput = binding.editGchatMessage
         binding.buttonGchatSend.setOnClickListener{
             if (messageInput.text.toString() != ""){
                 // add message to recycler
+                val myMessage = Message(
+                    message = messageInput.text.toString(),
+                    sender = null,
+                    createdAt = System.currentTimeMillis()
+                )
+
+                (recyclerView.adapter as ChatRecyclerAdapter).addMessage(myMessage)
+
+                // post to the server
+                viewModel.sendMessage(myMessage)
             }
         }
     }
 
-    /*override fun observeData() {
+    override fun observeData() {
         super.observeData()
-    }*/
+
+        viewModel.messagesMutableList.observe(this){
+            recyclerView.adapter = ChatRecyclerAdapter(it as MutableList<Message>?)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
 
     override fun getViewModelClass(): Class<ChatViewModel> {
         return ChatViewModel::class.java
@@ -45,7 +66,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
     }
 
     // Let's create a useless list of messages for now, which we will pass to the adapter.
-    private fun fillList(): List<Message> {
+    private fun fillList(): MutableList<Message> {
         val data = mutableListOf<Message>()
         (0..9).forEach {
 

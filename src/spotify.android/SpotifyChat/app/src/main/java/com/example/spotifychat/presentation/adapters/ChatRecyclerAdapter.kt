@@ -15,7 +15,7 @@ import com.example.spotifychat.presentation.adapters.ChatRecyclerAdapter.ViewHol
 import java.text.SimpleDateFormat
 
 // https://medium.com/codex/how-to-build-a-messaging-ui-for-your-android-chat-app-883fad05f43a
-class ChatRecyclerAdapter(private val messages: List<Message>?) :
+class ChatRecyclerAdapter(private val messages: MutableList<Message>?) :
     RecyclerView.Adapter<ViewHolder>()  {
 
     object ViewHolderConstants {
@@ -98,7 +98,9 @@ class ChatRecyclerAdapter(private val messages: List<Message>?) :
         }
     }
 
-    fun sendMessage(message: Message){
+    fun addMessage(message: Message){
+        messages?.add(message)
+        messages?.size?.let { notifyItemInserted(it) }
         /*messages
         this.notifyDataSetChanged()*/
     }

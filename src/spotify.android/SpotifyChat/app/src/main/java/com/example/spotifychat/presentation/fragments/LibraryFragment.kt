@@ -60,10 +60,4 @@ class LibraryFragment : FragmentBase<FragmentLibraryBinding, LibraryViewModel>(R
         @JvmStatic
         fun newInstance() = LibraryFragment()
     }
-
-    private fun fillSongs(): List<String> {
-        val data = mutableListOf<String>()
-        (0..30).forEach { i -> data.add("$i element") }
-        return data
-    }
 }

@@ -1,6 +1,5 @@
 package com.example.spotifychat
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.spotifychat.databinding.ActivityMainBinding
@@ -13,10 +12,12 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+        val prefs = Prefs(this)
 
-        val prefs = Prefs(this).getAllPrefs()
+        prefs.clearSharedPreference()
+        val allPrefs = prefs.getAllPrefs()
 
-        if (prefs.isAuth) {
+        if (allPrefs.isAuth) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())
