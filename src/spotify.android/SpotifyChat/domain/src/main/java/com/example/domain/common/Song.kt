@@ -1,9 +1,8 @@
 package com.example.domain.common
 
-import kotlinx.serialization.Serializable
+import org.w3c.dom.Node
 
-@Serializable
-data class Song(
+data class Song (
     val song: String,
     val user: User
 )

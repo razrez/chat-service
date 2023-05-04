@@ -39,7 +39,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text_gchat_user_other"
+                android:id="@+id/artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="260dp"
@@ -52,7 +52,7 @@
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/text_gchat_message_other"
+                android:id="@+id/song"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

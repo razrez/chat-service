@@ -17,7 +17,7 @@ class LibraryFragment : FragmentBase<FragmentLibraryBinding, LibraryViewModel>(R
 
         val recyclerView: RecyclerView = binding.recyclerSongs
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        recyclerView.adapter = SongsRecyclerAdapter(fillSongs())
+        viewModel.getSongs()
 
         // active color
         binding.navFooterContainer.yourLibraryText.setTextColor(Color.WHITE)
@@ -37,6 +37,14 @@ class LibraryFragment : FragmentBase<FragmentLibraryBinding, LibraryViewModel>(R
                 .replace(R.id.mainFragmentContainer, ChatFragment.newInstance())
                 .addToBackStack(this::javaClass.name)
                 .commit()
+        }
+    }
+
+    override fun observeData() {
+        super.observeData()
+
+        viewModel.songsMutableList.observe(this){
+            binding.recyclerSongs.adapter = SongsRecyclerAdapter(it)
         }
     }
 
