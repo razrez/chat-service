@@ -7,7 +7,7 @@ data class SharedValues(val isAuth: Boolean, val token: String?)
 
 class Prefs(val context: Context) {
     private val PREFS_NAME = "myprefs"
-    val sharedPref:SharedPreferences = context.getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE)
+    private val sharedPref:SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     fun saveToken(isAuth: Boolean, token: String) {
         val editor: SharedPreferences.Editor = sharedPref.edit()
