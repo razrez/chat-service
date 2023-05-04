@@ -13,7 +13,6 @@ class DataSourceGraphql : IDataSourceGraphql {
 
     override suspend fun getSongs(): List<*>? {
         val response = apolloClient.query(SongsQuery()).execute()
-        print(response.toString())
         return response.data?.songs?.nodes
     }
 }
