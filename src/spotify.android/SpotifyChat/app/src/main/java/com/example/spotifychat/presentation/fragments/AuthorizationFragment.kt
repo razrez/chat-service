@@ -1,6 +1,6 @@
 package com.example.spotifychat.presentation.fragments
 
-import android.annotation.SuppressLint
+import android.content.Context
 import android.widget.Toast
 import com.example.core.base.FragmentBase
 import com.example.domain.common.LoginData
@@ -11,7 +11,6 @@ import com.example.spotifychat.presentation.viewmodels.AuthViewModel
 
 class AuthorizationFragment : FragmentBase<FragmentAuthorizationBinding, AuthViewModel>(R.id.mainFragmentContainer){
 
-    private val prefs = Prefs(this.requireContext())
     override fun setUpViews() {
         super.setUpViews()
 
@@ -22,11 +21,14 @@ class AuthorizationFragment : FragmentBase<FragmentAuthorizationBinding, AuthVie
                 .commit()
         }
 
+        val inputEmail = binding.inputEmail
+        val inputPassword = binding.inputPassword
+
         binding.btnSignIn.setOnClickListener {
 
             val loginData = LoginData(
-                username = R.id.input_email.toString(),
-                password = R.id.editText.toString()
+                username = inputEmail.text.toString(),
+                password = inputPassword.text.toString()
             )
             viewModel.signIn(loginData)
         }
@@ -36,10 +38,11 @@ class AuthorizationFragment : FragmentBase<FragmentAuthorizationBinding, AuthVie
 
     override fun observeData() {
         super.observeData()
+        val prefs = Prefs(this.requireActivity())
 
         // dumb auth without token validation
         viewModel.tokenMutableData.observe(this){
-            if (it != null){
+            if (it?.access_token != null){
                 prefs.saveToken(true, it.access_token)
 
                 this.requireActivity().supportFragmentManager

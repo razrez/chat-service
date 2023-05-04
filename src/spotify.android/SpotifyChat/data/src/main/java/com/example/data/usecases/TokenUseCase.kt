@@ -12,7 +12,7 @@ class TokenUseCase : ITokenUseCase {
     override suspend fun logIn(loginData: LoginData): Token? {
         return DataSource
             .tokenService
-            .logIn(loginData)
+            .logIn(loginData.grant_type, loginData.username, loginData.password)
             .awaitResponse()
             .body()
     }
