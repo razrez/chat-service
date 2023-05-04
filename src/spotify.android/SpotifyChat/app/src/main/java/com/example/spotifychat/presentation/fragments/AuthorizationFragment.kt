@@ -52,6 +52,8 @@ class AuthorizationFragment : FragmentBase<FragmentAuthorizationBinding, AuthVie
                 .addToBackStack(StartFragment::javaClass.name)
                 .commit()
         }
+
+
     }
 
 

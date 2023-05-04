@@ -1,19 +1,25 @@
 package com.example.spotifychat.presentation.adapters
 
-import android.service.autofill.UserData
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.data.SongsQuery
 import com.example.spotifychat.R
 
-class SongsRecyclerAdapter(private val songs: List<String>?) :
+class SongsRecyclerAdapter(private val songs: List<SongsQuery.Node>?) :
     RecyclerView.Adapter<SongsRecyclerAdapter.MyViewHolder>()  {
 
     // it's a container for all list's components, needs to optimize resources
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        /*val largeTextView: TextView = itemView.findViewById(R.id.)
-        val smallTextView: TextView = itemView.findViewById(R.id.textViewSmall)*/
+        private val artist: TextView = itemView.findViewById(R.id.artist)
+        private val song: TextView = itemView.findViewById(R.id.song)
+
+        fun bind(song: SongsQuery.Node){
+            artist.text = song.user.username
+            this.song.text = song.song
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -25,8 +31,8 @@ class SongsRecyclerAdapter(private val songs: List<String>?) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        /*holder.largeTextView.text = users?.get(position)?.id.toString()
-        holder.smallTextView.text = users?.get(position)?.name*/
+        val song = songs?.get(position)
+        song?.let { holder.bind(it) }
     }
 
     // returns amount of collection's elements

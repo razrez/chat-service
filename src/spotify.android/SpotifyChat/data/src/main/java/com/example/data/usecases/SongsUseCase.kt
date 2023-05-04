@@ -7,7 +7,7 @@ import com.example.domain.usecases.ISongsUseCase
 class SongsUseCase : ISongsUseCase {
     private val dataSourceGraphql = DataSourceGraphql()
 
-    override suspend fun getSongs(): List<Song>? {
+    override suspend fun getSongs(): List<*>? {
         return dataSourceGraphql.getSongs()
     }
 }

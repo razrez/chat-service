@@ -27,6 +27,10 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         }
     }
 
+    /*override fun observeData() {
+        super.observeData()
+    }*/
+
     override fun getViewModelClass(): Class<ChatViewModel> {
         return ChatViewModel::class.java
     }

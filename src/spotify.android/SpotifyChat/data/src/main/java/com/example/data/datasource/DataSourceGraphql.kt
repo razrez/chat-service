@@ -6,14 +6,13 @@ import com.example.domain.common.Song
 import com.example.domain.datasource.IDataSourceGraphql
 
 class DataSourceGraphql : IDataSourceGraphql {
-    companion object{
-        val apolloClient: ApolloClient = ApolloClient.Builder()
-            .serverUrl("https://localhost:7030/graphq")
-            .build()
-    }
 
-    override suspend fun getSongs(): List<Song>? {
+    private val apolloClient: ApolloClient = ApolloClient.Builder()
+        .serverUrl("http://10.0.2.2:7030/graphql")
+        .build()
+
+    override suspend fun getSongs(): List<*>? {
         val response = apolloClient.query(SongsQuery()).execute()
-        return response.data?.songs?.nodes as List<Song>
+        return response.data?.songs?.nodes
     }
 }
