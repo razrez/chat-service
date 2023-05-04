@@ -15,12 +15,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         val prefs = Prefs(this).getAllPrefs()
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.mainFragmentContainer, StartFragment.newInstance())
-            .commit()
 
-        /*if (false) {
+        if (prefs.isAuth) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())
@@ -32,6 +28,6 @@ class MainActivity : AppCompatActivity() {
                 .beginTransaction()
                 .replace(R.id.mainFragmentContainer, StartFragment.newInstance())
                 .commit()
-        }*/
+        }
     }
 }
