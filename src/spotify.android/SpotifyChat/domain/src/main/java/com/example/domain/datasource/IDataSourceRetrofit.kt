@@ -15,8 +15,8 @@ interface IDataSourceRetrofit {
     @FormUrlEncoded
     @POST("api/auth/login")
     fun logIn(@Field("grant_type") grant_type:String,
-              @Field("grant_type") username:String,
-              @Field("grant_type") password:String ): Call<Token>
+              @Field("username") username:String,
+              @Field("password") password:String ): Call<Token>
 
     @POST("api/auth/signup")
     fun signUp(@Body loginData:LoginData, @Body profileData: ProfileData): Call<Token>

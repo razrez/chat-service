@@ -10,8 +10,8 @@ class RetrofitClient {
     companion object {
 
         private val client: OkHttpClient = OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .callTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(40, TimeUnit.SECONDS)
+            .callTimeout(40, TimeUnit.SECONDS)
             .build()
 
         val retrofitClient: Retrofit =  Retrofit.Builder()
