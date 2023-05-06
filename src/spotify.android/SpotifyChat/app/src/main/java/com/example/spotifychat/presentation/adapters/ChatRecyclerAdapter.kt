@@ -98,11 +98,15 @@ class ChatRecyclerAdapter(private val messages: MutableList<Message>?) :
         }
     }
 
-    fun addMessage(message: Message){
+    fun addMessage(message: Message) : Int{
         messages?.add(message)
-        messages?.size?.let { notifyItemInserted(it) }
-        /*messages
-        this.notifyDataSetChanged()*/
+
+        val newPosition = messages!!.size
+        if (newPosition != null) {
+            notifyItemInserted(newPosition)
+        }
+
+        return newPosition
     }
 
 }

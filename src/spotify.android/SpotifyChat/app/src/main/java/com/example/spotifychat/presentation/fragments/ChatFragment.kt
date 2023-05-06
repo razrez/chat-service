@@ -32,7 +32,9 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                     createdAt = System.currentTimeMillis()
                 )
 
-                (recyclerView.adapter as ChatRecyclerAdapter).addMessage(myMessage)
+                // add message to recycler and scroll to the bottom
+                val newPosition = (recyclerView.adapter as ChatRecyclerAdapter).addMessage(myMessage)
+                recyclerView.smoothScrollToPosition(newPosition)
 
                 // post to the server
                 viewModel.sendMessage(myMessage)
