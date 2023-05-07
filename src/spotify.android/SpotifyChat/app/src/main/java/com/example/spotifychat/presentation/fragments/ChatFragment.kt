@@ -38,6 +38,9 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
 
                 // post to the server
                 viewModel.sendMessage(myMessage)
+
+                // clear input
+                messageInput.setText("")
             }
         }
     }
