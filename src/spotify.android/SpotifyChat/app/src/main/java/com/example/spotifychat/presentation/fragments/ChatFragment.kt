@@ -48,6 +48,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
     override fun observeData() {
         super.observeData()
 
+        // get all messages
         viewModel.messagesMutableList.observe(this){
             recyclerView.adapter = ChatRecyclerAdapter(it as MutableList<Message>?)
         }
