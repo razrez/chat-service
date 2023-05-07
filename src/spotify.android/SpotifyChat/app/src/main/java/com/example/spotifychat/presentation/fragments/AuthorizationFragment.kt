@@ -1,6 +1,5 @@
 package com.example.spotifychat.presentation.fragments
 
-import android.content.Context
 import android.widget.Toast
 import com.example.core.base.FragmentBase
 import com.example.domain.common.LoginData
@@ -53,11 +52,9 @@ class AuthorizationFragment : FragmentBase<FragmentAuthorizationBinding, AuthVie
             }
 
             else{
-                val message = "Wrong credentials!"
-                val duration = Toast.LENGTH_SHORT
-
-                val toast = Toast.makeText(this.requireContext(), message, duration)
-                toast.show()
+                val toast = Toast
+                    .makeText(this.requireContext(), "Wrong credentials!", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

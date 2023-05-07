@@ -1,9 +1,11 @@
 package com.example.spotifychat.presentation.adapters
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -30,13 +32,15 @@ class ChatRecyclerAdapter(private val messages: MutableList<Message>?) :
         private val messageText: TextView = itemView.findViewById(R.id.text_gchat_message_other)
         private val timeText: TextView = itemView.findViewById(R.id.text_gchat_timestamp_other)
         private val nameText: TextView = itemView.findViewById(R.id.text_gchat_user_other)
-
-        // TODO(later will be implemented image message)
+        private val imageAttach: ImageView = itemView.findViewById(R.id.image_attach)
 
         fun bind(message: Message){
             messageText.text = message.message
             nameText.text = message.sender!!.username
             timeText.text = dateFormatter.format(message.createdAt)
+            if (message.imageBitmap != null){
+                imageAttach.setImageBitmap(message.imageBitmap)
+            }
         }
     }
 
@@ -44,10 +48,14 @@ class ChatRecyclerAdapter(private val messages: MutableList<Message>?) :
 
         private val messageText: TextView = itemView.findViewById(R.id.text_gchat_message_me)
         private val timeText: TextView = itemView.findViewById(R.id.text_gchat_timestamp_me)
+        private val imageAttach: ImageView = itemView.findViewById(R.id.image_attach)
 
         fun bind(message: Message){
             messageText.text = message.message
             timeText.text = dateFormatter.format(message.createdAt)
+            if (message.imageBitmap != null){
+                imageAttach.setImageBitmap(message.imageBitmap)
+            }
         }
     }
 
@@ -102,9 +110,7 @@ class ChatRecyclerAdapter(private val messages: MutableList<Message>?) :
         messages?.add(message)
 
         val newPosition = messages!!.size
-        if (newPosition != null) {
-            notifyItemInserted(newPosition)
-        }
+        notifyItemInserted(newPosition)
 
         return newPosition
     }

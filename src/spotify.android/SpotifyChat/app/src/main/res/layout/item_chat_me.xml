@@ -52,5 +52,17 @@
         app:layout_constraintBottom_toBottomOf="@+id/card_gchat_message_me"
         app:layout_constraintEnd_toStartOf="@+id/card_gchat_message_me" />
 
+    <ImageView
+        android:id="@+id/image_attach"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="300dp"
+        android:maxWidth="300dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="User Icon"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_gchat_message_me" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
