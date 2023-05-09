@@ -1,6 +1,5 @@
 package com.example.spotifychat.presentation.fragments
 
-import android.content.Context
 import android.widget.Toast
 import com.example.core.base.FragmentBase
 import com.example.domain.common.LoginData
@@ -40,11 +39,15 @@ class AuthorizationFragment : FragmentBase<FragmentAuthorizationBinding, AuthVie
         super.observeData()
         val prefs = Prefs(this.requireActivity())
 
+
         // dumb auth without token validation
         viewModel.tokenMutableData.observe(this){
             if (it?.access_token != null){
-                prefs.saveToken(true, it.access_token)
-
+                prefs.saveToken(it.access_token)
+                viewModel.claimsMutableData.observe(this){
+                    if(it != null)
+                        prefs.saveClaims(it)
+                }
                 this.requireActivity().supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())

@@ -44,7 +44,11 @@ class RegistrationFragment : FragmentBase<FragmentRegistrationEmailBinding, Regi
 
         viewModel.tokenMutableData.observe(this){
             if (it?.access_token != null){
-                prefs.saveToken(true, it.access_token)
+                prefs.saveToken(it.access_token)
+                viewModel.claimsMutableData.observe(this){
+                    if(it != null)
+                        prefs.saveClaims(it)
+                }
 
                 this.requireActivity().supportFragmentManager
                     .beginTransaction()

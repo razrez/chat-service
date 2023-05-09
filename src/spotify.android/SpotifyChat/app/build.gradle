@@ -57,6 +57,9 @@ dependencies {
     // recycle view
     implementation 'androidx.recyclerview:recyclerview:1.3.0'
 
+    //ktor
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
+
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
