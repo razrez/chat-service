@@ -6,8 +6,9 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace Chat.BackgroundService.Consumers;
-
-// saves metadata and move file to persistent bucket
+/// <summary>
+/// Increments cache by request id 
+/// </summary>
 public class MetadataConsumer : Microsoft.Extensions.Hosting.BackgroundService
 {
     private IConnection _connection;
