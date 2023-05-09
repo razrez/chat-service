@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.fragments.LibraryFragment"
+    android:background="@color/background_color">
+
+    <RelativeLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
+        android:clipToOutline="true"
+        tools:targetApi="s">
+
+        <TextView
+            android:id="@+id/libraryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="12dp"
+            android:text="@string/your_library"
+            android:textAppearance="@style/libraryText"
+            android:gravity="center_horizontal|top"
+            />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_songs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        tools:listitem="@layout/item_song"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@+id/nav_footer_container"
+        app:layout_constraintTop_toBottomOf="@+id/title_container">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <include app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/nav_footer_container"
+        android:layout_width="match_parent"
+        android:layout_height="79dp"
+        layout="@layout/nav_footer"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

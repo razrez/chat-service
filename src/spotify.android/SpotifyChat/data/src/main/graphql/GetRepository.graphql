@@ -1,0 +1,9 @@
+query SongsQuery{
+  songs {
+    nodes {
+      song:name, user:user {
+        username: userName
+      }
+    }
+  }
+}

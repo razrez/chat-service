@@ -4,8 +4,9 @@ import ConnectedUsers from "../components/ConnectedUsers";
 import {Button} from "react-bootstrap";
 
 const Chat = ({messages, sendMessage, closeConnection, users, history, metaMessages, metaHistory, connection}) => <div>
+    {users.length === 1 ? <marquee direction="up" scrollamount="5" className="runningText">wait please...</marquee>:""}
     <div className='leave-room'>
-        <Button variant='danger' onClick={() => closeConnection() }>Leave Room</Button>
+        <Button variant='dark' onClick={() => closeConnection() }>Leave Room</Button>
     </div>
     <ConnectedUsers users={users} />
     <div className='chat'>

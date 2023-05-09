@@ -1,16 +1,16 @@
 ﻿using System.Text.Json;
 using Amazon.S3;
-using Amazon.S3.Model;
 using Chat.AppCore.Common.DTO;
 using Chat.AppCore.Services.CacheService;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using CopyObjectRequest = Amazon.S3.Model.CopyObjectRequest;
 
 namespace Chat.BackgroundService.Consumers;
-
+/// <summary>
+/// Store files to Zenko S3 storage
+/// </summary>
 public class FileConsumer : Microsoft.Extensions.Hosting.BackgroundService
 {
     private IConnection _connection;

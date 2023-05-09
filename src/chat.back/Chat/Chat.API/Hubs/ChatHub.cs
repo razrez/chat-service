@@ -9,15 +9,20 @@ public class ChatHub : Hub
 {
     private readonly IDictionary<string, UserConnection> _connections;
     private readonly IMessagePublisher _publisher;
+    private readonly UsersQueue _usersQueue;
 
-    public ChatHub(IDictionary<string, UserConnection> connections, IMessagePublisher publisher)
+    public ChatHub(IDictionary<string, UserConnection> connections, IMessagePublisher publisher, UsersQueue usersQueue)
     {
         _connections = connections;
         _publisher = publisher;
+        _usersQueue = usersQueue;
     }
 
     public async Task JoinRoom(UserConnection userConnection)
     {
+        // add user to the queue
+        _usersQueue.AddUser(userConnection.User);
+        
         await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.Room);
         _connections[Context.ConnectionId] = userConnection;
         
@@ -25,10 +30,47 @@ public class ChatHub : Hub
         await Clients.Group(userConnection.Room)
             .SendAsync(
                 "ReceiveMessage","ChatBot",
-                $"{userConnection.User} has joined {userConnection.Room}"
+                $"{userConnection.User} has joined"
                 );
         
         await SendConnectedUsers(userConnection.Room);
+    }
+    public async Task JoinRoomByAdmin(string adminName)
+    {
+        var roomToHelp = _usersQueue.HelpUser();
+        
+        if (roomToHelp != "")
+        {
+            // define room for admin
+            await Clients.Client(Context.ConnectionId).SendAsync("AdminInfo", roomToHelp);
+            
+            var adminConnection = new UserConnection
+            {
+                User = adminName,
+                Room = roomToHelp
+            };
+            
+            Console.WriteLine(adminConnection.Room);
+            
+            await Groups.AddToGroupAsync(Context.ConnectionId, adminConnection.Room);
+            _connections[Context.ConnectionId] = adminConnection;
+            
+        
+            //real-time message from ChatBot
+            await Clients.Group(adminConnection.Room)
+                .SendAsync(
+                    "ReceiveMessage","ChatBot",
+                    $"{adminConnection.User} has joined"
+                );
+
+            await SendConnectedUsers(adminConnection.Room);
+            
+        }
+        
+        else
+        {
+            await Clients.Client(Context.ConnectionId).SendAsync("AdminInfo", "");
+        }
     }
 
     public async Task SendMessage(string message)
@@ -38,7 +80,7 @@ public class ChatHub : Hub
             await Clients.Group(userConnection.Room)
                 .SendAsync("ReceiveMessage", userConnection.User, message);
             
-            //тут должна быть логика для передачи сообщения в MassTransit, который потом добавляет сообщение в бд
+            // логика для передачи сообщения в MassTransit, который потом добавляет сообщение в бд
             _publisher.SaveMessage(new SaveMessageDto(
                 User: userConnection.User, 
                 Room: userConnection.Room, 
@@ -75,7 +117,7 @@ public class ChatHub : Hub
         var users = _connections.Values
             .Where(c => c.Room == room)
             .Select(c => c.User);
-
+        
         return Clients.Group(room).SendAsync("UsersInRoom", users);
     }
 }

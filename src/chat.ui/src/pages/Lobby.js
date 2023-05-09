@@ -1,21 +1,18 @@
-import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
-const Lobby = ({ joinRoom }) => {
-    const [user, setUser] = useState();
-    const [room, setRoom] = useState();
+const Lobby = ({ joinRoom, userClaims }) => {
+    let buttonValue = userClaims['role'] === 'User' ? 'ASK A QUESTION' : 'HELP THE USER'
+    const isAdmin = userClaims.name.substring(0,5) === 'admin'
+    if (isAdmin) {
+        buttonValue = "HELP THE USER";
+    }
 
     return <Form className='lobby'
           onSubmit={e => {
               e.preventDefault();
-              console.log(user, room);
-              joinRoom(user, room);
+              joinRoom(userClaims.name, userClaims.name, isAdmin);
           }} >
-        <Form.Group>
-            <Form.Control placeholder="name" onChange={e => setUser(e.target.value)} />
-            <Form.Control placeholder="room" onChange={e => setRoom(e.target.value)} />
-        </Form.Group>
-        <Button variant="success" type="submit" disabled={!user || !room}>Join</Button>
+        <Button variant="success" type="submit">{buttonValue}</Button>
     </Form>
 }
 

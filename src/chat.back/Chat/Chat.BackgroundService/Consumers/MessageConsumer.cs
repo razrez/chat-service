@@ -7,6 +7,9 @@ using RabbitMQ.Client.Events;
 
 namespace Chat.BackgroundService.Consumers;
 
+/// <summary>
+/// Saves messages to the Database
+/// </summary>
 public class MessageConsumer : Microsoft.Extensions.Hosting.BackgroundService
 {
     private IConnection _connection;

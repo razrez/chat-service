@@ -1,5 +1,4 @@
 
-using Amazon.S3.Model;
 
 namespace Chat.API.Publisher;
 

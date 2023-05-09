@@ -1,6 +1,7 @@
 ﻿version: '3.8'
     
 services:
+  
   db:
     image: postgres:latest
     container_name: 'db'
@@ -19,6 +20,7 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+      
       
   mongodb:
     container_name: "mongodb"
@@ -40,6 +42,7 @@ services:
       - S3BACKEND=mem
       - ENDPOINT=s3
     
+    
   redis-master:
     image: bitnami/redis:latest
     ports:
@@ -55,6 +58,7 @@ services:
     ports:
       - "3000:3000"
         
+        
   chatapi:
     build:
       context: chat.back/Chat
@@ -64,19 +68,44 @@ services:
     depends_on:
       - db
       - rabbitmq
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
 
   chat-saver:
     build:
       context: chat.back/Chat
       dockerfile: Chat.BackgroundService/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8001:80"
     restart: always
     depends_on:
       - db
       - rabbitmq
+        
+        
+  spotify-ui:
+    build:
+      context: spotify/spotify-clone
+      dockerfile: UI/Dockerfile
+    container_name: "spotify-ui"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "7057:80"
+    restart: always
+    depends_on:
+      - db
 
+  spotify-api:
+    build:
+      context: spotify/db_web_api/src/DB
+      dockerfile: ./Dockerfile
+    container_name: "spotify-api"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ENDPOINT=localhost
+    ports:
+      - "7030:80"
+    restart: always
+    depends_on:
+      - db
+        
+        

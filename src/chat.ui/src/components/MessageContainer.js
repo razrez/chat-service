@@ -29,7 +29,7 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory, connec
 
         {history.map((m, index) =>
             <div key={index} className='user-message'>
-                <div className='message bg-primary'>{m.message}</div>
+                <div className='message text-light bg-success'>{m.message}</div>
                 <div className='from-user'>{m.user}</div>
             </div>
         )}
@@ -46,7 +46,7 @@ const MessageContainer = ({ messages, history, metaMessages, metaHistory, connec
 
         {messages.map((m, index) =>
             <div key={index} className='user-message'>
-                <div className='message bg-primary'>{m.message}</div>
+                <div className='message text-light bg-success'>{m.message}</div>
                 <div className='from-user'>{m.user}</div>
             </div>
         )}

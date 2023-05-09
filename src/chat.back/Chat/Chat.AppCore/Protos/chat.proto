@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option csharp_namespace = "Chat.AppCore";
+package chat;
+
+service Chat {
+  // Join Method returns JWT token
+  // rpc Authorize(User) returns (AuthorizeResponse);
+  rpc ChatMessaging(stream Message) returns (stream Message);
+}
+
+message User {
+  string username = 1;
+}
+
+message AuthorizeResponse {
+  string token = 1;
+}
+
+message Message {
+  string message = 1;
+  User sender = 2;
+  int64 createdAt = 3;
+  bytes imageBitmap = 4;
+}
+
