@@ -5,7 +5,8 @@ namespace Chat.AppCore.Services.ChatGRPC;
 
 public class ChatRoom
 {
-    private ConcurrentDictionary<string, IServerStreamWriter<Message>> _users = new();
+    // key - roomName - userName, value - messages
+    private readonly ConcurrentDictionary<string, IServerStreamWriter<Message>> _users = new();
     public void Join(string name, IServerStreamWriter<Message> response) => _users.TryAdd(name, response);
 
     public void Remove(string name)  => _users.TryRemove(name, out _);
@@ -19,7 +20,7 @@ public class ChatRoom
             var item = await SendMessageToSubscriber(user, message);
             if (item != null)
             {
-                Remove(item?.Key);
+                Remove(item?.Key!);
             }
         }
     }

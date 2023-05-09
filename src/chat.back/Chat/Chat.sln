@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.API", "Chat.API\Chat.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.BackgroundService", "Chat.BackgroundService\Chat.BackgroundService.csproj", "{ACED79D2-6A6A-4AFE-85AC-DCE94BB3F51E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcClientTester", "GrpcClientTester\GrpcClientTester.csproj", "{F73058F5-9211-4AAE-AAC5-F267B6ECD81D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,5 +41,9 @@ Global
 		{ACED79D2-6A6A-4AFE-85AC-DCE94BB3F51E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACED79D2-6A6A-4AFE-85AC-DCE94BB3F51E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACED79D2-6A6A-4AFE-85AC-DCE94BB3F51E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F73058F5-9211-4AAE-AAC5-F267B6ECD81D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F73058F5-9211-4AAE-AAC5-F267B6ECD81D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F73058F5-9211-4AAE-AAC5-F267B6ECD81D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F73058F5-9211-4AAE-AAC5-F267B6ECD81D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
