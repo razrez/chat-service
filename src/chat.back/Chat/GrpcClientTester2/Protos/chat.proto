@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package chat;
+
+//service Chat {
+//  // Join Method returns JWT token
+//  // rpc Authorize(User) returns (AuthorizeResponse);
+//  //rpc SendMessage(Message) returns (Empty);
+//  //rpc ReceiveMessage(ReceiveRequest) returns (stream Message);
+//  rpc ChatMessaging(stream Message) returns (stream Message);
+//}
+//
+//message User {
+//  string username = 1;
+//}
+//
+//message AuthorizeResponse {
+//  string token = 1;
+//}
+//
+//message Message {
+//  string message = 1;
+//  User sender = 2;
+//  int64 createdAt = 3;
+//  //bytes imageBitmap = 4;
+//}
+service ChatRoom {
+  rpc join (stream Message) returns (stream Message) {}
+}
+
+message Message {
+  string user = 1;
+  string text = 2;
+}
