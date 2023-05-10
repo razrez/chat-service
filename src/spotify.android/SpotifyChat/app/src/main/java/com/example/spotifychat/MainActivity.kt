@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())
             .commit()
 
-        /*if (allPrefs.isAuth) {
+        if (allPrefs.isAuth) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())
@@ -34,6 +34,6 @@ class MainActivity : AppCompatActivity() {
                 .beginTransaction()
                 .replace(R.id.mainFragmentContainer, StartFragment.newInstance())
                 .commit()
-        }*/
+        }
     }
 }
