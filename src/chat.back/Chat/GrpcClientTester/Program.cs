@@ -1,10 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Chat;
-using Chat.AppCore;
 using Grpc.Net.Client;
 
-static async Task Main(string[] args)
+Task.Run(async () =>
 {
     Console.WriteLine("Enter your name: ");
     var userName = Console.ReadLine();
@@ -25,7 +24,7 @@ static async Task Main(string[] args)
 
         await chat.RequestStream.WriteAsync(new Message { User = userName, Text = $"{userName} has joined the room" });
 
-        string line;
+        string? line;
         while ((line = Console.ReadLine()) != null)
         {
             if (line.ToLower() == "bye")
@@ -39,4 +38,5 @@ static async Task Main(string[] args)
 
     Console.WriteLine("Disconnecting");
     await channel.ShutdownAsync();
-}
+});
+
