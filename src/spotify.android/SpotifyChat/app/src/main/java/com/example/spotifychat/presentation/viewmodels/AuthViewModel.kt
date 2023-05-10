@@ -20,8 +20,6 @@ class AuthViewModel : ViewModel() {
             val tokenData = tokenUseCase.logIn(loginData)
             val claims = tokenUseCase.validateToken(tokenData?.access_token)
 
-            // объясняю, отправляем полученный токен на обработку,
-            // потом через метод observeData() в AuthorizationFragment полученное значение обрабатывается
             tokenMutableData.postValue(tokenData)
             claimsMutableData.postValue(claims)
         }

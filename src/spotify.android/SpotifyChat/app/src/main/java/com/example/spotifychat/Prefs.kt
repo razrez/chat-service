@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.example.core.UserClaims
 
-data class SharedValues(val isAuth: Boolean, val token: String?)
+data class SharedValues(val isAuth: Boolean, val token: String?,val userId:String?, val username: String?)
 
 class Prefs(val context: Context) {
     private val PREFS_NAME = "myprefs"
@@ -28,9 +28,12 @@ class Prefs(val context: Context) {
     }
 
     fun getAllPrefs(): SharedValues{
-        val isAuth = sharedPref.getBoolean("isAuth", false)
-        val token = sharedPref.getString("token", "")
-        return SharedValues(isAuth, token)
+        return SharedValues(
+            sharedPref.getBoolean("isAuth", false),
+            sharedPref.getString("token", ""),
+            sharedPref.getString("userId", ""),
+            sharedPref.getString("userName", "")
+            )
     }
 
     fun clearSharedPreference() {
