@@ -4,7 +4,8 @@ import com.example.data.datasource.DataSource
 import com.example.domain.common.LoginData
 import com.example.domain.common.ProfileData
 import com.example.domain.common.Token
-import com.example.domain.usecases.ITokenUseCase
+import com.example.core.UserClaims
+import com.example.domain.datasource.usecases.ITokenUseCase
 import retrofit2.awaitResponse
 
 class TokenUseCase : ITokenUseCase {
@@ -29,6 +30,14 @@ class TokenUseCase : ITokenUseCase {
                     profileData.BirthDay,
                     profileData.Country,
                     profileData.ProfileImg,)
+            .awaitResponse()
+            .body()
+    }
+
+    override suspend fun validateToken(token: String?): UserClaims? {
+        return DataSource
+            .tokenService
+            .validateToken("Bearer $token")
             .awaitResponse()
             .body()
     }

@@ -1,13 +1,12 @@
 package com.example.domain.datasource
 
-import com.example.domain.common.LoginData
-import com.example.domain.common.ProfileData
 import com.example.domain.common.Token
+import com.example.core.UserClaims
 import retrofit2.Call
-import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Headers
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface IDataSourceRetrofit {
@@ -29,4 +28,7 @@ interface IDataSourceRetrofit {
                @Field("BirthDay") BirthDay:Int,
                @Field("Country") Country:Int,
                @Field("ProfileImg") ProfileImg:String ): Call<Token>
+
+    @GET("api/auth/validate_token")
+    fun validateToken(@Header("Authorization") tokenBearer: String ): Call<UserClaims>
 }
