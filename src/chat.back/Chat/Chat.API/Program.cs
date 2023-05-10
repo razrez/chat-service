@@ -51,8 +51,8 @@ builder.Services.AddMultiplexer(builder.Configuration);
 builder.Services.AddHostedService<RedisSubscriber>();
 
 //Grpc
-builder.Services.AddSingleton<ChatRoom>();
 builder.Services.AddGrpc();
+builder.Services.AddSingleton<ChatRoom>();
 
 var app = builder.Build();
 
@@ -71,6 +71,6 @@ app.MapControllers();
 
 app.MapHub<ChatHub>("/chat");
 
-app.MapGrpcService<ChatGrpc>();
+app.MapGrpcService<ChatService>();
 
 app.Run();

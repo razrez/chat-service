@@ -42,7 +42,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                     message = messageInput.text.toString(),
                     sender = null,
                     createdAt = System.currentTimeMillis(),
-                    imageBitmap = pickedBitMap
+                    imageBitmap = pickedBitMap // convert to bytearray
                 )
 
                 // add message to recycler and scroll to the bottom
@@ -131,7 +131,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
 
     private fun pickPhoto(){
         if (ContextCompat.checkSelfPermission(this.requireContext(),android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) { // izin alınmadıysa
+            != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this.requireActivity(),arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
                 1)
         } else {

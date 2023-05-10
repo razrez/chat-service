@@ -39,7 +39,7 @@ class ChatRecyclerAdapter(private val messages: MutableList<Message>?) :
             nameText.text = message.sender!!.username
             timeText.text = dateFormatter.format(message.createdAt)
             if (message.imageBitmap != null){
-                imageAttach.setImageBitmap(message.imageBitmap)
+                imageAttach.setImageBitmap(message.imageBitmap) //convert bytes to BitMap
             }
         }
     }
