@@ -5,8 +5,9 @@ using Chat.API.Publisher;
 using Chat.AppCore.Common.Models;
 using Chat.AppCore.Extensions;
 using Chat.AppCore.Services;
-using Chat.AppCore.Services.ChatGRPC;
 using Chat.Infrastructure;
+using ChatRoom = Chat.API.Services.ChatGRPC.ChatRoom;
+using ChatService = Chat.API.Services.ChatGRPC.ChatService;
 
 var builder = WebApplication.CreateBuilder(args);
 

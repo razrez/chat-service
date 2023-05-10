@@ -22,9 +22,5 @@
     <ItemGroup>
       <ProjectReference Include="..\Chat.Domain\Chat.Domain.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-        <Protobuf Include="Protos\chat.proto" GrpcServices="Server" />
-    </ItemGroup>
     
 </Project>
