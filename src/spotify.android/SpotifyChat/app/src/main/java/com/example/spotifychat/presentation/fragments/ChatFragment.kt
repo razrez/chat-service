@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.core.base.FragmentBase
 import com.example.domain.common.Message
 import com.example.domain.common.User
+import com.example.spotifychat.Prefs
 import com.example.spotifychat.R
 import com.example.spotifychat.databinding.FragmentChatBinding
 import com.example.spotifychat.presentation.adapters.ChatRecyclerAdapter
@@ -29,10 +30,12 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
     override fun setUpViews() {
         super.setUpViews()
 
+        val prefs = Prefs(this.requireActivity())
+
         recyclerView = binding.recyclerGchat
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = ChatRecyclerAdapter(fillList())
-        //viewModel.loadMessages()
+        viewModel.loadHistory(prefs.getAllPrefs().username!!)
 
         val messageInput = binding.editGchatMessage
         binding.buttonGchatSend.setOnClickListener{

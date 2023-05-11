@@ -3,16 +3,19 @@ package com.example.spotifychat.presentation.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.data.usecases.ChatUseCase
 import com.example.domain.common.Message
 import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
-    //private val messagesUseCase = MessagesUseCase()
+    private val chatUseCase = ChatUseCase()
     val messagesMutableList = MutableLiveData<List<Message>>()
 
-    fun loadMessages(){
+    fun loadHistory(username: String){
         viewModelScope.launch{
-            // fetch history through usecase, then post data to observe in fragment
+            val messages = chatUseCase.getChatHistory(username)
+
+            messagesMutableList.postValue(messages!!);
         }
     }
 

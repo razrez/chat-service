@@ -13,86 +13,86 @@ services:
       POSTGRES_PASSWORD: "3369"
       POSTGRES_DB: "postgres"
 
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
-    restart: always
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+  #rabbitmq:
+  #  image: rabbitmq:3-management-alpine
+  #  container_name: 'rabbitmq'
+  #  restart: always
+  #  ports:
+  #    - "5672:5672"
+  #    - "15672:15672"
       
       
-  mongodb:
-    container_name: "mongodb"
-    image: mongo
-    restart: always
-    ports:
-      - "27017:27017"
+ #mongodb:
+ #  container_name: "mongodb"
+ #  image: mongo
+ #  restart: always
+ #  ports:
+ #    - "27017:27017"
   
-  s3:
-    image: zenko/cloudserver
-    container_name: "s3"
-    ports:
-      - "8000:8000"
-    restart: always
-    environment:
-      - SCALITY_ACCESS_KEY_ID=access
-      - SCALITY_SECRET_ACCESS_KEY=secret
-      - S3DATA=multiple
-      - S3BACKEND=mem
-      - ENDPOINT=s3
+  #s3:
+  #  image: zenko/cloudserver
+  #  container_name: "s3"
+  #  ports:
+  #    - "8000:8000"
+  #  restart: always
+  #  environment:
+  #    - SCALITY_ACCESS_KEY_ID=access
+  #    - SCALITY_SECRET_ACCESS_KEY=secret
+  #    - S3DATA=multiple
+  #    - S3BACKEND=mem
+  #    - ENDPOINT=s3
     
     
-  redis-master:
-    image: bitnami/redis:latest
-    ports:
-      - "6379:6379"
-    environment:
-      - REDIS_REPLICATION_MODE=master
-      - ALLOW_EMPTY_PASSWORD=yes
+  #redis-master:
+  #  image: bitnami/redis:latest
+  #  ports:
+  #    - "6379:6379"
+  #  environment:
+  #    - REDIS_REPLICATION_MODE=master
+  #    - ALLOW_EMPTY_PASSWORD=yes
   
-  chat-client:
-    build:
-      context: chat.ui
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
+  #chat-client:
+  #  build:
+  #    context: chat.ui
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - "3000:3000"
         
         
-  chatapi:
-    build:
-      context: chat.back/Chat
-      dockerfile: Chat.API/Dockerfile
-    ports:
-      - "5038:80"
-    depends_on:
-      - db
-      - rabbitmq
-
-  chat-saver:
-    build:
-      context: chat.back/Chat
-      dockerfile: Chat.BackgroundService/Dockerfile
-    ports:
-      - "8001:80"
-    restart: always
-    depends_on:
-      - db
-      - rabbitmq
+  #chatapi:
+  #  build:
+  #    context: chat.back/Chat
+  #    dockerfile: Chat.API/Dockerfile
+  #  ports:
+  #    - "5038:80"
+  #  depends_on:
+  #    - db
+  #    - rabbitmq
+  #
+  #chat-saver:
+  #  build:
+  #    context: chat.back/Chat
+  #    dockerfile: Chat.BackgroundService/Dockerfile
+  #  ports:
+  #    - "8001:80"
+  #  restart: always
+  #  depends_on:
+  #    - db
+  #    - rabbitmq
+  #      
         
-        
-  spotify-ui:
-    build:
-      context: spotify/spotify-clone
-      dockerfile: UI/Dockerfile
-    container_name: "spotify-ui"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "7057:80"
-    restart: always
-    depends_on:
-      - db
+  #spotify-ui:
+  #  build:
+  #    context: spotify/spotify-clone
+  #    dockerfile: UI/Dockerfile
+  #  container_name: "spotify-ui"
+  #  environment:
+  #    - ASPNETCORE_ENVIRONMENT=Development
+  #  ports:
+  #    - "7057:80"
+  #  restart: always
+  #  depends_on:
+  #    - db
 
   spotify-api:
     build:
