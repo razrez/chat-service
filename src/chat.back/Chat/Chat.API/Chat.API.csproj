@@ -12,6 +12,12 @@
         <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.2" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
         <PackageReference Include="Grpc.AspNetCore.Web" Version="2.53.0" />
+        <PackageReference Include="Grpc.Net.Client" Version="2.53.0" />
+        <PackageReference Include="Grpc.Net.Client.Web" Version="2.53.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.54.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.2.22472.11" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-rc.2.22472.11">
           <PrivateAssets>all</PrivateAssets>
@@ -28,7 +34,7 @@
 
     <ItemGroup>
       <Protobuf Include="Protos\chat.proto">
-        <GrpcServices>Server</GrpcServices>
+        <GrpcServices>Client</GrpcServices>
         <Access>Public</Access>
         <ProtoCompile>True</ProtoCompile>
         <CompileOutputs>True</CompileOutputs>

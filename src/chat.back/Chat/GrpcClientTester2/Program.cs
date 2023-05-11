@@ -2,41 +2,22 @@
 
 using Chat;
 using Grpc.Net.Client;
+using Grpc.Net.Client.Web;
 
 Console.WriteLine("Enter your name: ");
 var userName = Console.ReadLine();
 
-Console.WriteLine("name accepted");
-using var channel = GrpcChannel.ForAddress("http://localhost:5038");
-var client = new ChatRoom.ChatRoomClient(channel);
-
-using (var chat = client.join())
+var handler = new GrpcWebHandler(GrpcWebMode.GrpcWebText, new HttpClientHandler());
+var channel = GrpcChannel.ForAddress("http://localhost:5059", new GrpcChannelOptions
 {
-    // вывод получаемых сообщений
-    _ = Task.Run(async () =>
-    {
-        while (await chat.ResponseStream.MoveNext(cancellationToken: CancellationToken.None))
-        {
-            var response = chat.ResponseStream.Current;
-            Console.WriteLine($"{response.User}: {response.Text}");
-        }
-    });
-    
-    // отправка остальным уведомления о том, что ты присоединился 
-    await chat.RequestStream.WriteAsync(new Message { User = userName, Text = $"{userName} has joined the room" });
-    
-    // выход из чата при вводе "bye"
-    string? line;
-    while ((line = Console.ReadLine()) != null)
-    {
-        if (line.ToLower() == "bye")
-        {
-            break;
-        }
-        await chat.RequestStream.WriteAsync(new Message { User = userName, Text = line });
-    }
-    await chat.RequestStream.CompleteAsync();
-}
+    HttpClient = new HttpClient(handler)
+});
+        
+ChatRoom.ChatRoomClient client = new(channel);
+using var chat = client.join();
 
-Console.WriteLine("Disconnecting");
+// отправка остальным уведомления о том, что ты присоединился 
+await chat.RequestStream.WriteAsync(new Message { User = userName, Text = $"{userName} has joined the room" });
+
+await chat.RequestStream.CompleteAsync();
 await channel.ShutdownAsync();

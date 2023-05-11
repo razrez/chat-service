@@ -6,8 +6,6 @@ using Chat.AppCore.Common.Models;
 using Chat.AppCore.Extensions;
 using Chat.AppCore.Services;
 using Chat.Infrastructure;
-using ChatRoom = Chat.API.Services.ChatGRPC.ChatRoom;
-using ChatService = Chat.API.Services.ChatGRPC.ChatService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,10 +49,6 @@ builder.Services.AddSingleton<MetadataService>();
 builder.Services.AddMultiplexer(builder.Configuration);
 builder.Services.AddHostedService<RedisSubscriber>();
 
-//Grpc
-builder.Services.AddGrpc();
-builder.Services.AddSingleton<ChatRoom>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -71,7 +65,5 @@ app.UseCors("anybody");
 app.MapControllers();
 
 app.MapHub<ChatHub>("/chat");
-
-app.MapGrpcService<ChatService>();
 
 app.Run();

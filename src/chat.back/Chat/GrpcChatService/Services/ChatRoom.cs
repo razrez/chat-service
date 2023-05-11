@@ -1,7 +1,8 @@
 ﻿using System.Collections.Concurrent;
+using Chat;
 using Grpc.Core;
 
-namespace Chat.API.Services.ChatGRPC;
+namespace GrpcChatService.Services;
 
 public class ChatRoom
 {

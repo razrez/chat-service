@@ -7,7 +7,7 @@ Console.WriteLine("Enter your name: ");
 var userName = Console.ReadLine();
 
 Console.WriteLine("name accepted");
-using var channel = GrpcChannel.ForAddress("http://localhost:5038");
+using var channel = GrpcChannel.ForAddress("http://localhost:5059");
 var client = new ChatRoom.ChatRoomClient(channel);
 
 using (var chat = client.join())
@@ -40,5 +40,3 @@ using (var chat = client.join())
 
 Console.WriteLine("Disconnecting");
 await channel.ShutdownAsync();
-
-

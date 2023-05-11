@@ -1,6 +1,8 @@
 ﻿using Chat.API.Hubs.Models;
 using Chat.API.Publisher;
 using Chat.AppCore.Common.DTO;
+using Grpc.Net.Client;
+using Grpc.Net.Client.Web;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Chat.API.Hubs;
@@ -10,7 +12,7 @@ public class ChatHub : Hub
     private readonly IDictionary<string, UserConnection> _connections;
     private readonly IMessagePublisher _publisher;
     private readonly UsersQueue _usersQueue;
-
+    
     public ChatHub(IDictionary<string, UserConnection> connections, IMessagePublisher publisher, UsersQueue usersQueue)
     {
         _connections = connections;
@@ -35,6 +37,7 @@ public class ChatHub : Hub
         
         await SendConnectedUsers(userConnection.Room);
     }
+    
     public async Task JoinRoomByAdmin(string adminName)
     {
         var roomToHelp = _usersQueue.HelpUser();
@@ -65,6 +68,9 @@ public class ChatHub : Hub
 
             await SendConnectedUsers(adminConnection.Room);
             
+            // grpc сonnection with client who uses mobile version
+            await JoinMessageGrpc(adminConnection.User, adminConnection.Room);
+
         }
         
         else
@@ -80,7 +86,10 @@ public class ChatHub : Hub
             await Clients.Group(userConnection.Room)
                 .SendAsync("ReceiveMessage", userConnection.User, message);
             
-            // логика для передачи сообщения в MassTransit, который потом добавляет сообщение в бд
+            // invoke gRPC method
+            await SendMessageGrpc(userConnection.User, message);
+            
+            // логика для передачи сообщения в очередь Rabbit'а, который потом добавляет сообщение в бд
             _publisher.SaveMessage(new SaveMessageDto(
                 User: userConnection.User, 
                 Room: userConnection.Room, 
@@ -120,4 +129,39 @@ public class ChatHub : Hub
         
         return Clients.Group(room).SendAsync("UsersInRoom", users);
     }
+
+    private static async Task JoinMessageGrpc(string username, string room)
+    {
+        var handler = new GrpcWebHandler(GrpcWebMode.GrpcWebText, new HttpClientHandler());
+        var channel = GrpcChannel.ForAddress("http://localhost:5059", new GrpcChannelOptions
+        {
+            HttpClient = new HttpClient(handler)
+        });
+        
+        ChatRoom.ChatRoomClient client = new(channel);
+        using var chat = client.join();
+        
+        // отправка остальным уведомления о том, что ты присоединился 
+        await chat.RequestStream.WriteAsync(new Message { User = username, Text = $"{username} joined the room" });
+        await chat.RequestStream.CompleteAsync();
+        await channel.ShutdownAsync();
+    }
+    
+    private static async Task SendMessageGrpc(string username, string message)
+    {
+        var handler = new GrpcWebHandler(GrpcWebMode.GrpcWebText, new HttpClientHandler());
+        var channel = GrpcChannel.ForAddress("http://localhost:5059", new GrpcChannelOptions
+        {
+            HttpClient = new HttpClient(handler)
+        });
+        
+        ChatRoom.ChatRoomClient client = new(channel);
+        using var chat = client.join();
+        
+        // отправка сообщения \ выход из чата при вводе "bye"
+        await chat.RequestStream.WriteAsync(new Message { User = username, Text = message });
+        await chat.RequestStream.CompleteAsync();
+        await channel.ShutdownAsync();
+    }
+    
 }

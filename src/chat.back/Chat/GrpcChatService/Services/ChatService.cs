@@ -1,6 +1,7 @@
-﻿using Grpc.Core;
+﻿using Chat;
+using Grpc.Core;
 
-namespace Chat.API.Services.ChatGRPC;
+namespace GrpcChatService.Services;
 
 public class ChatService : Chat.ChatRoom.ChatRoomBase
 {   
