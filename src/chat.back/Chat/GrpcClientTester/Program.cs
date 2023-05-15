@@ -23,9 +23,14 @@ using (var chat = client.join())
     });
     
     // отправка остальным уведомления о том, что ты присоединился 
-    await chat.RequestStream.WriteAsync(new Message { User = userName, Text = $"{userName} has joined the room" });
+    await chat.RequestStream.WriteAsync(new Message
+    {
+        User = userName, 
+        Text = $"{userName} has joined the room", 
+        Room = userName
+    });
     
-    // выход из чата при вводе "bye"
+    // отправка сообщения / выход из чата при вводе "bye"
     string? line;
     while ((line = Console.ReadLine()) != null)
     {
@@ -33,7 +38,7 @@ using (var chat = client.join())
         {
             break;
         }
-        await chat.RequestStream.WriteAsync(new Message { User = userName, Text = line });
+        await chat.RequestStream.WriteAsync(new Message { User = userName, Text = line, Room = userName});
     }
     await chat.RequestStream.CompleteAsync();
 }

@@ -6,7 +6,6 @@ namespace GrpcChatService.Services;
 public class ChatService : Chat.ChatRoom.ChatRoomBase
 {   
     private readonly ChatRoom _chatroomService;
-
     public ChatService(ChatRoom chatRoomService)
     {
         _chatroomService = chatRoomService;
@@ -18,11 +17,11 @@ public class ChatService : Chat.ChatRoom.ChatRoomBase
 
         do
         {
-            _chatroomService.Join(requestStream.Current.User, responseStream);
+            // join to room
+            _chatroomService.Join(requestStream.Current, responseStream);
             await _chatroomService.BroadcastMessageAsync(requestStream.Current);
         } while (await requestStream.MoveNext());
 
         _chatroomService.Remove(context.Peer);
-
     }
 }

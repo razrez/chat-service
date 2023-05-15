@@ -68,7 +68,7 @@ public class ChatHub : Hub
 
             await SendConnectedUsers(adminConnection.Room);
             
-            // grpc сonnection with client who uses mobile version
+            // grpc connection with client who uses mobile version
             await JoinMessageGrpc(adminConnection.User, adminConnection.Room);
 
         }
@@ -87,7 +87,7 @@ public class ChatHub : Hub
                 .SendAsync("ReceiveMessage", userConnection.User, message);
             
             // invoke gRPC method
-            await SendMessageGrpc(userConnection.User, message);
+            await SendMessageGrpc(userConnection.User, message, userConnection.Room);
             
             // логика для передачи сообщения в очередь Rabbit'а, который потом добавляет сообщение в бд
             _publisher.SaveMessage(new SaveMessageDto(
@@ -96,7 +96,20 @@ public class ChatHub : Hub
                 Message: message));
         }
     }
-    
+
+    public async Task SendMessageFromMobile(string user, string room, string message)
+    {
+        
+        await Clients.Group(room)
+            .SendAsync("ReceiveMessage", user, message);
+        
+        // логика для передачи сообщения в очередь Rabbit'а, который потом добавляет сообщение в бд
+        _publisher.SaveMessage(new SaveMessageDto(
+            User: user, 
+            Room: room, 
+            Message: message));
+    }
+
     public async Task SendMetadata(MetadataDto? metadataDto)
     {
         if (_connections.TryGetValue(Context.ConnectionId, out var userConnection))
@@ -142,24 +155,23 @@ public class ChatHub : Hub
         using var chat = client.join();
         
         // отправка остальным уведомления о том, что ты присоединился 
-        await chat.RequestStream.WriteAsync(new Message { User = username, Text = $"{username} joined the room" });
+        await chat.RequestStream.WriteAsync(new Message { User = "ChatBot", Text = $"{username} joined the room", Room = room});
         await chat.RequestStream.CompleteAsync();
         await channel.ShutdownAsync();
     }
     
-    private static async Task SendMessageGrpc(string username, string message)
+    private static async Task SendMessageGrpc(string username, string message, string room)
     {
         var handler = new GrpcWebHandler(GrpcWebMode.GrpcWebText, new HttpClientHandler());
         var channel = GrpcChannel.ForAddress("http://localhost:5059", new GrpcChannelOptions
         {
             HttpClient = new HttpClient(handler)
         });
-        
         ChatRoom.ChatRoomClient client = new(channel);
         using var chat = client.join();
         
         // отправка сообщения \ выход из чата при вводе "bye"
-        await chat.RequestStream.WriteAsync(new Message { User = username, Text = message });
+        await chat.RequestStream.WriteAsync(new Message { User = username, Text = message, Room = room});
         await chat.RequestStream.CompleteAsync();
         await channel.ShutdownAsync();
     }

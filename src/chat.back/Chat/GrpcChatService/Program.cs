@@ -1,4 +1,5 @@
 
+using Chat.API.Hubs.Models;
 using GrpcChatService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,11 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 builder.Services.AddSingleton<ChatRoom>();
 
+//ConnectionId - the key
+builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ => 
+    new Dictionary<string, UserConnection>());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-// Добавьте промежуточное ПО gRPC-Web после маршрутизации и перед эндпоинтами
 app.UseGrpcWeb();
 
 app.MapGrpcService<ChatService>().EnableGrpcWeb();
