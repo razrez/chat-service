@@ -55,12 +55,12 @@ public class ChatRoom
         // send message to others
         foreach (var user in userResponses.Where(x => x.Key != message.User))
         {
-            // check if user (receiver) in the same room with message sender
+            // check if user (receiver) isn't in the same room with message sender
             _connections.TryGetValue(user.Key, out var receiver);
             if (message.Room != receiver.Room) continue;
             
-            // send message from mobile client to admin in web
-            if (receiver.Room != receiver.User)
+            // send message from mobile client to admin in web through SignalR
+            if (message.Room == message.User)
             {
                 await hubClient.InvokeAsync("SendMessageFromMobile", message.User, message.Room, message.Text);
                 

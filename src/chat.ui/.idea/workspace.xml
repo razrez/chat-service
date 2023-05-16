@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2db5de3-8e83-463f-8a31-24d6a73b2a6b" name="Changes" comment="осталось добавить скачивание, ну и порядок отображения пофиксить потом как-то">
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Hubs/ChatHub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Hubs/ChatHub.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Protos/chat.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/Chat.API/Protos/chat.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/Chat.BackgroundService/Chat.BackgroundService.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/Chat.BackgroundService/Chat.BackgroundService.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/GrpcChatService.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/GrpcChatService.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/Protos/chat.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/Protos/chat.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/Services/ChatRoom.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/Services/ChatRoom.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/Services/ChatService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/GrpcChatService/Services/ChatService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/GrpcClientTester/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/GrpcClientTester/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/GrpcClientTester/Protos/chat.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/GrpcClientTester/Protos/chat.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chat.back/Chat/GrpcClientTester2/Protos/chat.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../chat.back/Chat/GrpcClientTester2/Protos/chat.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
-    </list>
+    <list default="true" id="d2db5de3-8e83-463f-8a31-24d6a73b2a6b" name="Changes" comment="осталось добавить скачивание, ну и порядок отображения пофиксить потом как-то" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,7 +72,7 @@
       <workItem from="1683749593411" duration="2135000" />
       <workItem from="1683794256751" duration="2609000" />
       <workItem from="1683798248374" duration="811000" />
-      <workItem from="1684172013374" duration="4376000" />
+      <workItem from="1684172013374" duration="4976000" />
     </task>
     <task id="LOCAL-00001" summary="Dockerfile">
       <created>1666033968921</created>

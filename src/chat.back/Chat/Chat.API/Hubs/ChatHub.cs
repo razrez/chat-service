@@ -69,7 +69,7 @@ public class ChatHub : Hub
             await SendConnectedUsers(adminConnection.Room);
             
             // grpc connection with client who uses mobile version
-            await JoinMessageGrpc(adminConnection.User, adminConnection.Room);
+            // await JoinMessageGrpc(adminConnection.User, adminConnection.Room);
 
         }
         
