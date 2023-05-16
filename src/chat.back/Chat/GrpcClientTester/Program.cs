@@ -38,7 +38,10 @@ using (var chat = client.join())
         {
             break;
         }
-        await chat.RequestStream.WriteAsync(new Message { User = userName, Text = line, Room = userName}, cancellationToken:CancellationToken.None);
+        await chat.RequestStream.WriteAsync(new Message
+        {
+            User = userName, Text = line, Room = userName
+        }, cancellationToken:CancellationToken.None);
     }
     await chat.RequestStream.CompleteAsync();
 }
