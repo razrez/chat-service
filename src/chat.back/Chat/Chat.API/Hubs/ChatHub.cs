@@ -69,7 +69,7 @@ public class ChatHub : Hub
             await SendConnectedUsers(adminConnection.Room);
             
             // grpc connection with client who uses mobile version
-            // await JoinMessageGrpc(adminConnection.User, adminConnection.Room);
+            await JoinMessageGrpc(adminConnection.User, adminConnection.Room);
 
         }
         
@@ -90,10 +90,10 @@ public class ChatHub : Hub
             await SendMessageGrpc(userConnection.User, message, userConnection.Room);
             
             // логика для передачи сообщения в очередь Rabbit'а, который потом добавляет сообщение в бд
-            _publisher.SaveMessage(new SaveMessageDto(
+            /*_publisher.SaveMessage(new SaveMessageDto(
                 User: userConnection.User, 
                 Room: userConnection.Room, 
-                Message: message));
+                Message: message));*/
         }
     }
 
@@ -104,10 +104,10 @@ public class ChatHub : Hub
             .SendAsync("ReceiveMessage", user, message);
         
         // логика для передачи сообщения в очередь Rabbit'а, который потом добавляет сообщение в бд
-        _publisher.SaveMessage(new SaveMessageDto(
+        /*_publisher.SaveMessage(new SaveMessageDto(
             User: user, 
             Room: room, 
-            Message: message));
+            Message: message));*/
     }
 
     public async Task SendMetadata(MetadataDto? metadataDto)
@@ -156,8 +156,8 @@ public class ChatHub : Hub
         
         // отправка остальным уведомления о том, что ты присоединился 
         await chat.RequestStream.WriteAsync(new Message { User = "ChatBot", Text = $"{username} joined the room", Room = room});
-        await chat.RequestStream.CompleteAsync();
-        await channel.ShutdownAsync();
+        //await chat.RequestStream.CompleteAsync();
+        //await channel.ShutdownAsync();
     }
     
     private static async Task SendMessageGrpc(string username, string message, string room)
@@ -172,8 +172,8 @@ public class ChatHub : Hub
         
         // отправка сообщения \ выход из чата при вводе "bye"
         await chat.RequestStream.WriteAsync(new Message { User = username, Text = message, Room = room});
-        await chat.RequestStream.CompleteAsync();
-        await channel.ShutdownAsync();
+        //await chat.RequestStream.CompleteAsync();
+        //await channel.ShutdownAsync();
     }
     
 }

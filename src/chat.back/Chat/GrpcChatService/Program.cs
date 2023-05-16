@@ -11,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 builder.Services.AddSingleton<ChatRoom>();
 
-//ConnectionId - the key
 builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ => 
     new Dictionary<string, UserConnection>());
 

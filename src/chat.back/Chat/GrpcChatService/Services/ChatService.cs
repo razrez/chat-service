@@ -14,11 +14,13 @@ public class ChatService : Chat.ChatRoom.ChatRoomBase
     public override async Task join(IAsyncStreamReader<Message> requestStream, IServerStreamWriter<Message> responseStream, ServerCallContext context)
     {
         if (!await requestStream.MoveNext()) return;
-
+        
+        await _chatroomService.Join(requestStream.Current, responseStream);
+        
         do
         {
             // join to room
-            _chatroomService.Join(requestStream.Current, responseStream);
+            //_chatroomService.Join(requestStream.Current, responseStream);
             await _chatroomService.BroadcastMessageAsync(requestStream.Current);
         } while (await requestStream.MoveNext());
 
