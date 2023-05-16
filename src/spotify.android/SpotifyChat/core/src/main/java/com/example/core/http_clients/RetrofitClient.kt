@@ -14,8 +14,13 @@ class RetrofitClient {
             .callTimeout(40, TimeUnit.SECONDS)
             .build()
 
-        val retrofitClient: Retrofit =  Retrofit.Builder()
+        val retrofitSpotifyClient: Retrofit =  Retrofit.Builder()
             .baseUrl("http://10.0.2.2:7030")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val retrofitChatClient: Retrofit =  Retrofit.Builder()
+            .baseUrl("http://10.0.2.2:5038")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
