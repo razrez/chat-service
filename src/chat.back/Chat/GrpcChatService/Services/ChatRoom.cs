@@ -17,7 +17,7 @@ public class ChatRoom
         .Build();
     
     // users' responses 
-    private ConcurrentDictionary<string, IServerStreamWriter<Message>> userResponses = new();
+    private readonly ConcurrentDictionary<string, IServerStreamWriter<Message>> _userResponses = new();
 
     public ChatRoom(IDictionary<string, UserConnection> connections)
     {
@@ -26,7 +26,7 @@ public class ChatRoom
 
     public async Task Join(Message userMessage, IServerStreamWriter<Message> response)
     {
-        userResponses.TryAdd(userMessage.User, response);
+        _userResponses.TryAdd(userMessage.User, response);
         
         var userConnection =  new UserConnection
         {
@@ -46,7 +46,7 @@ public class ChatRoom
 
     public void Remove(string name)
     {
-        userResponses.TryRemove(name, out var s);
+        _userResponses.TryRemove(name, out var s);
         _connections.Remove(name);
     }
 
@@ -55,7 +55,7 @@ public class ChatRoom
     private async Task BroadcastMessages(Message message)
     {
         // send message to others
-        foreach (var user in userResponses.Where(x => x.Key != message.User))
+        foreach (var user in _userResponses.Where(x => x.Key != message.User))
         {
             // check if user (receiver) isn't in the same room with message sender
             _connections.TryGetValue(user.Key, out var receiver);
