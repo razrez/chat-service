@@ -4,6 +4,7 @@ plugins {
     id 'kotlinx-serialization'
 }
 
+
 android {
     namespace 'com.example.domain'
     compileSdk 33
@@ -42,8 +43,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    //ktor
+    // ktor
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
-    //retrofit
+
+    // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    // grpc
+
 }

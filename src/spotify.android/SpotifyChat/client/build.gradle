@@ -1,0 +1,35 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+/*java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}*/
+
+kotlin {
+    jvmToolchain(8)
+}
+
+dependencies {
+    implementation(project(":stub"))
+    runtimeOnly("io.grpc:grpc-netty:${rootProject.ext["grpcVersion"]}")
+}
+
+tasks.register('ChatClient', JavaExec) {
+    dependsOn('classes')
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set('com.example.chat.ChatClientKt.ChatClientKt')
+}
+
+def chatClientStartScripts = tasks.register("chatClientStartScripts", CreateStartScripts) {
+    mainClass.set("com.example.chat.ChatClientKt")
+    applicationName = "chat-client"
+    outputDir = tasks.named("startScripts", CreateStartScripts).get().outputDir
+    classpath = tasks.named("startScripts", CreateStartScripts).get().classpath
+}
+
+task start{
+    dependsOn(chatClientStartScripts)
+}
+
