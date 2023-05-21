@@ -27,7 +27,7 @@ services:
     image: mongo
     restart: always
     ports:
-      - "27017:27017"
+     - "27017:27017"
   
   s3:
     image: zenko/cloudserver
@@ -59,7 +59,7 @@ services:
       - "3000:3000"
         
         
-  chatapi:
+  chat-api:
     build:
       context: chat.back/Chat
       dockerfile: Chat.API/Dockerfile
@@ -79,7 +79,7 @@ services:
     depends_on:
       - db
       - rabbitmq
-        
+
         
   spotify-ui:
     build:

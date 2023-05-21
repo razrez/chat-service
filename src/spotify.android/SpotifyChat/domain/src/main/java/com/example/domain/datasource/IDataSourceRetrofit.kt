@@ -1,14 +1,15 @@
 package com.example.domain.datasource
 
-import com.example.domain.common.LoginData
-import com.example.domain.common.ProfileData
+import com.example.domain.common.Message
 import com.example.domain.common.Token
+import com.example.core.UserClaims
 import retrofit2.Call
-import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Headers
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface IDataSourceRetrofit {
     // отправляем в body LoginData и получаем Token
@@ -29,4 +30,10 @@ interface IDataSourceRetrofit {
                @Field("BirthDay") BirthDay:Int,
                @Field("Country") Country:Int,
                @Field("ProfileImg") ProfileImg:String ): Call<Token>
+
+    @GET("api/auth/validate_token")
+    fun validateToken(@Header("Authorization") tokenBearer: String ): Call<UserClaims>
+
+    @GET("api/chat")
+    fun getChatHistory(@Query("room") room: String): Call<List<Message>>
 }

@@ -1,0 +1,42 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+/*java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}*/
+
+kotlin {
+    jvmToolchain(8)
+}
+
+dependencies {
+    implementation project(path: ':stub')
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.ext["coroutinesVersion"]}")
+
+    implementation("io.grpc:grpc-stub:${rootProject.ext["grpcVersion"]}")
+    implementation("io.grpc:grpc-protobuf:${rootProject.ext["grpcVersion"]}")
+    implementation("com.google.protobuf:protobuf-java-util:${rootProject.ext["protobufVersion"]}")
+    implementation("com.google.protobuf:protobuf-kotlin:${rootProject.ext["protobufVersion"]}")
+    implementation("io.grpc:grpc-kotlin-stub:${rootProject.ext["grpcKotlinVersion"]}")
+    runtimeOnly("io.grpc:grpc-netty:${rootProject.ext["grpcVersion"]}")
+}
+
+tasks.register('ChatClient', JavaExec) {
+    dependsOn('classes')
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set('com.example.client.ChatClientKt')
+}
+
+def chatClientStartScripts = tasks.register("chatClientStartScripts", CreateStartScripts) {
+    mainClass.set("com.example.client.ChatClientKt")
+    applicationName = "chat-client"
+    outputDir = tasks.named("startScripts", CreateStartScripts).get().outputDir
+    classpath = tasks.named("startScripts", CreateStartScripts).get().classpath
+}
+
+task start{
+    dependsOn(chatClientStartScripts)
+}
+
