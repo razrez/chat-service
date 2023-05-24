@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         if (allPrefs.isAuth) {
+            // TODO(Врубаем сервис для чата)
+
+
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())

@@ -5,7 +5,6 @@ import chat.ChatRoomGrpcKt.ChatRoomCoroutineStub
 import chat.message
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-import io.grpc.ManagedChannelProvider
 import kotlinx.coroutines.delay
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
@@ -32,12 +31,12 @@ class ChatClientKt(private val channel: ManagedChannel) : Closeable {
     private fun generateOutgoingMessages(): Flow<Message> = flow {
         val messages = listOf(
             message {
-                user = "rus"
+                user = "user"
                 room = "rus"
                 text = "salam"
             },
             message {
-                user = "rus"
+                user = "user"
                 room = "rus"
                 text = "salam2"
             },
@@ -54,7 +53,7 @@ class ChatClientKt(private val channel: ManagedChannel) : Closeable {
 
 suspend fun main(){
     val channel = ManagedChannelBuilder
-        .forAddress("10.0.2.2", 5059)
+        .forTarget("localhost:5059")
         .usePlaintext()
         .build()
 

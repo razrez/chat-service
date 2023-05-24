@@ -32,11 +32,15 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
 
         val prefs = Prefs(this.requireActivity())
 
+        // recycler settings
         recyclerView = binding.recyclerGchat
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = ChatRecyclerAdapter(fillList())
+
+        // load messages history
         viewModel.loadHistory(prefs.getAllPrefs().username!!)
 
+        // send message
         val messageInput = binding.editGchatMessage
         binding.buttonGchatSend.setOnClickListener{
             if (messageInput.text.toString() != ""){
@@ -62,6 +66,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
             }
         }
 
+        // attach photo
         binding.buttonAttachment.setOnClickListener{
             pickPhoto()
 
@@ -72,6 +77,9 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                     .show()
             }
         }
+
+        // join to the gRPC chat service
+
     }
 
     override fun observeData() {
