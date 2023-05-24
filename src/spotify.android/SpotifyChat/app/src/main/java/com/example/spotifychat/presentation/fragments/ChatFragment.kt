@@ -79,7 +79,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         }
 
         // join to the gRPC chat service
-
+        viewModel.joinChatMessaging()
     }
 
     override fun observeData() {
@@ -89,6 +89,11 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         viewModel.messagesMutableList.observe(this){
             recyclerView.adapter = ChatRecyclerAdapter(it as MutableList<Message>?)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //viewModel.shutDownChannel()
     }
 
     override fun onResume() {

@@ -24,7 +24,7 @@ class ChatClientKt(private val channel: ManagedChannel) : Closeable {
         println("join")
         val requests: Flow<Message> = generateOutgoingMessages()
         stub.join(requests).collect{message ->
-            println("${message.user}:${message.text}")
+            println("Got ${message.user}:${message.text}")
         }
     }
 
@@ -43,7 +43,7 @@ class ChatClientKt(private val channel: ManagedChannel) : Closeable {
         )
         for (message in messages) {
             val mes = message.user
-            println("${message.user}:${message.text}")
+            println("Sent ${message.user}:${message.text}")
             emit(message)
             delay(500)
         }

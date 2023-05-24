@@ -13,15 +13,10 @@ import io.grpc.ManagedChannelBuilder
 class ChatViewModel : ViewModel() {
     private val chatUseCase = ChatUseCase()
     val messagesMutableList = MutableLiveData<List<Message>>()
-    val channel = ManagedChannelBuilder
-        .forTarget("localhost:5059")
-        .usePlaintext()
-        .build()
 
     fun loadHistory(username: String){
         viewModelScope.launch{
             val messages = chatUseCase.getChatHistory(username)
-
             messagesMutableList.postValue(messages!!);
         }
     }
@@ -30,11 +25,21 @@ class ChatViewModel : ViewModel() {
         println("message sent to the server")
     }
 
-    suspend fun join(){
-        viewModelScope.launch {
-            ChatClientKt(channel).use { client ->
-                client.join()
-            }
+    private suspend fun test(){
+        val channel = ManagedChannelBuilder
+            .forAddress("10.0.2.2", 5059)
+            .usePlaintext()
+            .build()
+
+        ChatClientKt(channel).use { client ->
+            client.join()
         }
     }
+
+    fun joinChatMessaging(){
+        viewModelScope.launch {
+            test()
+        }
+    }
+
 }
