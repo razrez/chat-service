@@ -3,18 +3,20 @@ package com.example.client
 import chat.Chat.Message
 import chat.ChatRoomGrpcKt.ChatRoomCoroutineStub
 import chat.message
+import io.grpc.ClientCall
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import java.awt.SystemColor.text
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class ChatClientKt(private val channel: ManagedChannel) : Closeable {
     private val random = Random(314159)
-    private val stub = ChatRoomCoroutineStub(channel)
+    val stub = ChatRoomCoroutineStub(channel)
 
     override fun close() {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
@@ -23,7 +25,14 @@ class ChatClientKt(private val channel: ManagedChannel) : Closeable {
     suspend fun join(){
         println("join")
         val requests: Flow<Message> = generateOutgoingMessages()
-        stub.join(requests).collect{message ->
+        val test = stub.join(requests).collect{message ->
+            println("Got ${message.user}:${message.text}")
+        }
+        println("Finished")
+    }
+
+    suspend fun sendMessage(message: Flow<Message>){
+        stub.join(message).collect{message ->
             println("Got ${message.user}:${message.text}")
         }
     }
@@ -31,21 +40,21 @@ class ChatClientKt(private val channel: ManagedChannel) : Closeable {
     private fun generateOutgoingMessages(): Flow<Message> = flow {
         val messages = listOf(
             message {
-                user = "user"
+                user = "username"
                 room = "rus"
-                text = "salam"
+                text = "Hey! Can you help me?"
             },
             message {
-                user = "user"
+                user = "username"
                 room = "rus"
-                text = "salam2"
-            },
+                text = "Hey! Can you help me?1"
+            }
         )
         for (message in messages) {
             val mes = message.user
             println("Sent ${message.user}:${message.text}")
             emit(message)
-            delay(500)
+            delay(1000)
         }
     }
 

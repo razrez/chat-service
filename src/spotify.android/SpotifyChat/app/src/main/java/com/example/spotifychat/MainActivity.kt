@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         val prefs = Prefs(this)
 
-        prefs.clearSharedPreference()
+        //prefs.clearSharedPreference()
         val allPrefs = prefs.getAllPrefs()
 
         supportFragmentManager

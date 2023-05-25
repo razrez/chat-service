@@ -75,4 +75,5 @@ dependencies {
     implementation("com.google.protobuf:protobuf-kotlin:${rootProject.ext["protobufVersion"]}")
     implementation("io.grpc:grpc-kotlin-stub:${rootProject.ext["grpcKotlinVersion"]}")
     runtimeOnly("io.grpc:grpc-netty:${rootProject.ext["grpcVersion"]}")
+    implementation project(path: ':stub')
 }

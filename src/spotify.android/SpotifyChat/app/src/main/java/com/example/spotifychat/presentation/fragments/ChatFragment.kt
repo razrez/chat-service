@@ -31,14 +31,16 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         super.setUpViews()
 
         val prefs = Prefs(this.requireActivity())
+        var username = prefs.getAllPrefs().username!!
 
         // recycler settings
         recyclerView = binding.recyclerGchat
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = ChatRecyclerAdapter(fillList())
 
+
         // load messages history
-        viewModel.loadHistory(prefs.getAllPrefs().username!!)
+        //viewModel.loadHistory(username)
 
         // send message
         val messageInput = binding.editGchatMessage
@@ -57,13 +59,17 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                 recyclerView.smoothScrollToPosition(newPosition)
 
                 // post to the server
-                viewModel.sendMessage(myMessage)
+                // var username = prefs.getAllPrefs().username!!
+                // viewModel.sendMessage(username, myMessage.message)
 
                 // clear input and attachments
                 messageInput.setText("")
                 pickedPhoto = null
                 pickedBitMap = null
             }
+
+            // test gRPC
+            viewModel.joinChatMessaging()
         }
 
         // attach photo
@@ -79,7 +85,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         }
 
         // join to the gRPC chat service
-        viewModel.joinChatMessaging()
+        // viewModel.joinChatMessaging()
     }
 
     override fun observeData() {
@@ -89,6 +95,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         viewModel.messagesMutableList.observe(this){
             recyclerView.adapter = ChatRecyclerAdapter(it as MutableList<Message>?)
         }
+
     }
 
     override fun onDestroy() {
