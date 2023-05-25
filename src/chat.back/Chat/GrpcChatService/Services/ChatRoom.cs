@@ -36,7 +36,7 @@ public class ChatRoom
         
         _connections.TryAdd(userMessage.User, userConnection);
 
-        if (userMessage.User == userMessage.Room)
+        if (!userMessage.User.Contains("admin"))
         {
             await hubClient.StartAsync();
             await hubClient.InvokeAsync("JoinRoom", userConnection);
@@ -62,7 +62,7 @@ public class ChatRoom
             if (receiver != null & message.Room != receiver.Room) continue;
             
             // send message from MOBILE CLIENT to admin in web through SignalR
-            if (message.Room == message.User)
+            if (receiver.User.Contains("admin"))
             {
                 await hubClient.InvokeAsync("SendMessageFromMobile", message.User, message.Room, message.Text);
                 

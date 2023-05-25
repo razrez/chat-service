@@ -59,8 +59,8 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                 recyclerView.smoothScrollToPosition(newPosition)
 
                 // post to the server
-                // var username = prefs.getAllPrefs().username!!
-                // viewModel.sendMessage(username, myMessage.message)
+                var username = prefs.getAllPrefs().username!!
+                viewModel.sendMessage(username, messageInput.text.toString())
 
                 // clear input and attachments
                 messageInput.setText("")
@@ -68,8 +68,6 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                 pickedBitMap = null
             }
 
-            // test gRPC
-            viewModel.joinChatMessaging()
         }
 
         // attach photo
@@ -84,8 +82,6 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
             }
         }
 
-        // join to the gRPC chat service
-        // viewModel.joinChatMessaging()
     }
 
     override fun observeData() {

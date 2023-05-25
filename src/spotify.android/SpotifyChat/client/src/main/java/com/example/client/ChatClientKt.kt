@@ -1,6 +1,7 @@
 package com.example.client
 
 import chat.Chat.Message
+import chat.ChatRoomGrpcKt
 import chat.ChatRoomGrpcKt.ChatRoomCoroutineStub
 import chat.message
 import io.grpc.ClientCall
@@ -9,6 +10,7 @@ import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
 import java.awt.SystemColor.text
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
@@ -40,21 +42,21 @@ class ChatClientKt(private val channel: ManagedChannel) : Closeable {
     private fun generateOutgoingMessages(): Flow<Message> = flow {
         val messages = listOf(
             message {
-                user = "username"
+                user = "user"
                 room = "rus"
-                text = "Hey! Can you help me?"
+                text = "Hey! Can you help me1?"
             },
             message {
-                user = "username"
+                user = "user"
                 room = "rus"
-                text = "Hey! Can you help me?1"
+                text = "Hey! Can you help me?2"
             }
         )
         for (message in messages) {
             val mes = message.user
             println("Sent ${message.user}:${message.text}")
             emit(message)
-            delay(1000)
+            delay(3000)
         }
     }
 
@@ -66,7 +68,10 @@ suspend fun main(){
         .usePlaintext()
         .build()
 
-    ChatClientKt(channel).use {client ->
-        client.join()
+    runBlocking {
+        ChatClientKt(channel).use {client ->
+            client.join()
+        }
     }
+
 }
