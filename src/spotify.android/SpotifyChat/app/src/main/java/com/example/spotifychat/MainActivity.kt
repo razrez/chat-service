@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         val prefs = Prefs(this)
 
-        prefs.clearSharedPreference()
+        //prefs.clearSharedPreference()
         val allPrefs = prefs.getAllPrefs()
 
         supportFragmentManager
@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         if (allPrefs.isAuth) {
+            // TODO(Врубаем сервис для чата)
+
+
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.mainFragmentContainer, LibraryFragment.newInstance())

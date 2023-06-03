@@ -27,7 +27,7 @@ using (var chat = client.join())
     {
         User = userName, 
         Text = $"{userName} has joined the room", 
-        Room = userName
+        Room = "rus"
     });
     
     // отправка сообщения / выход из чата при вводе "bye"

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2db5de3-8e83-463f-8a31-24d6a73b2a6b" name="Changes" comment="осталось добавить скачивание, ну и порядок отображения пофиксить потом как-то" />
+    <list default="true" id="d2db5de3-8e83-463f-8a31-24d6a73b2a6b" name="Changes" comment="осталось добавить скачивание, ну и порядок отображения пофиксить потом как-то">
+      <change beforePath="$PROJECT_DIR$/../spotify.android/SpotifyChat/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../spotify.android/SpotifyChat/.idea/misc.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -73,6 +75,7 @@
       <workItem from="1683794256751" duration="2609000" />
       <workItem from="1683798248374" duration="811000" />
       <workItem from="1684172013374" duration="4976000" />
+      <workItem from="1684780481508" duration="24000" />
     </task>
     <task id="LOCAL-00001" summary="Dockerfile">
       <created>1666033968921</created>

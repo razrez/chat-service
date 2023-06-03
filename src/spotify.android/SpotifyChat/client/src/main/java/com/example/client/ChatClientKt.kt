@@ -1,21 +1,24 @@
 package com.example.client
 
 import chat.Chat.Message
+import chat.ChatRoomGrpcKt
 import chat.ChatRoomGrpcKt.ChatRoomCoroutineStub
 import chat.message
+import io.grpc.ClientCall
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-import io.grpc.ManagedChannelProvider
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
+import java.awt.SystemColor.text
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class ChatClientKt(private val channel: ManagedChannel) : Closeable {
     private val random = Random(314159)
-    private val stub = ChatRoomCoroutineStub(channel)
+    val stub = ChatRoomCoroutineStub(channel)
 
     override fun close() {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
@@ -24,29 +27,36 @@ class ChatClientKt(private val channel: ManagedChannel) : Closeable {
     suspend fun join(){
         println("join")
         val requests: Flow<Message> = generateOutgoingMessages()
-        stub.join(requests).collect{message ->
-            println("${message.user}:${message.text}")
+        val test = stub.join(requests).collect{message ->
+            println("Got ${message.user}:${message.text}")
+        }
+        println("Finished")
+    }
+
+    suspend fun sendMessage(message: Flow<Message>){
+        stub.join(message).collect{message ->
+            println("Got ${message.user}:${message.text}")
         }
     }
 
     private fun generateOutgoingMessages(): Flow<Message> = flow {
         val messages = listOf(
             message {
-                user = "rus"
+                user = "user"
                 room = "rus"
-                text = "salam"
+                text = "Hey! Can you help me1?"
             },
             message {
-                user = "rus"
+                user = "user"
                 room = "rus"
-                text = "salam2"
-            },
+                text = "Hey! Can you help me?2"
+            }
         )
         for (message in messages) {
             val mes = message.user
-            println("${message.user}:${message.text}")
+            println("Sent ${message.user}:${message.text}")
             emit(message)
-            delay(500)
+            delay(3000)
         }
     }
 
@@ -54,11 +64,12 @@ class ChatClientKt(private val channel: ManagedChannel) : Closeable {
 
 suspend fun main(){
     val channel = ManagedChannelBuilder
-        .forAddress("10.0.2.2", 5059)
+        .forTarget("localhost:5059")
         .usePlaintext()
         .build()
 
     ChatClientKt(channel).use {client ->
         client.join()
     }
+
 }

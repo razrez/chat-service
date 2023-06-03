@@ -12,7 +12,7 @@ public class ChatRoom
     // name - the key
     private readonly IDictionary<string, UserConnection> _connections;
 
-    private HubConnection hubClient = new HubConnectionBuilder()
+    private readonly HubConnection hubClient = new HubConnectionBuilder()
         .WithUrl("http://localhost:5038/chat")
         .Build();
     
@@ -22,6 +22,7 @@ public class ChatRoom
     public ChatRoom(IDictionary<string, UserConnection> connections)
     {
         _connections = connections;
+        hubClient.StartAsync();
     }
 
     public async Task Join(Message userMessage, IServerStreamWriter<Message> response)
@@ -35,15 +36,15 @@ public class ChatRoom
         };
         
         _connections.TryAdd(userMessage.User, userConnection);
-
-        if (userMessage.User == userMessage.Room)
+        
+        // for mobile client
+        if (!userMessage.User.Contains("admin"))
         {
-            await hubClient.StartAsync();
             await hubClient.InvokeAsync("JoinRoom", userConnection);
         }
-
+        
     }
-
+    
     public void Remove(string name)
     {
         _userResponses.TryRemove(name, out var s);
@@ -62,7 +63,7 @@ public class ChatRoom
             if (receiver != null & message.Room != receiver.Room) continue;
             
             // send message from MOBILE CLIENT to admin in web through SignalR
-            if (message.Room == message.User)
+            if (receiver.User.Contains("admin"))
             {
                 await hubClient.InvokeAsync("SendMessageFromMobile", message.User, message.Room, message.Text);
                 

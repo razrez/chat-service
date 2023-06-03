@@ -31,12 +31,21 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         super.setUpViews()
 
         val prefs = Prefs(this.requireActivity())
+        var username = prefs.getAllPrefs().username!!
 
+        // recycler settings
         recyclerView = binding.recyclerGchat
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = ChatRecyclerAdapter(fillList())
-        viewModel.loadHistory(prefs.getAllPrefs().username!!)
 
+        // load messages history
+        // viewModel.loadHistory(username)
+
+        // invoke chat bidirectional streaming
+        viewModel.openChannel()
+        viewModel.sendMessage(username, R.string.hello.toString())
+
+        // send message
         val messageInput = binding.editGchatMessage
         binding.buttonGchatSend.setOnClickListener{
             if (messageInput.text.toString() != ""){
@@ -53,15 +62,18 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                 recyclerView.smoothScrollToPosition(newPosition)
 
                 // post to the server
-                viewModel.sendMessage(myMessage)
+                var username = prefs.getAllPrefs().username!!
+                viewModel.sendMessage(username, messageInput.text.toString())
 
                 // clear input and attachments
                 messageInput.setText("")
                 pickedPhoto = null
                 pickedBitMap = null
             }
+
         }
 
+        // attach photo
         binding.buttonAttachment.setOnClickListener{
             pickPhoto()
 
@@ -72,15 +84,31 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                     .show()
             }
         }
+
     }
 
     override fun observeData() {
         super.observeData()
 
-        // get all messages
+        // get all message's history
         viewModel.messagesMutableList.observe(this){
-            recyclerView.adapter = ChatRecyclerAdapter(it as MutableList<Message>?)
+            if (it != null){
+                recyclerView.adapter = ChatRecyclerAdapter(it as MutableList<Message>?)
+            }
         }
+
+        // receive messages from support manager
+        viewModel.messageMutableReceived.observe(this){ it ->
+            // add message to recycler and scroll to the bottom
+            val newPosition = (recyclerView.adapter as ChatRecyclerAdapter).addMessage(it)
+            recyclerView.smoothScrollToPosition(newPosition)
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.shutDownChannel()
     }
 
     override fun onResume() {
@@ -146,7 +174,16 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
     // Let's create a useless list of messages for now, which we will pass to the adapter.
     private fun fillList(): MutableList<Message> {
         val data = mutableListOf<Message>()
-        (0..9).forEach {
+        data.add(
+            Message(
+                message = "can u help me?",
+                sender = null,
+                createdAt = System.currentTimeMillis(),
+                imageBitmap = pickedBitMap
+            )
+        )
+
+        /*(0..9).forEach {
 
             if (it % 2 != 0){
                 data.add(
@@ -170,7 +207,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                 )
             }
 
-        }
+        }*/
         return data
     }
 }
