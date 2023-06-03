@@ -2,6 +2,7 @@ package com.example.spotifychat.presentation.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import chat.Chat
 import chat.message
@@ -17,11 +18,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import okhttp3.internal.wait
+import org.checkerframework.checker.units.qual.m
 import java.util.concurrent.TimeUnit
 
 class ChatViewModel : ViewModel() {
     private val chatUseCase = ChatUseCase()
     val messagesMutableList = MutableLiveData<List<Message>>()
+    val messageOutGoing = MutableLiveData<chatMessage>()
 
 
     // gRPC Chat Client connection
@@ -31,24 +35,9 @@ class ChatViewModel : ViewModel() {
         .build()
     private val chatClient = ChatClientKt(channel)
 
-    fun loadHistory(username: String){
-        viewModelScope.launch{
-            val messages = chatUseCase.getChatHistory(username)
-            messagesMutableList.postValue(messages!!);
-        }
-    }
-
-    fun sendMessage(username: String, messageText: String){
-        val message : Flow<chatMessage> = flow{
-            emit(message {
-                user = username  //"user01@gmail.com"
-                room = username
-                text = messageText
-            })
-        }
-
+    init {
         viewModelScope.launch {
-            chatClient.stub.join(message).collect{ messageReceived ->
+            chatClient.stub.join(messageOutGoing.asFlow()).collect{  messageReceived ->
                 val messageReceived = Message(
                     message = messageReceived.text,
                     sender = User(messageReceived.user),
@@ -61,18 +50,22 @@ class ChatViewModel : ViewModel() {
             }
         }
     }
+    fun sendMessage(username: String, messageText: String){
 
-    private suspend fun join(){
+        messageOutGoing.postValue(message {
+            user = username  //"user01@gmail.com"
+            room = username
+            text = messageText
+        })
 
-        chatClient.use { client ->
-            client.join()
-        }
     }
 
-    fun joinChatMessaging(){
-        viewModelScope.launch {
-            join()
+
+
+    fun loadHistory(username: String){
+        viewModelScope.launch{
+            val messages = chatUseCase.getChatHistory(username)
+            messagesMutableList.postValue(messages!!);
         }
     }
-
 }

@@ -38,9 +38,8 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.adapter = ChatRecyclerAdapter(fillList())
 
-
         // load messages history
-        //viewModel.loadHistory(username)
+        // viewModel.loadHistory(username)
 
         // send message
         val messageInput = binding.editGchatMessage
@@ -90,6 +89,20 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         // get all messages
         viewModel.messagesMutableList.observe(this){
             recyclerView.adapter = ChatRecyclerAdapter(it as MutableList<Message>?)
+        }
+
+        viewModel.messageOutGoing.observe(this){ it ->
+            // add message to recycler and scroll to the bottom
+            /*val newPosition = (recyclerView.adapter as ChatRecyclerAdapter)
+                .addMessage(
+                    Message(
+                        message = it.text,
+                        sender = User(it.user),
+                        createdAt = System.currentTimeMillis(),
+                        imageBitmap = null // convert to bytearray
+                    )
+                )
+            recyclerView.smoothScrollToPosition(newPosition)*/
         }
 
     }

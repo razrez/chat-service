@@ -68,10 +68,8 @@ suspend fun main(){
         .usePlaintext()
         .build()
 
-    runBlocking {
-        ChatClientKt(channel).use {client ->
-            client.join()
-        }
+    ChatClientKt(channel).use {client ->
+        client.join()
     }
 
 }
