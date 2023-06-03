@@ -42,6 +42,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         // viewModel.loadHistory(username)
 
         // invoke chat bidirectional streaming
+        viewModel.openChannel()
         viewModel.sendMessage(username, R.string.hello.toString())
 
         // send message
@@ -107,7 +108,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
 
     override fun onDestroy() {
         super.onDestroy()
-        //viewModel.shutDownChannel()
+        viewModel.shutDownChannel()
     }
 
     override fun onResume() {

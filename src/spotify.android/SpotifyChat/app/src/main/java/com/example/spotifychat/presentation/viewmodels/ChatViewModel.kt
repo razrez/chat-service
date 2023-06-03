@@ -30,13 +30,10 @@ class ChatViewModel : ViewModel() {
 
 
     // gRPC Chat Client connection
-    private val channel = ManagedChannelBuilder
-        .forAddress("10.0.2.2", 5059)
-        .usePlaintext()
-        .build()
-    private val chatClient = ChatClientKt(channel)
+    private lateinit var chatClient : ChatClientKt
 
     init {
+        openChannel()
         viewModelScope.launch {
             chatClient.stub.join(messageOutGoing.asFlow()).collect{  messageReceived ->
                 val messageReceived = Message(
@@ -62,7 +59,17 @@ class ChatViewModel : ViewModel() {
 
     }
 
+    fun shutDownChannel(){
+        chatClient.close()
+    }
+    fun openChannel(){
+        var channel = ManagedChannelBuilder
+            .forAddress("10.0.2.2", 5059)
+            .usePlaintext()
+            .build()
 
+        chatClient = ChatClientKt(channel)
+    }
 
     fun loadHistory(username: String){
         viewModelScope.launch{
