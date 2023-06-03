@@ -45,7 +45,6 @@ class ChatViewModel : ViewModel() {
 
                 messageMutableReceived.postValue(messageReceived)
                 println(messageReceived.message)
-                //messagesMutableList.postValue(listOf(messageReceived!!))
             }
         }
     }
