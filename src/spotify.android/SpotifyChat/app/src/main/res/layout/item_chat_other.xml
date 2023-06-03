@@ -85,7 +85,6 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:contentDescription="User Icon"
-        android:src="@drawable/ic_launcher_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_gchat_message_other" />
 
