@@ -41,6 +41,9 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
         // load messages history
         // viewModel.loadHistory(username)
 
+        // invoke chat bidirectional streaming
+        viewModel.sendMessage(username, R.string.hello.toString())
+
         // send message
         val messageInput = binding.editGchatMessage
         binding.buttonGchatSend.setOnClickListener{
@@ -86,23 +89,18 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
     override fun observeData() {
         super.observeData()
 
-        // get all messages
+        // get all message's history
         viewModel.messagesMutableList.observe(this){
-            recyclerView.adapter = ChatRecyclerAdapter(it as MutableList<Message>?)
+            if (it != null){
+                recyclerView.adapter = ChatRecyclerAdapter(it as MutableList<Message>?)
+            }
         }
 
-        viewModel.messageOutGoing.observe(this){ it ->
+        // receive messages from support manager
+        viewModel.messageMutableReceived.observe(this){ it ->
             // add message to recycler and scroll to the bottom
-            /*val newPosition = (recyclerView.adapter as ChatRecyclerAdapter)
-                .addMessage(
-                    Message(
-                        message = it.text,
-                        sender = User(it.user),
-                        createdAt = System.currentTimeMillis(),
-                        imageBitmap = null // convert to bytearray
-                    )
-                )
-            recyclerView.smoothScrollToPosition(newPosition)*/
+            val newPosition = (recyclerView.adapter as ChatRecyclerAdapter).addMessage(it)
+            recyclerView.smoothScrollToPosition(newPosition)
         }
 
     }
@@ -175,7 +173,16 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
     // Let's create a useless list of messages for now, which we will pass to the adapter.
     private fun fillList(): MutableList<Message> {
         val data = mutableListOf<Message>()
-        (0..9).forEach {
+        data.add(
+            Message(
+                message = "can u help me?",
+                sender = null,
+                createdAt = System.currentTimeMillis(),
+                imageBitmap = pickedBitMap
+            )
+        )
+
+        /*(0..9).forEach {
 
             if (it % 2 != 0){
                 data.add(
@@ -199,7 +206,7 @@ class ChatFragment : FragmentBase<FragmentChatBinding, ChatViewModel>(R.id.mainF
                 )
             }
 
-        }
+        }*/
         return data
     }
 }

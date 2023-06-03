@@ -26,6 +26,7 @@ class ChatViewModel : ViewModel() {
     private val chatUseCase = ChatUseCase()
     val messagesMutableList = MutableLiveData<List<Message>>()
     val messageOutGoing = MutableLiveData<chatMessage>()
+    val messageMutableReceived = MutableLiveData<Message>()
 
 
     // gRPC Chat Client connection
@@ -45,6 +46,7 @@ class ChatViewModel : ViewModel() {
                     imageBitmap = null
                 )
 
+                messageMutableReceived.postValue(messageReceived)
                 println(messageReceived.message)
                 //messagesMutableList.postValue(listOf(messageReceived!!))
             }
