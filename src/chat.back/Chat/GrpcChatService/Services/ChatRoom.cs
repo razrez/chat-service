@@ -12,7 +12,7 @@ public class ChatRoom
     // name - the key
     private readonly IDictionary<string, UserConnection> _connections;
 
-    private HubConnection hubClient = new HubConnectionBuilder()
+    private readonly HubConnection hubClient = new HubConnectionBuilder()
         .WithUrl("http://localhost:5038/chat")
         .Build();
     
