@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="Amazon.S3" Version="0.26.0" />
+      <PackageReference Include="Confluent.Kafka" Version="2.1.1" />
       <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
       <PackageReference Include="Grpc.AspNetCore.Web" Version="2.53.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0-rc.2.22472.3" />

@@ -42,7 +42,7 @@ builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ =>
 builder.Services.AddSingleton<UsersQueue>();
 
 //MongoDB Metadata Service
-builder.Services.Configure<MetadataDbSettings>(builder.Configuration.GetSection("MongoDB"));
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDB"));
 builder.Services.AddSingleton<MetadataService>();
 
 //Redis Service
