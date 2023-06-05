@@ -9,7 +9,7 @@ public class MetadataService
 {
     private readonly IMongoCollection<MetadataFile> _metaCollection;
 
-    public MetadataService(IOptions<MetadataDbSettings> metadataDbSettings)
+    public MetadataService(IOptions<MongoDbSettings> metadataDbSettings)
     {
         var mongoClient = new MongoClient(
             metadataDbSettings.Value.ConnectionString);
