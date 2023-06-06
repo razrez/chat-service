@@ -22,6 +22,11 @@ public class StatisticService
             metadataDbSettings.Value.MetadataCollectionName);
     }
 
+    public async Task CreateAsync(Statistic statisticSong)
+    {
+        await _statisticCollection.InsertOneAsync(statisticSong);
+    }
+
     public async Task<List<Statistic>> GetAll() =>
         await _statisticCollection.Find(_ => true).ToListAsync();
 
