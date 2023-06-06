@@ -1,5 +1,5 @@
-﻿using Chat.API.Publisher;
-using Chat.AppCore.Common.DTO;
+﻿using Chat.AppCore.Common.DTO;
+using Chat.AppCore.Publisher;
 using Chat.AppCore.Services;
 using Chat.AppCore.Services.CacheService;
 using Chat.Domain.Entities;

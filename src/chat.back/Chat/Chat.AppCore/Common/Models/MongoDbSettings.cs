@@ -1,6 +1,6 @@
 ﻿namespace Chat.AppCore.Common.Models;
 
-public class MetadataDbSettings
+public class MongoDbSettings
 {
     public string ConnectionString { get; set; } = null!;
 

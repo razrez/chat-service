@@ -2,6 +2,8 @@
 using DB.Data;
 using DB.Data.Repository;
 using DB.Infrastructure;
+using DB.Services.Implementation;
+using DB.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -100,6 +102,8 @@ public class Startup
         );
         
         services.AddScoped<ISpotifyRepository, SpotifyRepository>();
+        services.AddTransient<IStatisticService, StatisticService>();
+        services.AddTransient<IKafkaProducer, KafkaProducer>();
         
         // GraphQl
         services.AddGraphQl();

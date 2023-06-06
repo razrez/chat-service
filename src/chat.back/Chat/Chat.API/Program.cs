@@ -1,9 +1,9 @@
 using Chat.API.Consumer;
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
-using Chat.API.Publisher;
 using Chat.AppCore.Common.Models;
 using Chat.AppCore.Extensions;
+using Chat.AppCore.Publisher;
 using Chat.AppCore.Services;
 using Chat.Infrastructure;
 
@@ -41,9 +41,10 @@ builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ =>
 //determines who needs administrator assistance
 builder.Services.AddSingleton<UsersQueue>();
 
-//MongoDB Metadata Service
-builder.Services.Configure<MetadataDbSettings>(builder.Configuration.GetSection("MongoDB"));
+//MongoDB Services
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDB"));
 builder.Services.AddSingleton<MetadataService>();
+builder.Services.AddSingleton<StatisticService>();
 
 //Redis Service
 builder.Services.AddMultiplexer(builder.Configuration);

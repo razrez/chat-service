@@ -14,6 +14,8 @@ public static class MultiplexerExtentions
             opt.Configuration = configuration.GetConnectionString("RedisConnection");
         });
         
+        Console.WriteLine(configuration.GetConnectionString("RedisConnection"));
+        
         collection.AddSingleton<IConnectionMultiplexer>(x =>
             ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")));
         collection.AddSingleton<ICacheService, CacheService>();
