@@ -13,7 +13,7 @@ class RabbitMqClient {
         factory.password = "guest"
         factory.virtualHost = "/"
         factory.host = "10.0.2.2"
-        factory.port = 15672
+        factory.port = 5672
         rabbitmq = factory.newConnection()
     }
 
@@ -28,17 +28,6 @@ class RabbitMqClient {
         rabbitmq?.close()
 
         return this
-    }
-
-    fun startListening() {
-        val channel = rabbitmq?.createChannel()
-        val deliverCallback = DeliverCallback{ consumerTag: String?, message: Delivery? ->
-            println("Consume message: ${String(message!!.body)}")
-        }
-        val cancelCallback = CancelCallback { consumerTag: String? -> println("Cancelled... $consumerTag") }
-
-        channel?.basicConsume("queue", true, deliverCallback, cancelCallback)
-
     }
 
     fun consumeLogout(queueName: String, session: String, callback: (msg: String) -> Unit) {
@@ -73,14 +62,13 @@ class RabbitMqClient {
             val message = String(delivery.body, StandardCharsets.UTF_8)
             println("[$consumerTag] Received message: '$message'")
             callback(message)
-
         }
         val cancelCallback = CancelCallback { consumerTag: String? ->
             println("[$consumerTag] was canceled")
         }
 
         try {
-            channel.basicConsume("some", true, "", deliverCallback, cancelCallback)
+            channel.basicConsume("stats-queue", true, "", deliverCallback, cancelCallback)
         }
         catch(e: Exception) {
             Log.e("errrrrrr", e.message.toString())
