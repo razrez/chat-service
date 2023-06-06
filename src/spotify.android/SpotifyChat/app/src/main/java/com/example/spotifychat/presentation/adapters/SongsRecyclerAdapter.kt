@@ -16,10 +16,22 @@ class SongsRecyclerAdapter(private val songs: List<SongsQuery.Node>?) :
         private val artist: TextView = itemView.findViewById(R.id.artist)
         private val song: TextView = itemView.findViewById(R.id.song)
 
+        private var views: TextView = itemView.findViewById(R.id.views)
+        private var clickCounter = 0
+
         fun bind(song: SongsQuery.Node){
             artist.text = song.user.username
             this.song.text = song.song
         }
+
+        init {
+            itemView.setOnClickListener{
+                clickCounter += 1
+                views.text = clickCounter.toString()
+                println(song.text.toString())
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
