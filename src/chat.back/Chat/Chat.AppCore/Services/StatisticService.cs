@@ -38,13 +38,16 @@ public class StatisticService
         var record = await _statisticCollection
             .Find(x => x.SongId == songId)
             .FirstOrDefaultAsync();
+        
+        
         if (record == null)
         {
-            await CreateAsync(new Statistic
+            var newStat = new Statistic
             {
                 SongId = songId,
                 Listens = 1
-            });
+            };
+            await CreateAsync(newStat);
         }
         
         else
@@ -52,6 +55,7 @@ public class StatisticService
             var update = new BsonDocument("$set", new BsonDocument("Listens", record.Listens + 1));
 
             await _statisticCollection.UpdateOneAsync(x => x.SongId == songId, update);
+            
         }
 
     }

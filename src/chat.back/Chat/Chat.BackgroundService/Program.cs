@@ -1,5 +1,7 @@
-﻿using Chat.AppCore.Common.Models;
+﻿using Chat.API.Publisher;
+using Chat.AppCore.Common.Models;
 using Chat.AppCore.Extensions;
+using Chat.AppCore.Publisher;
 using Chat.AppCore.Services;
 using Chat.BackgroundService.Consumers;
 using Chat.Infrastructure;
@@ -20,6 +22,7 @@ var host = Host
         services.AddMultiplexer(config);
         services.AddSingleton<MetadataService>();
         services.AddSingleton<StatisticService>();
+        services.AddScoped<IMessagePublisher, MessagePublisher>();
         services.AddHostedService<MessageConsumer>();
         services.AddHostedService<FileConsumer>();
         services.AddHostedService<MetadataConsumer>();

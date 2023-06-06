@@ -1,4 +1,5 @@
-﻿using Chat.AppCore.Services;
+﻿using Chat.API.Publisher;
+using Chat.AppCore.Services;
 using Chat.Domain.Entities;
 using Confluent.Kafka;
 
@@ -13,10 +14,12 @@ public class StatisticConsumer : Microsoft.Extensions.Hosting.BackgroundService
     };
 
     private readonly StatisticService _statisticService;
+    private readonly IMessagePublisher _publisher;
 
-    public StatisticConsumer(StatisticService statisticService)
+    public StatisticConsumer(StatisticService statisticService, IMessagePublisher publisher)
     {
         _statisticService = statisticService;
+        _publisher = publisher;
     }
 
 
@@ -35,7 +38,14 @@ public class StatisticConsumer : Microsoft.Extensions.Hosting.BackgroundService
                 Console.WriteLine(songId); //todo: логика отображения
                 await _statisticService.IncrementAsync(songId);
                 
-                // then publish message for mobile client to catch changes
+                // then publish message for mobile client who catches changed song's stat
+                var updatedSongStat = await _statisticService.GetAsync(songId);
+                Console.WriteLine(updatedSongStat.ToString());
+                _publisher.UpdateStatistic(new
+                {
+                    songId = updatedSongStat.SongId,
+                    listens = updatedSongStat.Listens
+                }, "stats-queue");
                 
             }
             catch (ConsumeException e)
