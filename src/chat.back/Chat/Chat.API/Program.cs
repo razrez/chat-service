@@ -41,9 +41,10 @@ builder.Services.AddSingleton<IDictionary<string, UserConnection>>(_ =>
 //determines who needs administrator assistance
 builder.Services.AddSingleton<UsersQueue>();
 
-//MongoDB Metadata Service
+//MongoDB Services
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDB"));
 builder.Services.AddSingleton<MetadataService>();
+builder.Services.AddSingleton<StatisticService>();
 
 //Redis Service
 builder.Services.AddMultiplexer(builder.Configuration);

@@ -22,7 +22,7 @@ public class StatisticService
             metadataDbSettings.Value.MetadataCollectionName);
     }
 
-    public async Task CreateAsync(Statistic statisticSong)
+    private async Task CreateAsync(Statistic statisticSong)
     {
         await _statisticCollection.InsertOneAsync(statisticSong);
     }
@@ -33,15 +33,27 @@ public class StatisticService
     public async Task<Statistic> GetAsync(string id) =>
         await _statisticCollection.Find(x => x.SongId == id).FirstOrDefaultAsync();
 
-    public async Task Increment(string songId)
+    public async Task IncrementAsync(string songId)
     {
         var record = await _statisticCollection
             .Find(x => x.SongId == songId)
             .FirstOrDefaultAsync();
+        if (record == null)
+        {
+            await CreateAsync(new Statistic
+            {
+                SongId = songId,
+                Listens = 1
+            });
+        }
+        
+        else
+        {
+            var update = new BsonDocument("$set", new BsonDocument("Listens", record.Listens + 1));
 
-        var update = new BsonDocument("$set", new BsonDocument("Listens", record.Listens + 1));
+            await _statisticCollection.UpdateOneAsync(x => x.SongId == songId, update);
+        }
 
-        await _statisticCollection.UpdateOneAsync(x => x.SongId == songId, update);
     }
 
 }

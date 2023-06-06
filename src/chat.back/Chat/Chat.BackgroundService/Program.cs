@@ -19,6 +19,7 @@ var host = Host
         services.Configure<MongoDbSettings>(config.GetSection("MongoDB"));
         services.AddMultiplexer(config);
         services.AddSingleton<MetadataService>();
+        services.AddSingleton<StatisticService>();
         services.AddHostedService<MessageConsumer>();
         services.AddHostedService<FileConsumer>();
         services.AddHostedService<MetadataConsumer>();

@@ -1,4 +1,6 @@
-﻿using Confluent.Kafka;
+﻿using Chat.AppCore.Services;
+using Chat.Domain.Entities;
+using Confluent.Kafka;
 
 namespace Chat.BackgroundService.Consumers;
 
@@ -9,7 +11,15 @@ public class StatisticConsumer : Microsoft.Extensions.Hosting.BackgroundService
         GroupId = "1",
         BootstrapServers = "kafka:9092",
     };
-    
+
+    private readonly StatisticService _statisticService;
+
+    public StatisticConsumer(StatisticService statisticService)
+    {
+        _statisticService = statisticService;
+    }
+
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using var consumer = new ConsumerBuilder<Ignore, string>(ConsumerConfig).Build();
@@ -20,7 +30,13 @@ public class StatisticConsumer : Microsoft.Extensions.Hosting.BackgroundService
                 consumer.Subscribe("spotify.statistics.increment");
                 var cr = consumer.Consume(stoppingToken);
                 
-                Console.WriteLine(cr.Message.Value); //todo: логика отображения
+                // increment listens of song in Mongo
+                var songId = cr.Message.Value;
+                Console.WriteLine(songId); //todo: логика отображения
+                await _statisticService.IncrementAsync(songId);
+                
+                // then publish message for mobile client to catch changes
+                
             }
             catch (ConsumeException e)
             {
