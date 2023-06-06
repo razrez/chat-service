@@ -26,7 +26,9 @@ class LibraryViewModel : ViewModel() {
 
             val rabbit = RabbitMqClient()
 
-            rabbit.defaultExchangeAndQueue().startListening()
+            rabbit.consumeSome {
+                println(it)
+            }
         }
     }
 }
