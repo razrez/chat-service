@@ -3,9 +3,6 @@ using Chat.AppCore.Extensions;
 using Chat.AppCore.Services;
 using Chat.BackgroundService.Consumers;
 using Chat.Infrastructure;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")

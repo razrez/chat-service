@@ -7,7 +7,7 @@ public class KafkaProducer : IKafkaProducer
 {
     private static readonly ProducerConfig ProducerConfig = new()
     {
-        BootstrapServers = "localhost:9092",
+        BootstrapServers = "kafka:9092",
     };
     
     public async Task<bool> SendMessage(string topic, string message)
