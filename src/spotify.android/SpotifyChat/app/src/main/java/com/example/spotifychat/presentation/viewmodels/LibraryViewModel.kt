@@ -1,5 +1,6 @@
 package com.example.spotifychat.presentation.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,11 +24,10 @@ class LibraryViewModel : ViewModel() {
 
     fun getStats() {
         viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val rabbit = RabbitMqClient()
 
-            val rabbit = RabbitMqClient()
-
-            rabbit.consumeSome {
-                println(it)
+                rabbit.startListening()
             }
         }
     }
