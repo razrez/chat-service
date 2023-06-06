@@ -6,7 +6,8 @@ public class StatisticConsumer : Microsoft.Extensions.Hosting.BackgroundService
 {
     private static readonly ConsumerConfig ConsumerConfig = new()
     {
-        BootstrapServers = "localhost:9092",
+        GroupId = "1",
+        BootstrapServers = "kafka:9092",
     };
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
