@@ -1,8 +1,9 @@
 using System.Text;
 using System.Text.Json;
+using Chat.API.Publisher;
 using RabbitMQ.Client;
 
-namespace Chat.API.Publisher;
+namespace Chat.AppCore.Publisher;
 
 public class MessagePublisher : IMessagePublisher
 {
