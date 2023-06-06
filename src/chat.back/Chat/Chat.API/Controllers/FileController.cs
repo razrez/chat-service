@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Chat.API.Publisher;
 using Chat.AppCore.Common.DTO;
+using Chat.AppCore.Publisher;
 using Chat.AppCore.Services.CacheService;
 using PutObjectRequest = Amazon.S3.Model.PutObjectRequest;
 

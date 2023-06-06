@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.Json;
-using Chat.API.Publisher;
 using RabbitMQ.Client;
 
 namespace Chat.AppCore.Publisher;
@@ -73,7 +72,7 @@ public class MessagePublisher : IMessagePublisher
         var connection = factory.CreateConnection();
         using var channel = connection.CreateModel();
         
-        channel.ExchangeDeclare("stats-logs", ExchangeType.Fanout);
+        channel.ExchangeDeclare("logs", ExchangeType.Fanout);
         channel.QueueDeclare(queue: queueName,
             durable: false,
             exclusive: false,

@@ -1,4 +1,4 @@
-﻿using Chat.API.Publisher;
+﻿using Chat.AppCore.Publisher;
 using Chat.AppCore.Services;
 using Chat.Domain.Entities;
 using Confluent.Kafka;
@@ -40,7 +40,7 @@ public class StatisticConsumer : Microsoft.Extensions.Hosting.BackgroundService
                 
                 // then publish message for mobile client who catches changed song's stat
                 var updatedSongStat = await _statisticService.GetAsync(songId);
-                Console.WriteLine(updatedSongStat.ToString());
+                Console.WriteLine(updatedSongStat.Listens);
                 _publisher.UpdateStatistic(new
                 {
                     songId = updatedSongStat.SongId,

@@ -1,5 +1,4 @@
-﻿using Chat.API.Publisher;
-using Chat.AppCore.Common.Models;
+﻿using Chat.AppCore.Common.Models;
 using Chat.AppCore.Extensions;
 using Chat.AppCore.Publisher;
 using Chat.AppCore.Services;

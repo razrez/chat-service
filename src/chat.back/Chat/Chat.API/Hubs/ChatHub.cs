@@ -1,6 +1,6 @@
 ﻿using Chat.API.Hubs.Models;
-using Chat.API.Publisher;
 using Chat.AppCore.Common.DTO;
+using Chat.AppCore.Publisher;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Grpc.Net.Client.Web;

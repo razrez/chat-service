@@ -1,6 +1,6 @@
 
 
-namespace Chat.API.Publisher;
+namespace Chat.AppCore.Publisher;
 
 public interface IMessagePublisher
 {

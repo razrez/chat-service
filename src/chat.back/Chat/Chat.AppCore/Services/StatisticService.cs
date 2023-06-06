@@ -22,11 +22,6 @@ public class StatisticService
             metadataDbSettings.Value.MetadataCollectionName);
     }
 
-    private async Task CreateAsync(Statistic statisticSong)
-    {
-        await _statisticCollection.InsertOneAsync(statisticSong);
-    }
-
     public async Task<List<Statistic>> GetAll() =>
         await _statisticCollection.Find(_ => true).ToListAsync();
 
@@ -39,23 +34,23 @@ public class StatisticService
             .Find(x => x.SongId == songId)
             .FirstOrDefaultAsync();
         
-        
-        if (record == null)
+        if (record != null)
         {
-            var newStat = new Statistic
+            var update = new BsonDocument("$set", new BsonDocument("Listens", record.Listens + 1));
+            var resUpdate = await _statisticCollection.UpdateOneAsync(x => x.SongId == songId, update);
+            Console.WriteLine(resUpdate.ToString());
+        }
+
+        else
+        {
+            var newStats = new Statistic()
             {
                 SongId = songId,
                 Listens = 1
             };
-            await CreateAsync(newStat);
-        }
-        
-        else
-        {
-            var update = new BsonDocument("$set", new BsonDocument("Listens", record.Listens + 1));
 
-            await _statisticCollection.UpdateOneAsync(x => x.SongId == songId, update);
-            
+            await _statisticCollection.InsertOneAsync(newStats);
+            Console.WriteLine(newStats.ToString());
         }
 
     }

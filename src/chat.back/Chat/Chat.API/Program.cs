@@ -1,7 +1,6 @@
 using Chat.API.Consumer;
 using Chat.API.Hubs;
 using Chat.API.Hubs.Models;
-using Chat.API.Publisher;
 using Chat.AppCore.Common.Models;
 using Chat.AppCore.Extensions;
 using Chat.AppCore.Publisher;
