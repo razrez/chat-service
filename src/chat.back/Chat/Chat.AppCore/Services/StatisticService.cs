@@ -28,15 +28,31 @@ public class StatisticService
     public async Task<Statistic> GetAsync(string id) =>
         await _statisticCollection.Find(x => x.SongId == id).FirstOrDefaultAsync();
 
-    public async Task Increment(string songId)
+    public async Task IncrementAsync(string songId)
     {
         var record = await _statisticCollection
             .Find(x => x.SongId == songId)
             .FirstOrDefaultAsync();
+        
+        if (record != null)
+        {
+            var update = new BsonDocument("$set", new BsonDocument("Listens", record.Listens + 1));
+            var resUpdate = await _statisticCollection.UpdateOneAsync(x => x.SongId == songId, update);
+            Console.WriteLine(resUpdate.ToString());
+        }
 
-        var update = new BsonDocument("$set", new BsonDocument("Listens", record.Listens + 1));
+        else
+        {
+            var newStats = new Statistic()
+            {
+                SongId = songId,
+                Listens = 1
+            };
 
-        await _statisticCollection.UpdateOneAsync(x => x.SongId == songId, update);
+            await _statisticCollection.InsertOneAsync(newStats);
+            Console.WriteLine(newStats.ToString());
+        }
+
     }
 
 }

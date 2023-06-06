@@ -43,12 +43,11 @@ services:
       KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9094
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 #команда, отвечающая за количество реплик в топике
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0 
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      
       
   mongodb:
     container_name: "mongodb"
@@ -69,7 +68,6 @@ services:
       - S3DATA=multiple
       - S3BACKEND=mem
       - ENDPOINT=s3
-    
     
   redis-master:
     image: bitnami/redis:latest
@@ -110,7 +108,6 @@ services:
       - db
       - rabbitmq
       - redis-master
-
         
   spotify-ui:
     build:
