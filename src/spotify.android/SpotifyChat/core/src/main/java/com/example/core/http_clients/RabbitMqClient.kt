@@ -24,15 +24,12 @@ class RabbitMqClient {
 
         val deliverCallback = DeliverCallback { consumerTag: String?, delivery: Delivery ->
             val message = String(delivery.body, StandardCharsets.UTF_8)
-            println("[$consumerTag] Received message: '$message'")
             callback(message)
 
         }
         val cancelCallback = CancelCallback { consumerTag: String? ->
             println("[$consumerTag] was canceled")
         }
-
-
 
         try {
             channel.basicConsume("stats-queue", true, "", deliverCallback, cancelCallback)
