@@ -7,11 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.http_clients.RabbitMqClient
 import com.example.data.SongsQuery
 import com.example.data.usecases.SongsUseCase
+import com.example.domain.common.Song
 import com.example.domain.common.SongStat
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.stream.Stream
 
 class LibraryViewModel : ViewModel() {
     private val songsUseCase = SongsUseCase()
@@ -22,7 +24,8 @@ class LibraryViewModel : ViewModel() {
     fun getSongs() {
         viewModelScope.launch {
             val songsData = songsUseCase.getSongs() as List<SongsQuery.Node>?
-            //val songsStat = songsUseCase.getAllStats() //List<SongStat>
+            val songsStat = songsUseCase.getAllStats()
+            Log.d("songsStats", songsStat.toString())
 
             // слеиваем songsData и songsStat по id в один тип songs:List<Song>
             //songsMutableList.postValue(songs)
@@ -41,10 +44,6 @@ class LibraryViewModel : ViewModel() {
                 }
             }
         }
-    }
-
-    fun getAllStat(){
-
     }
 
 }
