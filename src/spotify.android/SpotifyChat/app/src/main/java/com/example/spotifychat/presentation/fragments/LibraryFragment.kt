@@ -18,7 +18,6 @@ class LibraryFragment : FragmentBase<FragmentLibraryBinding, LibraryViewModel>(R
         val recyclerView: RecyclerView = binding.recyclerSongs
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         viewModel.getSongs()
-        viewModel.getStats()
 
         // active color
         binding.navFooterContainer.yourLibraryText.setTextColor(Color.WHITE)

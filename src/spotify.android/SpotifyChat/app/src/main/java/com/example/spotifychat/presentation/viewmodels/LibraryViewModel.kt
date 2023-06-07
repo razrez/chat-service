@@ -20,15 +20,19 @@ class LibraryViewModel : ViewModel() {
             val songsData = songsUseCase.getSongs()
             songsMutableList.postValue(songsData as List<SongsQuery.Node>?)
         }
-    }
 
-    fun getStats() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val rabbit = RabbitMqClient()
+                val rabbit = RabbitMqClient();
 
-                rabbit.startListening()
+                rabbit.consumeStatistics { message ->
+                    val songId = message.replace("\"", "").toInt()
+                    Log.d("idid", message)
+                    Log.d("idid", message)
+                    Log.d("GETSTAT", "Got $songId")
+                }
             }
         }
     }
+
 }
