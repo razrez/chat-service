@@ -18,7 +18,7 @@ import java.util.stream.Stream
 
 class LibraryViewModel : ViewModel() {
     private val songsUseCase = SongsUseCase()
-    val songsMutableList = MutableLiveData<List<SongsQuery.Node>?>() // будет List<Song>
+    val songsMutableList = MutableLiveData<List<Song>?>() // будет List<Song>
     val newStatMutable = MutableLiveData<SongStat>()
     var gson = Gson()
 
@@ -26,41 +26,40 @@ class LibraryViewModel : ViewModel() {
         viewModelScope.launch {
             val songsData = songsUseCase.getSongs() as List<SongsQuery.Node>?
             val songsStat = songsUseCase.getAllStats()
-            Log.d("songsStats", songsStat.toString())
+            val songs = mapSongs(songsData, songsStat)
 
-            val final = songsData?.zip(songsStat) { node, stat -> Pair(node, stat)}
-            var res = mutableListOf<Song>()
-            if (final != null) {
-                for (v in final){
-                    res.add(
-                        Song(
-                            v.first.id,
-                            v.first.song,
-                            User(username = v.first.user.username!!),
-                            v.second.listens
-                        )
-                    )
-                }
-            }
-            Log.d("final", res.toString())
-
-            // слеиваем songsData и songsStat по id в один тип songs:List<Song>
-            //songsMutableList.postValue(songs)
-
-            songsMutableList.postValue(songsData)
+            //Log.d("songs with statistics", songs.toString())
+            songsMutableList.postValue(songs)
         }
 
+    }
+
+    fun consumeStatistics(){
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val rabbit = RabbitMqClient();
 
                 rabbit.consumeStatistics { message ->
                     val newStat = gson.fromJson(message, SongStat::class.java)
-                    Log.d("GETSTAT", "Got ${newStat.songId} ${newStat.listens}")
+                    //Log.d("GETSTAT", "Got ${newStat.songId} ${newStat.listens}")
                     newStatMutable.postValue(newStat)
                 }
             }
         }
+    }
+
+    private fun mapSongs(songsData:List<SongsQuery.Node>?, songsStat:List<SongStat>): List<Song>?{
+
+        return songsData?.zip(songsStat)
+        { node, stat ->
+            Song(
+                id = node.id,
+                song = node.song,
+                user = User(username = node.user.username!!),
+                listens = stat.listens
+            )
+        }
+
     }
 
 

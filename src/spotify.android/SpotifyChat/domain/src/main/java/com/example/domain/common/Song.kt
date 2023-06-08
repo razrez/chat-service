@@ -6,5 +6,5 @@ data class Song (
     val id: Int,
     val song: String,
     val user: User,
-    val listens: Int
+    var listens: Int
 )
