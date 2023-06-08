@@ -9,6 +9,7 @@ import com.example.data.SongsQuery
 import com.example.data.usecases.SongsUseCase
 import com.example.domain.common.Song
 import com.example.domain.common.SongStat
+import com.example.domain.common.User
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +27,22 @@ class LibraryViewModel : ViewModel() {
             val songsData = songsUseCase.getSongs() as List<SongsQuery.Node>?
             val songsStat = songsUseCase.getAllStats()
             Log.d("songsStats", songsStat.toString())
+
+            val final = songsData?.zip(songsStat) { node, stat -> Pair(node, stat)}
+            var res = mutableListOf<Song>()
+            if (final != null) {
+                for (v in final){
+                    res.add(
+                        Song(
+                            v.first.id,
+                            v.first.song,
+                            User(username = v.first.user.username!!),
+                            v.second.listens
+                        )
+                    )
+                }
+            }
+            Log.d("final", res.toString())
 
             // слеиваем songsData и songsStat по id в один тип songs:List<Song>
             //songsMutableList.postValue(songs)
@@ -45,5 +62,6 @@ class LibraryViewModel : ViewModel() {
             }
         }
     }
+
 
 }
