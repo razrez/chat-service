@@ -1,6 +1,5 @@
 package com.example.spotifychat.presentation.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +13,6 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.stream.Stream
 
 class LibraryViewModel : ViewModel() {
     private val songsUseCase = SongsUseCase()
@@ -61,6 +59,5 @@ class LibraryViewModel : ViewModel() {
         }
 
     }
-
 
 }

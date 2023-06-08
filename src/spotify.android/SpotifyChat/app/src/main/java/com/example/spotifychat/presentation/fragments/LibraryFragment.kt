@@ -55,7 +55,6 @@ class LibraryFragment : FragmentBase<FragmentLibraryBinding, LibraryViewModel>(R
             (recyclerView.adapter as SongsRecyclerAdapter).updateStat(it)
             Log.d("GETSTAT", "Got ${it.songId} ${it.listens}")
         }
-
     }
 
     override fun getViewModelClass(): Class<LibraryViewModel> {
