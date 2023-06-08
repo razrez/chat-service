@@ -19,8 +19,6 @@ public class ChatService : Chat.ChatRoom.ChatRoomBase
         
         do
         {
-            // join to room
-            //_chatroomService.Join(requestStream.Current, responseStream);
             await _chatroomService.BroadcastMessageAsync(requestStream.Current);
         } while (await requestStream.MoveNext());
 

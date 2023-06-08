@@ -10,3 +10,5 @@
 - Object-relational DB (_storage for chat's messages_): PostgreSQL
 ### [Docker-Compose](https://github.com/razrez/react_chat/blob/main/src/docker-compose.yml)
 ### [Mobile(android) UI prototype](https://www.figma.com/community/file/1226906394172548101)
+
+![Image alt](https://github.com/razrez/react_chat/raw/statistics/trend.jpg)

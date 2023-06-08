@@ -72,7 +72,7 @@ public class MessagePublisher : IMessagePublisher
         var connection = factory.CreateConnection();
         using var channel = connection.CreateModel();
         
-        channel.ExchangeDeclare("logs", ExchangeType.Fanout);
+        //channel.ExchangeDeclare("logs", ExchangeType.Fanout);
         channel.QueueDeclare(queue: queueName,
             durable: false,
             exclusive: false,

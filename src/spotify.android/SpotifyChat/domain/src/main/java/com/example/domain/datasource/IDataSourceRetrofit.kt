@@ -3,6 +3,7 @@ package com.example.domain.datasource
 import com.example.domain.common.Message
 import com.example.domain.common.Token
 import com.example.core.UserClaims
+import com.example.domain.common.SongStat
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -36,4 +37,7 @@ interface IDataSourceRetrofit {
 
     @GET("api/chat")
     fun getChatHistory(@Query("room") room: String): Call<List<Message>>
+
+    @GET("api/statistic/all")
+    fun getAllStats(): Call<List<SongStat>>
 }
