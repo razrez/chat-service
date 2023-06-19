@@ -1,4 +1,4 @@
-## this chat-support project created for educational purposes only
+## *this chat-support project created for educational purposes only
 # CHAT UI+BACK
 ### Simple Chat UI:
 - REACT JS
