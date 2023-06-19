@@ -1,4 +1,5 @@
 # CHAT UI+BACK
+## this created for educational purposes only
 ### Simple Chat UI:
 - REACT JS
 ### Chat (C#) backend services:
