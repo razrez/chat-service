@@ -2,6 +2,8 @@
 # CHAT UI+BACK
 ![image](https://github.com/razrez/chat-service/assets/70781439/b976cc3a-3c59-4ce2-bf78-e2693a606d71)
 ![image](https://github.com/razrez/chat-service/assets/70781439/73312637-4815-450b-91d1-fa762a6b68fa)
+## File storing schema 
+![structurizr-FileMetadataStorage-SPA-Dynamic](https://github.com/razrez/chat-service/assets/70781439/b96a34cd-d483-4479-9449-1fdf55d563ee)
 ### Simple Chat UI:
 - REACT JS
 ### Chat (C#) backend services:
